@@ -11,6 +11,7 @@ const Group = Loadable(lazy(() => import('pages/main/group')));
 const Users = Loadable(lazy(() => import('pages/main/users')));
 const Updates = Loadable(lazy(() => import('pages/main/updates')));
 const Logout = Loadable(lazy(() => import('pages/logout')));
+const Community = Loadable(lazy(() => import('pages/main/community')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -31,6 +32,10 @@ const MainRoutes = {
         {
           path: 'users',
           element: <Users />
+        },
+        {
+          path: 'community',
+          element: <Community />
         },
         {
           path: 'updates',
