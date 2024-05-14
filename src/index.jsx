@@ -29,6 +29,8 @@ import '@fontsource/public-sans/700.css';
 // project import
 import App from './App';
 // import { ConfigProvider } from 'contexts/ConfigContext';
+// map
+import 'mapbox-gl/dist/mapbox-gl.css';
 import reportWebVitals from './reportWebVitals';
 // import { KeycloakProvider } from 'contexts/KeycContext';
 const container = document.getElementById('root');

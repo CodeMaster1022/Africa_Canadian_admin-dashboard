@@ -12,7 +12,7 @@ const CanadaMap = () => {
           id="canadaMap"
           xmlns="http://www.w3.org/2000/svg"
           // eslint-disable-next-line react/no-unknown-property
-          xmlnsXlink="http://www.w3.org/1999/xlink"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
           // x="0px"
           // y="0px"
           viewBox="7 0 900.4 685"
