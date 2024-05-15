@@ -6,7 +6,7 @@ import Box from '@mui/material/Box';
 
 const MapContainerStyled = styled(Box)({
   zIndex: 0,
-  height: 576,
+  height: '70vh',
   overflow: 'hidden',
   position: 'relative',
   borderRadius: 4,

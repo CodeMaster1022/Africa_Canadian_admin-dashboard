@@ -1,9 +1,19 @@
 import './map.css';
 import { Box, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { getFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
+
 const CanadaMap = () => {
+  const dispatch = useDispatch();
   const mapClickHandler = (event) => {
-    console.log(event.id);
+    console.log('*************');
+    const id = event.currentTarget.id;
+    console.log('id => ', id);
+    // setFilter(id);
+    dispatch(getFilter(id));
+    dispatch(setTabNumber(1));
   };
+
   return (
     <>
       <div className="mapBox">

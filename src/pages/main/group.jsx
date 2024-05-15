@@ -70,7 +70,7 @@ export default function Community() {
     <>
       <Tabs value={value} onChange={handleChange} variant="scrollable" scrollButtons="auto">
         {Tab_Titles.map((Tab_Title, index) => (
-          <Tab
+          <Tabs
             key={index}
             label={Tab_Title}
             {...a11yProps(index)}

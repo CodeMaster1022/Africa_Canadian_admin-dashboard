@@ -14,7 +14,7 @@ const PopupStyled = styled(Popup)(({ theme }) => {
 
   return {
     '& .mapboxgl-popup-content': {
-      maxWidth: 180,
+      width: 340,
       padding: 12,
       boxShadow: theme.customShadows.z1,
       borderRadius: 4,
