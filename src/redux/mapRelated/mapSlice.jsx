@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { countries } from 'data/location';
 const initialState = {
   search: '',
+  data: countries,
   tabnumber: 0
+  // maxCount: data.length
 };
 
 const mapFilterSlice = createSlice({

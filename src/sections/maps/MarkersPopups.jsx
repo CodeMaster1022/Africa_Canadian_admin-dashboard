@@ -1,109 +1,74 @@
+import React, { useEffect, useState } from 'react';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import PropTypes from 'prop-types';
-import { useState, memo } from 'react';
 
-// material-ui
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import { Button } from '@mui/material';
-// third-party
-import { Map } from 'react-map-gl';
+const MarkersPopups = ({ search, data }) => {
+  useEffect(() => console.log(data));
 
-// project-import
-import MapControl from 'components/third-party/map/MapControl';
-import MapMarker from 'components/third-party/map/MapMarker';
-import MapPopup from 'components/third-party/map/MapPopup';
-import { CalendarOutlined, ContactsOutlined, CheckOutlined, ExportOutlined, EnvironmentOutlined } from '@ant-design/icons';
+  useEffect(() => {
+    console.log('ok');
+    async function initMap() {
+      // Request needed libraries.
+      const { Map, InfoWindow } = await window.google.maps.importLibrary('maps');
+      const { AdvancedMarkerElement, PinElement } = await window.google.maps.importLibrary('marker');
+      const map = new window.google.maps.Map(document.getElementById('map'), {
+        zoom: 3.5,
+        center: { lat: 56.1304, lng: -106.3468 },
+        mapId: '4504f8b37365c3d0'
+      });
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: '',
+        disableAutoPan: true
+      });
+      // Create an array of alphabetical characters used to label the markers.
+      const labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      // Add some markers to the map.
 
-// ==============================|| MAPBOX - MARKERS AND POPUP ||============================== //
-
-function MarkersPopups({ search, data, ...other }) {
-  const [popupInfo, setPopupInfo] = useState(null);
-  return (
-    <Map
-      initialViewState={{
-        latitude: 56.1304,
-        longitude: -106.3468,
-        zoom: 3.5
-      }}
-      {...other}
-    >
-      <MapControl />
-      {data
+      const markers = data
         .filter((city) => city.province === search)
-        .map(
-          (city, index) => (
-            // search === city.province && (
-            <MapMarker
-              key={`marker-${index}`}
-              latitude={city.latlng[0]}
-              longitude={city.latlng[1]}
-              onClick={(event) => {
-                event.originalEvent.stopPropagation();
-                setPopupInfo(city);
-              }}
-            />
-          )
-          // )
-        )}
+        .map((city, i) => {
+          const position = { lat: city.latlng[0], lng: city.latlng[1] };
+          const label = labels[i % labels.length];
+          const pinGlyph = new window.google.maps.marker.PinElement({
+            glyph: label,
+            glyphColor: 'white'
+          });
+          const marker = new window.google.maps.marker.AdvancedMarkerElement({
+            position,
+            content: pinGlyph.element
+          });
 
-      {popupInfo && (
-        <MapPopup latitude={popupInfo.latlng[0]} longitude={popupInfo.latlng[1]} onClose={() => setPopupInfo(null)}>
-          <Box
-            sx={{
-              mb: 1,
-              width: '500px',
-              display: 'flex',
-              alignItems: 'left'
-            }}
-          ></Box>
-          <Box>
-            <img
-              src={popupInfo.image}
-              style={{ width: '100%', height: '200px', backgroundSize: 'cover', backgroundPosition: 'center' }}
-              alt="hello"
-            />
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Typography variant="h3">{popupInfo.name}</Typography>
-            <Box sx={{ backgroundColor: 'blue', borderRadius: '50px', paddingX: '5px', marginLeft: '20px' }}>
-              <CheckOutlined style={{ color: 'white' }} />
-            </Box>
-          </Box>
-          <Stack direction="row" alignItems="center" spacing={1} paddingTop={0.5}>
-            <Typography variant="h4" color={'grey'}>
-              {popupInfo.nickName}
-            </Typography>
-          </Stack>
-          <Stack direction="row" alignItems="center" spacing={1} paddingTop={0.5}>
-            <CalendarOutlined />
-            <Typography variant="h5" sx={{ marginTop: '5px' }}>
-              {popupInfo.joined}
-            </Typography>
-          </Stack>
+          // markers can only be keyboard focusable when they have click listeners
+          // open info window when marker is clicked
+          marker.addListener('click', (e) => {
+            const innerHTML = `
+            <div>
+              <img
+                src=${city.image}
+                style={{ width: '100%', height: '500px', backgroundSize: 'cover', backgroundPosition: 'center' }}
+                alt="hello"
+              />
+              <h3>${city.name}</h3>
+              <h3>${city.nickName}</h3>
+              <h3>${city.joined}</h3>
+              <h3>${city.country}</h3>
+              <h3>${city.joined}</h3>
+              <button style="background-color:MediumSeaGreen;color: white;padding: 15px 32px;border: none; width:100%";border-radius: 12px;">View Detail</button>
+            </div>`;
+            infoWindow.setContent(innerHTML);
+            console.log('info::', e.domEvent.clientX, e.domEvent.clientY);
+            infoWindow.open(map, marker);
+          });
+          return marker;
+        });
 
-          <Stack direction="row" alignItems="center" spacing={1} paddingTop={0.5}>
-            <ContactsOutlined />
-            <Typography variant="h5">{popupInfo.country}</Typography>
-          </Stack>
+      // Add a marker clusterer to manage the markers.
+      new MarkerClusterer({ markers, map });
+    }
+    initMap();
+  });
+  return <div id="map" style={{ width: '1220px', height: '900px' }}></div>;
+};
 
-          <Stack direction="row" alignItems="center" spacing={1} paddingTop={0.5}>
-            <EnvironmentOutlined />
-            <Typography variant="h5">{popupInfo.code}</Typography>
-          </Stack>
-
-          <Stack direction="row" alignItems="center" spacing={1} paddingTop={0.5}>
-            <Button variant="outlined" fullWidth color="info">
-              View Detail
-              <ExportOutlined style={{ marginLeft: '30px' }} />
-            </Button>
-          </Stack>
-        </MapPopup>
-      )}
-    </Map>
-  );
-}
-
-export default memo(MarkersPopups);
-
+export default MarkersPopups;
 MarkersPopups.propTypes = { data: PropTypes.array, search: PropTypes.string, other: PropTypes.any };

@@ -2,28 +2,20 @@ import { Box, Tabs, Tab } from '@mui/material';
 import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
 import CanadaMap from './map/canadaMap';
-import MapContainerStyled from 'components/third-party/maps/MapContainerStyled';
 import MarkersPopups from 'sections/maps/MarkersPopups';
-import { countries } from 'data/location';
+import { useLoadScript } from '@react-google-maps/api';
+// import { countries } from 'data/location';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { Typography } from '@mui/material';
-const MAPBOX_THEMES = {
-  light: 'mapbox://styles/mapbox/light-v10',
-  dark: 'mapbox://styles/mapbox/dark-v10',
-  streets: 'mapbox://styles/mapbox/streets-v11',
-  outdoors: 'mapbox://styles/mapbox/outdoors-v11',
-  satellite: 'mapbox://styles/mapbox/satellite-v9',
-  satelliteStreets: 'mapbox://styles/mapbox/satellite-streets-v11',
-  styleTest: 'mapbox://styles/mapbox/streets-v9'
-};
-
-const mapConfiguration = {
-  mapboxAccessToken: import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN,
-  minZoom: 1
-};
-
+import { countries } from 'data/location';
+const libraries = ['places'];
 export default function Community() {
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: 'AIzaSyCLFuQW4ZE_EHv4d90HJvj4tGwgEodiEXE',
+    libraries
+  });
+
   const { search, tabnumber } = useSelector((state) => state.mapFilter);
   const dispatch = useDispatch();
   const Tab_Titles = ['Stats', 'Map'];
@@ -70,9 +62,7 @@ export default function Community() {
       <TabPanel value={tabnumber} index={0}>
         <MainCard>
           <Box sx={{ padding: 2 }}>
-            {/* <CommunityMap /> */}
             <CanadaMap />
-            {/* <CanadaState /> */}
           </Box>
         </MainCard>
       </TabPanel>
@@ -81,9 +71,7 @@ export default function Community() {
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography fontSize={20}>{search}</Typography>
           </Box>
-          <MapContainerStyled>
-            <MarkersPopups {...mapConfiguration} data={countries} mapStyle={MAPBOX_THEMES.light} search={search} />
-          </MapContainerStyled>
+          <MarkersPopups data={countries} search={search} />
         </MainCard>
       </TabPanel>
     </>
