@@ -133,7 +133,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [50, -113],
+    latlng: [50, -112],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -146,7 +146,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [51, -113],
+    latlng: [50, -113],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -172,7 +172,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [51.1, -111],
+    latlng: [55, -111],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -185,7 +185,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [49.6, -109.2],
+    latlng: [49.6, -111.2],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -198,7 +198,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [49.6, -108.2],
+    latlng: [49.6, -111.33],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -211,7 +211,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [47.6, -109.2],
+    latlng: [50, -111.12],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -224,7 +224,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [49.6, -105.2],
+    latlng: [50.11, -111.221],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
@@ -237,7 +237,7 @@ export const countries = [
   {
     timezones: ['Asia/Yerevan'],
     image: `${user}`,
-    latlng: [44.6, -109.2],
+    latlng: [50.02, -111.72],
     name: 'Janny Anna',
     country_code: 'AM',
     country: 'Uganda, Canadian',
