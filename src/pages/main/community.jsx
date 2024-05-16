@@ -9,7 +9,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { Typography } from '@mui/material';
 import { countries } from 'data/location';
-import { HeightTwoTone } from '@mui/icons-material';
 const libraries = ['places'];
 export default function Community() {
   // eslint-disable-next-line no-unused-vars
@@ -69,7 +68,7 @@ export default function Community() {
         </MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
-        <MainCard title="Canaadian">
+        <MainCard>
           <Box sx={{ display: 'flex', justifyContent: 'center' }}>
             <Typography fontSize={20}>{search}</Typography>
           </Box>

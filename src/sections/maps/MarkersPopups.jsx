@@ -1,11 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import PropTypes from 'prop-types';
+import PropTypes, { elementType } from 'prop-types';
 
 const MarkersPopups = ({ search, data }) => {
-  useEffect(() => console.log(data));
-
   useEffect(() => {
     console.log('ok');
     async function initMap() {
@@ -14,10 +12,35 @@ const MarkersPopups = ({ search, data }) => {
       const { Map, InfoWindow } = await window.google.maps.importLibrary('maps');
       const { AdvancedMarkerElement, PinElement } = await window.google.maps.importLibrary('marker');
       const map = new window.google.maps.Map(document.getElementById('map'), {
-        zoom: 3.5,
+        zoom: 5,
         center: { lat: 56.1304, lng: -106.3468 },
-        mapId: '4504f8b37365c3d0'
+        mapId: '7ba16be0c9375fa7'
       });
+      const featureLayer = map.getFeatureLayer(window.google.maps.FeatureType.ADMINISTRATIVE_AREA_LEVEL_1);
+      featureLayer.style = (featureStyleFunctionOptions) => {
+        const placeFeature = featureStyleFunctionOptions.feature;
+        const population = states[placeFeature.placeId];
+        let fillColor;
+
+        // Specify colors using any of the following:
+        // * Named ('green')
+        // * Hexadecimal ('#FF0000')
+        // * RGB ('rgb(0, 0, 255)')
+        // * HSL ('hsl(60, 100%, 50%)')
+        if (population < 2) {
+          fillColor = '#E4FBFD';
+        } else if (population < 3) {
+          fillColor = '#91E9F2';
+        } else if (population < 4) {
+          fillColor = '#00C4E1';
+        } else if (population < 7) {
+          fillColor = '#014167';
+        }
+        return {
+          fillColor,
+          fillOpacity: 0.5
+        };
+      };
       const infoWindow = new window.google.maps.InfoWindow({
         content: '',
         disableAutoPan: true
@@ -63,6 +86,19 @@ const MarkersPopups = ({ search, data }) => {
           });
           return marker;
         });
+      const states = {
+        ChIJtRkkqIKyCVMRno6bQJpHqbA: 6,
+        'ChIJL3ZlI7Fx-FIRK-HCklcrNBU': 3,
+        ChIJE7XnRW_gbVIRaMfBq_JVDxw: 2,
+        'ChIJr2prqsdmelMR-fHnN-lBG4g': 4,
+        //Yukon,
+        ChIJiYtStJiBF1ER6pbMYdWcFC4: 5,
+        //NothWest
+        ChIJDcHTs_Q4EVERjVnGRNguMhk: 1,
+        ChIJ7aUkKkkjCE0RtqnxTwVx0_8: 1,
+        'ChIJrxNRX7IFzkwRCR5iKVZC-HA': 4,
+        ChIJoajRnzS1WEwRIABNrq0MBAE: 5
+      };
 
       // Add a marker clusterer to manage the markers.
       new MarkerClusterer({ markers, map });
