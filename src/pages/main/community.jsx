@@ -9,8 +9,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { Typography } from '@mui/material';
 import { countries } from 'data/location';
+import { HeightTwoTone } from '@mui/icons-material';
 const libraries = ['places'];
 export default function Community() {
+  // eslint-disable-next-line no-unused-vars
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCLFuQW4ZE_EHv4d90HJvj4tGwgEodiEXE',
     libraries
@@ -60,8 +62,8 @@ export default function Community() {
         ))}
       </Tabs>
       <TabPanel value={tabnumber} index={0}>
-        <MainCard>
-          <Box sx={{ padding: 2 }}>
+        <MainCard sx={{ height: '90vh' }}>
+          <Box>
             <CanadaMap />
           </Box>
         </MainCard>

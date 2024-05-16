@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import PropTypes from 'prop-types';
@@ -9,6 +10,7 @@ const MarkersPopups = ({ search, data }) => {
     console.log('ok');
     async function initMap() {
       // Request needed libraries.
+      // eslint-disable-next-line no-unused-vars
       const { Map, InfoWindow } = await window.google.maps.importLibrary('maps');
       const { AdvancedMarkerElement, PinElement } = await window.google.maps.importLibrary('marker');
       const map = new window.google.maps.Map(document.getElementById('map'), {

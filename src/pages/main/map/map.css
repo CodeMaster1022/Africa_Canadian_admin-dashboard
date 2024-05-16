@@ -18,15 +18,9 @@ body {
   font-size: 12px;
   line-height: 30px;
 }
-.mapBox {
-  width: 100%;
-  height: 100%;
-  margin: 0 auto;
-  position: relative;
-}
 
 #canadaMap {
-  width: 60vw;
+  width: '100%';
   margin: 0 auto;
   display: block;
 }
