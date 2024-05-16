@@ -67,7 +67,7 @@ const MarkersPopups = ({ search, data }) => {
     }
     initMap();
   });
-  return <div id="map" style={{ width: '1220px', height: '900px' }}></div>;
+  return <div id="map" style={{ width: '100%', height: '80vh' }}></div>;
 };
 
 export default MarkersPopups;
