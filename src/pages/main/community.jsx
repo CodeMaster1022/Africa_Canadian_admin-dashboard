@@ -7,7 +7,6 @@ import MarkersPopups from 'sections/maps/MarkersPopups';
 import { useLoadScript } from '@react-google-maps/api';
 // import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
-import { Typography } from '@mui/material';
 import { countries } from 'data/location';
 import AlberatMap from './map/province/Boundary';
 const libraries = ['places'];
