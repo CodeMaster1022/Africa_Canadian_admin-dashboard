@@ -32,8 +32,8 @@ g:hover {
   fill: lightgoldenrodyellow;
   cursor: pointer;
 }
-.province_text {
-  font-size: 12px;
+.boundary_text {
+  font-size: 33px;
   fill: black;
 }
 .st2 {

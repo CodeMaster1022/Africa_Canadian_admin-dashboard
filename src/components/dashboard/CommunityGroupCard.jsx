@@ -53,7 +53,7 @@ export default function CommunityGroupCard({ groupName, date, eventNumber, membe
         <AvatarGroup size="sm" sx={{ '--Avatar-size': '28px' }}>
           <Avatar src={avatar1} />
           <Avatar src={avatar1} />
-          <Avatar src={[avatar1]} />
+          <Avatar src={avatar1} />
           <Avatar sx={{ backgroundColor: 'white' }}>
             <Typography color={'grey'}>+{member}</Typography>
           </Avatar>

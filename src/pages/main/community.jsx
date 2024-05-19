@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
@@ -5,12 +6,41 @@ import CanadaMap from './map/canadaMap';
 import MarkersPopups from 'sections/maps/MarkersPopups';
 import { useLoadScript } from '@react-google-maps/api';
 // import { countries } from 'data/location';
-import { useSelector, useDispatch } from 'react-redux';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { Typography } from '@mui/material';
 import { countries } from 'data/location';
+import AlberatMap from './map/province/Boundary';
 const libraries = ['places'];
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+import useAxios from 'utils/useAxios';
+import { getCommunity } from 'redux/communityRelated/communityHandle';
+
 export default function Community() {
+  // Fetch Users Data
+  const dispatch = useDispatch();
+  const [communityData, setCommunityData] = useState([]);
+  const { communityList } = useSelector((state) => state.community);
+  const axiosInstance = useAxios();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await axiosInstance.get('/admin/communities/').then((res) => {
+          setCommunityData(res.data.data);
+        });
+      } catch (error) {
+        alert(error);
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    dispatch(getCommunity(communityData));
+  }, [communityData, dispatch]);
+  useEffect(() => {
+    console.log(communityList);
+  });
   // eslint-disable-next-line no-unused-vars
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCLFuQW4ZE_EHv4d90HJvj4tGwgEodiEXE',
@@ -18,8 +48,7 @@ export default function Community() {
   });
 
   const { search, tabnumber } = useSelector((state) => state.mapFilter);
-  const dispatch = useDispatch();
-  const Tab_Titles = ['Stats', 'Map'];
+  const Tab_Titles = ['Province', 'Boundary', 'Map'];
   const handleChange = (event, newValue) => {
     dispatch(setTabNumber(newValue));
   };
@@ -69,9 +98,11 @@ export default function Community() {
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
         <MainCard>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Typography fontSize={20}>{search}</Typography>
-          </Box>
+          <AlberatMap />
+        </MainCard>
+      </TabPanel>
+      <TabPanel value={tabnumber} index={2}>
+        <MainCard>
           <MarkersPopups data={countries} search={search} />
         </MainCard>
       </TabPanel>

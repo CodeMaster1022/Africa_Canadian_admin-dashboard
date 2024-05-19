@@ -31,7 +31,7 @@ export default function Dahsboard() {
           <AnalyticsDataCard color="warning" title="Registered Users" count="$1,12,93" percentage={70.5} />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
-          <AnalyticsDataCard color="error" title="Active Users" count="$1,12,93" percentage={70.5} isLoss="true" />
+          <AnalyticsDataCard color="error" title="Active Users" count="$1,12,93" percentage={70.5} isLoss={true} />
         </Grid>
         <Grid item xs={12} sm={6} md={3}>
           <AnalyticsDataCard color="success" title="Communities" count="$1,12,93" percentage={70.5} />

@@ -20,7 +20,7 @@ export default function Community() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await axiosInstance.get('/communities/').then((res) => {
+        await axiosInstance.get('/admin/communities/').then((res) => {
           setComData(res.data);
         });
       } catch (error) {

@@ -150,7 +150,7 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
             </Grid>
             <>
               <Grid item xs={6}>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <Box sx={{ marginTop: '15px', padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Full Name</Typography>
                     <TextField sx={{ width: '100%' }} />
@@ -162,7 +162,7 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
                 </Grid>
               </Grid>
               <Grid item xs={6}>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <Box sx={{ marginTop: '15px', padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
                     <TextField sx={{ width: '100%' }} />
@@ -192,7 +192,7 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
                 </Box>
               </Grid>
               <Grid item xs={6}>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <Box sx={{ padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Password</Typography>
                     <OutlinedInput
@@ -219,7 +219,7 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
                 </Grid>
               </Grid>
               <Grid item xs={6}>
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <Box sx={{ padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Confirm Password</Typography>
                     <OutlinedInput
@@ -245,13 +245,13 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
                   </Box>
                 </Grid>
               </Grid>
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <Box sx={{ padding: '5px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Account Status</Typography>
                   <TextField sx={{ width: '100%' }} />
                 </Box>
               </Grid>
-              <Grid xs={12}>
+              <Grid item xs={12}>
                 <Stack direction="row" justifyContent="flex-end" spacing={2} paddingTop={1}>
                   <Button variant="contained" color="error" onClick={ProfileClose}>
                     Cancel

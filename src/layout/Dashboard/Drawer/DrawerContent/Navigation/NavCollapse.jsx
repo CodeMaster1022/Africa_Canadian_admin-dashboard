@@ -198,12 +198,12 @@ export default function NavCollapse({ menu, level, parentId, setSelectedItems, s
     }
   }, [pathname, menu]);
 
-  const navCollapse = menu.children?.map((item) => {
+  const navCollapse = menu.children?.map((item, index) => {
     switch (item.type) {
       case 'collapse':
         return (
           <NavCollapse
-            key={item.id}
+            key={index}
             setSelectedItems={setSelectedItems}
             setSelectedLevel={setSelectedLevel}
             selectedLevel={selectedLevel}
@@ -214,10 +214,10 @@ export default function NavCollapse({ menu, level, parentId, setSelectedItems, s
           />
         );
       case 'item':
-        return <NavItem key={item.id} item={item} level={level + 1} />;
+        return <NavItem key={index} item={item} level={level + 1} />;
       default:
         return (
-          <Typography key={item.id} variant="h6" color="error" align="center">
+          <Typography key={index} variant="h6" color="error" align="center">
             Fix - Collapse or Item
           </Typography>
         );

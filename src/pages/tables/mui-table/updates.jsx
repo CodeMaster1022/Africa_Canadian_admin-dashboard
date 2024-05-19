@@ -16,7 +16,10 @@ import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
 // assets
-
+// Redux
+// import useAxios from 'utils/useAxios';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { getUpdates } from 'redux/updateSlice/updateHandle';
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 // project imports
 import ProfileModal from 'pages/usersProfileView/profileView';
@@ -170,6 +173,32 @@ export default function UpdatesTable() {
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedValue, setSelectedValue] = React.useState([]);
+  // Fetch Data
+  // Fetch upDates Data
+  // const dispatch = useDispatch();
+  // const axiosInstance = useAxios();
+  // const [updatesData, setUpdatesData] = useState([]);
+  // const { updatesList } = useSelector((state) => state.updates);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       await axiosInstance.get('/admin/events/').then((res) => {
+  //         setUpdatesData(res.data);
+  //       });
+  //     } catch (error) {
+  //       alert(error);
+  //     }
+  //   };
+  //   fetchData();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+  // useEffect(() => {
+  //   dispatch(getUpdates(updatesData));
+  // }, [updatesData, dispatch]);
+  // useEffect(() => {
+  //   console.log('Update Datas===========>', updatesData);
+  // }, [updatesData]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

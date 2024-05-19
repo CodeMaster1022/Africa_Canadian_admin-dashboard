@@ -4,10 +4,12 @@ import { Box } from '@mui/material';
 import UpdatesTable from 'pages/tables/mui-table/updates';
 import MainCard from 'components/MainCard';
 import AddNewUpdate from 'pages/communityUpdateView/addNewUpdate';
+
 export default function Users() {
   const [newUpdateOpen, setNewUpdateOpen] = useState(false);
   const newUpdateModalOpen = () => setNewUpdateOpen(true);
   const newUpdateModalClose = () => setNewUpdateOpen(false);
+
   return (
     <>
       <Box sx={{ padding: 2 }}>

@@ -150,9 +150,9 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
             }}
           />
         </TableCell>
-        {headCells.map((headCell) => (
+        {headCells.map((headCell, index) => (
           <TableCell
-            key={headCell.id}
+            key={index}
             align={headCell.numeric ? 'right' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -270,7 +270,7 @@ export default function GroupTable() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.id}
+                      key={index}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox" sx={{ pl: 3 }}>

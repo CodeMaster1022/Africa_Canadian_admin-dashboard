@@ -21,12 +21,6 @@ const MarkersPopups = ({ search, data }) => {
         const placeFeature = featureStyleFunctionOptions.feature;
         const population = states[placeFeature.placeId];
         let fillColor;
-
-        // Specify colors using any of the following:
-        // * Named ('green')
-        // * Hexadecimal ('#FF0000')
-        // * RGB ('rgb(0, 0, 255)')
-        // * HSL ('hsl(60, 100%, 50%)')
         if (population < 2) {
           fillColor = '#E4FBFD';
         } else if (population < 3) {
@@ -38,7 +32,7 @@ const MarkersPopups = ({ search, data }) => {
         }
         return {
           fillColor,
-          fillOpacity: 0.5
+          fillOpacity: 0.9
         };
       };
       const infoWindow = new window.google.maps.InfoWindow({
@@ -86,6 +80,7 @@ const MarkersPopups = ({ search, data }) => {
           });
           return marker;
         });
+      // is placeID which allow to find location.
       const states = {
         ChIJtRkkqIKyCVMRno6bQJpHqbA: 6,
         'ChIJL3ZlI7Fx-FIRK-HCklcrNBU': 3,

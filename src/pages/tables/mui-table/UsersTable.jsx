@@ -137,20 +137,9 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   return (
     <TableHead>
       <TableRow>
-        {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts'
-            }}
-          />
-        </TableCell> */}
-        {headCells.map((headCell) => (
+        {headCells.map((headCell, id) => (
           <TableCell
-            key={headCell.id}
+            key={id}
             align={headCell.numeric ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}

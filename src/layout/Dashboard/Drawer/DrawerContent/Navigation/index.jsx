@@ -61,7 +61,7 @@ export default function Navigation() {
       case 'group':
         if (item.url && item.id !== lastItemId) {
           return (
-            <List key={item.id} {...(isHorizontal && { sx: { mt: 0.5 } })}>
+            <List key={index} {...(isHorizontal && { sx: { mt: 0.5 } })}>
               {!isHorizontal && index !== 0 && <Divider sx={{ my: 0.5 }} />}
               <NavItem item={item} level={1} isParents />
             </List>
@@ -70,7 +70,7 @@ export default function Navigation() {
 
         return (
           <NavGroup
-            key={item.id}
+            key={index}
             setSelectedID={setSelectedID}
             setSelectedItems={setSelectedItems}
             setSelectedLevel={setSelectedLevel}
@@ -85,7 +85,7 @@ export default function Navigation() {
         );
       default:
         return (
-          <Typography key={item.id} variant="h6" color="error" align="center">
+          <Typography key={index} variant="h6" color="error" align="center">
             Fix - Navigation Group
           </Typography>
         );

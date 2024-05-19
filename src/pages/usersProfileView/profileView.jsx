@@ -312,8 +312,8 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                         </FormControl>
                       </Box>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Grid xs={12}>
+                    <Grid container xs={6}>
+                      <Grid item xs={12}>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Password</Typography>
                           <OutlinedInput
@@ -339,8 +339,8 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                         </Box>
                       </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <Grid xs={12}>
+                    <Grid container xs={6}>
+                      <Grid item xs={12}>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Confirm Password</Typography>
                           <OutlinedInput
@@ -366,13 +366,13 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                         </Box>
                       </Grid>
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                       <Box sx={{ padding: '5px' }}>
                         <Typography sx={{ color: '#8C8C8C' }}>Account Status</Typography>
                         <TextField sx={{ width: '100%' }} />
                       </Box>
                     </Grid>
-                    <Grid xs={12}>
+                    <Grid item xs={12}>
                       <Stack direction="row" justifyContent="flex-end" spacing={2} paddingTop={1}>
                         <Button variant="contained" color="error" onClick={ProfileCancel} type="submit">
                           Cancel
@@ -388,7 +388,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
             ) : (
               <>
                 <Grid item xs={12} sm={6}>
-                  <Grid xs={6}>
+                  <Grid item xs={6}>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Full Name</Typography>
                       <Typography fontSize={16}>Carson Darrin</Typography>
@@ -408,7 +408,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                   </Grid>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Grid xs={12}>
+                  <Grid item xs={12}>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
                       <Typography fontSize={16}>c.darrin</Typography>
