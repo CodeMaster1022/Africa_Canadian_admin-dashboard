@@ -15,7 +15,7 @@ const AlberatMap = () => {
   };
 
   return (
-    <Grid container>
+    <Grid>
       <Grid item xs={12} md={10}>
         <svg
           xmlns:svg="http://www.w3.org/2000/svg"
@@ -24,8 +24,8 @@ const AlberatMap = () => {
           version="1.1"
           x="0px"
           y="0px"
-          width="90%"
-          height="80%"
+          width=""
+          height="80vh"
           viewBox="0 0 1511.8401 1863.3931"
           id="svg2"
           xml:space="preserve"

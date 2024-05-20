@@ -8,18 +8,43 @@ import { useLoadScript } from '@react-google-maps/api';
 // import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { countries } from 'data/location';
-import AlberatMap from './map/province/Boundary';
+// Province map
+import Error from './map/Error';
+import AlberatMap from './map/province/Alberta/Boundary';
+import YukonMap from './map/province/Yukon/Boundary';
+import NunavutMap from './map/province/Nunavut/Boundary';
+import OntarioMap from './map/province/Ontario/Boundary';
+import NorthWestMap from './map/province/NorthWest/Boundary';
 const libraries = ['places'];
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import useAxios from 'utils/useAxios';
 import { getCommunity } from 'redux/communityRelated/communityHandle';
 
+// Switch Select Province
+function getProvince(index) {
+  switch (index) {
+    case 'Alberta':
+      return <AlberatMap />;
+    case 'Yukon':
+      return <YukonMap />;
+    case 'Nunavut':
+      return <NunavutMap />;
+    case 'Ontario':
+      return <OntarioMap />;
+    case 'NWT':
+      return <NorthWestMap />;
+    default:
+      return <Error />;
+  }
+}
+
 export default function Community() {
   // Fetch Users Data
   const dispatch = useDispatch();
   const [communityData, setCommunityData] = useState([]);
   const { communityList } = useSelector((state) => state.community);
+  const { search, tabnumber } = useSelector((state) => state.mapFilter);
   const axiosInstance = useAxios();
   useEffect(() => {
     const fetchData = async () => {
@@ -46,7 +71,6 @@ export default function Community() {
     libraries
   });
 
-  const { search, tabnumber } = useSelector((state) => state.mapFilter);
   const Tab_Titles = ['Province', 'Boundary', 'Map'];
   const handleChange = (event, newValue) => {
     dispatch(setTabNumber(newValue));
@@ -89,16 +113,14 @@ export default function Community() {
         ))}
       </Tabs>
       <TabPanel value={tabnumber} index={0}>
-        <MainCard sx={{ height: '90vh' }}>
+        <MainCard>
           <Box>
             <CanadaMap />
           </Box>
         </MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
-        <MainCard>
-          <AlberatMap />
-        </MainCard>
+        <MainCard>{getProvince(search)}</MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={2}>
         <MainCard>

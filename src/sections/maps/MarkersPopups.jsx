@@ -32,7 +32,7 @@ const MarkersPopups = ({ search, data }) => {
         }
         return {
           fillColor,
-          fillOpacity: 0.9
+          fillOpacity: 0.01
         };
       };
       const infoWindow = new window.google.maps.InfoWindow({
