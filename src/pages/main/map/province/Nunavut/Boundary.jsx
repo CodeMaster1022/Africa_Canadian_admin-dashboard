@@ -1,8 +1,7 @@
 import './map.css';
-import { Grid } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { getFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
-
+import { Box, Typography, Grid } from '@mui/material';
 const NunavutMap = () => {
   const dispatch = useDispatch();
   const boundaryClickHandler = (event) => {
@@ -1962,8 +1961,8 @@ const NunavutMap = () => {
               y="8.156"
               fill="none"
               stroke="#000000"
-              stroke-width="3"
-              stroke-miterlimit="10"
+              strokeWidth="3"
+              strokeMiterlimit="10"
               width="310.294"
               height="228.226"
             />
@@ -1973,8 +1972,8 @@ const NunavutMap = () => {
               y="450.504"
               fill="none"
               stroke="#000000"
-              stroke-width="1.5"
-              stroke-miterlimit="10"
+              strokeWidth="1.5"
+              strokeMiterlimit="10"
               width="15.43"
               height="11.496"
             />
@@ -4756,9 +4755,55 @@ const NunavutMap = () => {
 		s-0.389-0.015-0.694-0.036L829.825,301.511z"
             />
           </g>
-          <line fill="none" stroke="#000000" stroke-width="6.7" stroke-miterlimit="10" x1="0" y1="626.5" x2="863" y2="626.5" />
+          <line fill="none" stroke="#000000" strokeWidth="6.7" strokeMiterlimit="10" x1="0" y1="626.5" x2="863" y2="626.5" />
         </svg>
       </Grid>
+      <Box sx={{ position: 'absolute', width: '22%', right: '10px', top: '25px', display: 'flex', justifyContent: 'space-around' }}>
+        <Box>
+          <Box sx={{ display: 'flex', paddingBottom: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#F0FCFC' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>10,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#E3FBFD' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>10,000-50,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#BBF2F7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>50,000-100,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#BBF2F7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>100,000-150,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#91EAF2' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>150,000-200,000</Typography>
+          </Box>
+        </Box>
+        <Box>
+          <Box sx={{ display: 'flex', paddingBottom: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#01C4E0' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>200,000-250,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#01A5C9' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>250,000-300,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#007EA7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>300,000-350,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#007EA7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>350,000-400,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#014167' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>400,000-450,000</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Grid>
   );
 };

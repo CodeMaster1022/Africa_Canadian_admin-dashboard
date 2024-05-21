@@ -15,6 +15,7 @@ import YukonMap from './map/province/Yukon/Boundary';
 import NunavutMap from './map/province/Nunavut/Boundary';
 import OntarioMap from './map/province/Ontario/Boundary';
 import NorthWestMap from './map/province/NorthWest/Boundary';
+import BritshMap from './map/province/British/Boundary';
 const libraries = ['places'];
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,6 +35,8 @@ function getProvince(index) {
       return <OntarioMap />;
     case 'NWT':
       return <NorthWestMap />;
+    case 'BC':
+      return <BritshMap />;
     default:
       return <Error />;
   }

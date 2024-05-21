@@ -3297,6 +3297,52 @@ const OntarioMap = () => {
           </g>
         </svg>
       </Grid>
+      <Box sx={{ position: 'absolute', width: '22%', right: '10px', top: '25px', display: 'flex', justifyContent: 'space-around' }}>
+        <Box>
+          <Box sx={{ display: 'flex', paddingBottom: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#F0FCFC' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>10,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#E3FBFD' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>10,000-50,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#BBF2F7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>50,000-100,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#BBF2F7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>100,000-150,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#91EAF2' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>150,000-200,000</Typography>
+          </Box>
+        </Box>
+        <Box>
+          <Box sx={{ display: 'flex', paddingBottom: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#01C4E0' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>200,000-250,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#01A5C9' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>250,000-300,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#007EA7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>300,000-350,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#007EA7' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>350,000-400,000</Typography>
+          </Box>
+          <Box sx={{ display: 'flex', paddingY: '5px' }}>
+            <Box sx={{ width: '30px', height: '30px', background: '#014167' }} />
+            <Typography sx={{ marginLeft: '10px', marginTop: '4px' }}>400,000-450,000</Typography>
+          </Box>
+        </Box>
+      </Box>
     </Grid>
   );
 };
