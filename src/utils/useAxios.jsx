@@ -5,12 +5,14 @@ import { useContext } from 'react';
 const useAxios = () => {
   const keycloak = useContext(KeycloakContext);
   const access_token = keycloak.token;
-
+  // console.log(access_token, 'access_token============>');
+  // localStorage.setItem('token', access_token);
   const updateToken = async () => {
     try {
       await keycloak.updateToken(300);
-    } catch (error) {
       keycloak.login();
+    } catch (error) {
+      console.log('Athentication Error');
     }
   };
 

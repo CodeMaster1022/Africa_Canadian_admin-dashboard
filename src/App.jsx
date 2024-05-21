@@ -34,7 +34,11 @@ const App = () => {
       setAuthenticated(authenticated);
     });
     console.log(keycloak);
+    // console.log(keycloak.resourceAccess.token);
   }, []);
+  useEffect(() => {
+    localStorage.setItem('token', keycloak?.token);
+  }, [keycloak]);
   return (
     <>
       <KeycloakContext.Provider value={keycloak}>

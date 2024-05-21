@@ -16,7 +16,7 @@ const MarkersPopups = ({ search, data }) => {
         center: { lat: 56.1304, lng: -106.3468 },
         mapId: '7ba16be0c9375fa7'
       });
-      const featureLayer = map.getFeatureLayer(window.google.maps.FeatureType.ADMINISTRATIVE_AREA_LEVEL_1);
+      const featureLayer = map.getFeatureLayer(window.google.maps.FeatureType.POSTAL_CODE);
       featureLayer.style = (featureStyleFunctionOptions) => {
         const placeFeature = featureStyleFunctionOptions.feature;
         const population = states[placeFeature.placeId];
@@ -32,7 +32,7 @@ const MarkersPopups = ({ search, data }) => {
         }
         return {
           fillColor,
-          fillOpacity: 0.01
+          fillOpacity: 0.4
         };
       };
       const infoWindow = new window.google.maps.InfoWindow({
