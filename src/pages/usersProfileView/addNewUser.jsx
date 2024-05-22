@@ -26,8 +26,16 @@ import EyeOutlined from '@ant-design/icons/EyeOutlined';
 import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import userImage from 'assets/images/users/avatar-1.png';
-
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { getCommunity } from 'redux/communityRelated/communityHandle';
 const AddNewUserProfile = ({ modalOpen, modalClose }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCommunity());
+  }, [dispatch]);
+  const { communityList } = useSelector((state) => state.community);
+  useEffect(() => console.log(communityList));
   const [values, setValues] = useState({
     password: '',
     showPassword: false
@@ -164,7 +172,7 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
               <Grid item xs={6}>
                 <Grid item xs={12}>
                   <Box sx={{ marginTop: '15px', padding: '5px' }}>
-                    <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
+                    <Typography sx={{ color: '#8C8C8C' }}>Last Name</Typography>
                     <TextField sx={{ width: '100%' }} />
                   </Box>
                   <Box sx={{ padding: '5px' }}>
@@ -184,9 +192,11 @@ const AddNewUserProfile = ({ modalOpen, modalClose }) => {
                       onChange={handleChangeCommunity}
                       placeholder="community"
                     >
-                      <MenuItem value={1}>Somalia</MenuItem>
-                      <MenuItem value={2}>Somalia</MenuItem>
-                      <MenuItem value={3}>Somalia</MenuItem>
+                      {communityList?.map((com, index) => (
+                        <MenuItem key={index} value={index + 1}>
+                          {com.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Box>

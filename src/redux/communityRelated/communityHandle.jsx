@@ -9,9 +9,19 @@ import {
   getFailedTwo
 } from './communitySlice';
 
-export const getCommunity = (data) => async (dispatch) => {
-  dispatch(getRequest());
-  dispatch(getCommunitySuccess(data));
+export const getCommunity = () => async (dispatch) => {
+  const axiosInstance = useAxios();
+
+  try {
+    const result = await axiosInstance.get('/admin/communities/');
+    if (result.data.data.message) {
+      dispatch(getFailedTwo(result.data.data.message));
+    } else {
+      dispatch(getCommunitySuccess(result.data.data));
+    }
+  } catch (error) {
+    dispatch(getError(error));
+  }
 };
 export const communityDetails = (id) => async (dispatch) => {
   const axiosInstance = useAxios();

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // material-ui
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -15,6 +15,8 @@ import TableRow from '@mui/material/TableRow';
 import groupAvatar from 'assets/images/users/avatar-2.png';
 import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
+// Redux
+import { useSelector } from 'react-redux';
 import IconButton from 'components/@extended/IconButton';
 // assets
 
@@ -164,6 +166,10 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
 export default function UsersTable() {
+  const { usersList } = useSelector((state) => state.users);
+  useEffect(() => {
+    console.log(usersList);
+  }, [usersList]);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileModalOpen = () => setProfileOpen(true);
   const profileModalClose = () => setProfileOpen(false);
@@ -183,29 +189,11 @@ export default function UsersTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedId = rows.map((n) => n.id);
+      const newSelectedId = rows.map((n, index) => index);
       setSelected(newSelectedId);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    const selectedRowData = rows.filter((row) => newSelected.includes(row.group.toString()));
-    setSelectedValue(selectedRowData);
-    setSelected(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -216,8 +204,6 @@ export default function UsersTable() {
     setRowsPerPage(parseInt(event?.target.value, 10));
     setPage(0);
   };
-
-  const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // avoid a layout jump when reaching the last page with empty rows.
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -241,52 +227,37 @@ export default function UsersTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={usersList.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(usersList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   /** make sure no display bugs if row isn't an OrderData object */
                   if (typeof row === 'number') return null;
-                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
                     <>
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        {/* <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                        <Checkbox
-                          color="primary"
-                          checked={isItemSelected}
-                          inputProps={{
-                            'aria-labelledby': labelId
-                          }}
-                        />
-                      </TableCell> */}
+                      <TableRow>
                         <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
-                          {row.id}
+                          {index + 1}
                         </TableCell>
                         <TableCell align="left" sx={{ width: { xs: '200px', md: '250px', lg: '300px' } }}>
                           <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <img src={row.photo} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
+                            <img src={row.profileImageKey} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
                             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                              <Typography sx={{ marginLeft: '10px' }}>{row.user}</Typography>
+                              <Typography sx={{ marginLeft: '10px' }}>
+                                {row.firstName}
+                                {row.lastName}
+                              </Typography>
                               <Typography sx={{ marginLeft: '10px' }}>{row.email}</Typography>
                             </Box>
                           </Box>
                         </TableCell>
-                        <TableCell align="center">{row.phone}</TableCell>
-                        <TableCell align="center">{row.community}</TableCell>
-                        <TableCell align="center">{row.join}</TableCell>
-                        <TableCell align="center" sx={{ minWidth: '200px' }}>
+                        <TableCell align="center">{row.phoneNumber}</TableCell>
+                        <TableCell align="center">{'Community'}</TableCell>
+                        <TableCell align="center">{row.joinedDate}</TableCell>
+                        {/* <TableCell align="center" sx={{ minWidth: '200px' }}>
                           <IconButton onClick={profileModalOpen}>
                             <EditOutlined />
                           </IconButton>
@@ -303,7 +274,7 @@ export default function UsersTable() {
                           <IconButton sx={{ color: '#FF4D4F' }}>
                             <DeleteOutlined />
                           </IconButton>
-                        </TableCell>
+                        </TableCell> */}
                       </TableRow>
                     </>
                   );
@@ -322,7 +293,7 @@ export default function UsersTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={usersList?.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

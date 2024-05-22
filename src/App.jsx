@@ -25,15 +25,18 @@ const App = () => {
     const keycloak = new Keycloak({
       realm: 'african-community-realm',
       url: 'https://api.accalberta.ca/keycloak-auth/',
-      // clientId: 'test'
-      clientId: 'frontend-client'
+      clientId: 'test'
+      // clientId: 'frontend-client'
     });
-
+    if (keycloak) {
+      localStorage.setItem('token', keycloak.token);
+    }
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
       setKeycloak(keycloak);
       setAuthenticated(authenticated);
     });
     console.log(keycloak);
+
     // console.log(keycloak.resourceAccess.token);
   }, []);
   useEffect(() => {

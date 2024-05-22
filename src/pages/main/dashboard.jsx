@@ -1,5 +1,5 @@
 // material-ui
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MainCard from 'components/MainCard';
@@ -16,10 +16,28 @@ import RecentNotifyCard from 'components/dashboard/RecentNotifyCard';
 import RecentSuveyCard from 'components/dashboard/RecentSuveryCard';
 import CommunityGroupCard from 'components/dashboard/CommunityGroupCard';
 // project import
+// Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getCommunity } from 'redux/communityRelated/communityHandle';
 
 // ==============================|| Dashboard ||============================== //
 
 export default function Dahsboard() {
+  // Data formats
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    const options = { month: 'long', day: 'numeric', year: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+  }
+
+  // Fetch Users Data
+  const dispatch = useDispatch();
+  const { communityList } = useSelector((state) => state.community);
+  useEffect(() => {
+    dispatch(getCommunity());
+  }, [dispatch]);
+
   const [age, setAge] = useState(10);
   const handleChange = (event) => {
     setAge(event.target.value);
@@ -188,30 +206,12 @@ export default function Dahsboard() {
             </Typography>
           </Box>
         </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
-        <Grid item xs={12} sm={3} marginTop={3}>
-          <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} />
-        </Grid>
+        {communityList?.map((com, index) => (
+          <Grid item key={index} xs={12} sm={3} marginTop={3}>
+            <CommunityGroupCard key={index} groupName={com.name} date={formatDate(com.createdAt)} member={3} eventNumber={40} />
+            {/* <CommunityGroupCard groupName="Community Group Name" date="February 13, 2024" member={3} eventNumber={40} /> */}
+          </Grid>
+        ))}
         <Grid item xs={12} marginTop={3}>
           <MainCard
             sx={{

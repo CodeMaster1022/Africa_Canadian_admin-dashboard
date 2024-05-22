@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
@@ -19,7 +19,7 @@ import BritshMap from './map/province/British/Boundary';
 const libraries = ['places'];
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import useAxios from 'utils/useAxios';
+
 import { getCommunity } from 'redux/communityRelated/communityHandle';
 
 // Switch Select Province
@@ -45,26 +45,11 @@ function getProvince(index) {
 export default function Community() {
   // Fetch Users Data
   const dispatch = useDispatch();
-  const [communityData, setCommunityData] = useState([]);
   const { communityList } = useSelector((state) => state.community);
   const { search, tabnumber } = useSelector((state) => state.mapFilter);
-  const axiosInstance = useAxios();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await axiosInstance.get('/admin/communities/').then((res) => {
-          setCommunityData(res.data.data);
-        });
-      } catch (error) {
-        alert(error);
-      }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    dispatch(getCommunity(communityData));
-  }, [communityData, dispatch]);
+    dispatch(getCommunity());
+  }, [dispatch]);
   useEffect(() => {
     console.log(communityList);
   });
