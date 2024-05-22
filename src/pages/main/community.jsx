@@ -73,7 +73,10 @@ export default function Community() {
     googleMapsApiKey: 'AIzaSyCLFuQW4ZE_EHv4d90HJvj4tGwgEodiEXE',
     libraries
   });
-
+  const mapConfiguration = {
+    mapboxAccessToken: import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN,
+    minZoom: 1
+  };
   const Tab_Titles = ['Province', 'Boundary', 'Map'];
   const handleChange = (event, newValue) => {
     dispatch(setTabNumber(newValue));
@@ -127,7 +130,7 @@ export default function Community() {
       </TabPanel>
       <TabPanel value={tabnumber} index={2}>
         <MainCard>
-          <MarkersPopups data={countries} search={search} />
+          <MarkersPopups data={countries} search={search} {...mapConfiguration} />
         </MainCard>
       </TabPanel>
     </>

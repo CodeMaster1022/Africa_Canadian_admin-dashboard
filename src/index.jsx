@@ -11,6 +11,9 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/700.css';
 
+// map
+// import 'mapbox-gl/dist/mapbox-gl.css';
+
 import '@fontsource/inter/400.css';
 import '@fontsource/inter/500.css';
 import '@fontsource/inter/600.css';

@@ -25,8 +25,8 @@ const App = () => {
     const keycloak = new Keycloak({
       realm: 'african-community-realm',
       url: 'https://api.accalberta.ca/keycloak-auth/',
-      clientId: 'test'
-      // clientId: 'frontend-client'
+      // clientId: 'test'
+      clientId: 'frontend-client'
     });
 
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
