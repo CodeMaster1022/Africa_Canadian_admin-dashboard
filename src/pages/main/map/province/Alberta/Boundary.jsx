@@ -1,7 +1,7 @@
 import './map.css';
 import { Box, Typography, Grid } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { getFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
+import { getCountyFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
 
 const AlberatMap = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const AlberatMap = () => {
     const id = event.currentTarget.id;
     console.log('id => ', id);
     // setFilter(id);
-    dispatch(getFilter(id));
+    dispatch(getCountyFilter(id));
     dispatch(setTabNumber(2));
   };
 
@@ -18,7 +18,6 @@ const AlberatMap = () => {
     <Grid>
       <Grid item xs={12} md={10}>
         <svg
-          xmlns:svg="http://www.w3.org/2000/svg"
           xmlns="http://www.w3.org/2000/svg"
           xmlnsXlink="http://www.w3.org/1999/xlink"
           version="1.1"
@@ -28,7 +27,7 @@ const AlberatMap = () => {
           height="80vh"
           viewBox="0 0 1511.8401 1863.3931"
           id="svg2"
-          xml:space="preserve"
+          xmlSpace="preserve"
         >
           <g id="Alberta" fill="#BBF2F7" stroke="grey" onClick={boundaryClickHandler}>
             <path

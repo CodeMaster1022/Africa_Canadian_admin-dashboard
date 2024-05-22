@@ -1,4 +1,5 @@
 import user from 'assets/images/users/image.jpg';
+import user1 from 'assets/images/landing/friends.png';
 export const countries = [
   {
     timezones: ['Asia/Yerevan'],
@@ -15,7 +16,7 @@ export const countries = [
   },
   {
     timezones: ['Asia/Yerevan'],
-    image: `${user}`,
+    image: `${user1}`,
     latlng: [59, -129],
     name: 'Janny Anna',
     country_code: 'AM',
@@ -41,7 +42,7 @@ export const countries = [
   },
   {
     timezones: ['Asia/Yerevan'],
-    image: `${user}`,
+    image: `${user1}`,
     latlng: [61, -127],
     name: 'Janny Anna',
     country_code: 'AM',
@@ -67,7 +68,7 @@ export const countries = [
   },
   {
     timezones: ['Asia/Yerevan'],
-    image: `${user}`,
+    image: `${user1}`,
     latlng: [62, -125],
     name: 'Janny Anna',
     country_code: 'AM',
@@ -93,7 +94,7 @@ export const countries = [
   },
   {
     timezones: ['Asia/Yerevan'],
-    image: `${user}`,
+    image: `${user1}`,
     latlng: [50, -104],
     name: 'Janny Anna',
     country_code: 'AM',
@@ -255,7 +256,7 @@ export const countries = [
     country_code: 'AM',
     country: 'Uganda, Canadian',
     capital: 'Yerevan',
-    province: 'Nunavut',
+    province: 'NWT',
     joined: 'Joined July 24, 2023',
     code: 'CA-9874-4812',
     nickName: '@muhamed_a'
@@ -268,7 +269,7 @@ export const countries = [
     country_code: 'AM',
     country: 'Uganda, Canadian',
     capital: 'Yerevan',
-    province: 'Nunavut',
+    province: 'NWT',
     joined: 'Joined July 24, 2023',
     code: 'CA-9874-4812',
     nickName: '@muhamed_a'

@@ -1,7 +1,7 @@
 import './map.css';
 import { Box, Typography, Grid } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { getFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
+import { getCountyFilter, setTabNumber } from 'redux/mapRelated/mapSlice';
 
 const YukonMap = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,7 @@ const YukonMap = () => {
     const id = event.currentTarget.id;
     console.log('id => ', id);
     // setFilter(id);
-    dispatch(getFilter(id));
+    dispatch(getCountyFilter(id));
     dispatch(setTabNumber(2));
   };
 
@@ -21,16 +21,16 @@ const YukonMap = () => {
           version="1.1"
           id="canadaMap"
           xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlnsXlink="http://www.w3.org/1999/xlink"
           x="0px"
           y="0px"
           width="881px"
           height="860px"
           viewBox="0 0 381 360"
-          enable-background="new 0 0 581 360"
-          xml:space="preserve"
+          enableBackground="new 0 0 581 360"
+          xmlSpace="preserve"
         >
-          <g fill="#E3FBFD" stroke="grey">
+          <g fill="#E3FBFD" stroke="grey" onClick={boundaryClickHandler}>
             <path
               d="M193.96,223.475c-3.141,0.104-6.077,0.211-9.013,0.299c-7.041,0.213-14.082,0.44-21.123,0.597
 	c-1.061,0.021-1.217,0.407-1.21,1.325c0.036,5.479,0.018,10.957,0.018,16.438c-0.001,1.549,0.195,1.547-1.537,1.604
@@ -64,7 +64,7 @@ const YukonMap = () => {
 	c0.509,0.324,1.11,0.688,1.68,0.705C193.68,221.383,193.802,222.245,193.96,223.475z"
             />
           </g>
-          <g stroke="grey" fill="#91EAF2">
+          <g stroke="grey" fill="#91EAF2" onClick={boundaryClickHandler}>
             <path
               d="M173.958,347.184c-4.147,0.544-8.048,0.474-11.932,0.646c-7.037,0.312-14.079,0.479-21.119,0.708
 	c-0.479,0.015-0.959-0.02-1.437,0.006c-0.602,0.026-0.85-0.241-0.866-0.843c-0.053-1.981-0.153-3.962-0.205-5.943
@@ -87,7 +87,7 @@ const YukonMap = () => {
 	c-2.658,0.22-5.306,0.539-7.96,0.791c-1.743,0.165-1.719,0.14-1.5,1.955C173.395,341.898,173.659,344.476,173.958,347.184z"
             />
           </g>
-          <g stroke="grey" fill="#014167">
+          <g stroke="grey" fill="#014167" onClick={boundaryClickHandler}>
             <path
               d="M83.68,210.837c-3.148,0.046-5.903-0.63-8.826-0.458c-0.665,13.663-1.327,27.299-1.998,41.1
 	c-18.06-1.055-35.971-2.101-53.903-3.146c1.237-12.937,2.441-25.585,3.66-38.231c1.082-11.229,2.178-22.455,3.276-33.682
@@ -99,7 +99,7 @@ const YukonMap = () => {
 	c-0.178,9.984-0.368,19.968-0.553,29.951c-0.088,4.718-0.195,9.438-0.261,14.152C83.651,205.411,83.68,208.01,83.68,210.837z"
             />
           </g>
-          <g stroke="grey" fill="#E3FBFD">
+          <g stroke="grey" fill="#E3FBFD" onClick={boundaryClickHandler}>
             <path
               d="M42.457,10.038c2.08,1.407,4.481,1.702,6.778,2.328c1.629,0.444,3.074,0.125,4.445-0.861
 	c1.435-1.031,1.861-0.978,3.203,0.214c0.871,0.773,1.756,1.508,2.779,2.088c0.908,0.517,1.815,0.491,2.775,0.287
@@ -120,7 +120,7 @@ const YukonMap = () => {
 	c0.613-6.327,1.208-12.655,1.808-18.982c0.303-3.198,0.591-6.398,0.922-9.592C41.985,10.993,41.966,10.544,42.457,10.038z"
             />
           </g>
-          <g stroke="grey" fill="#007EA7">
+          <g stroke="grey" fill="#007EA7" onClick={boundaryClickHandler}>
             <path
               d="M74.025,349.084c-9.576-0.107-19.143-0.584-28.717-0.686c-0.919-0.014-3.266-2.015-3.394-2.846
 	c-0.08-0.521,0.315-0.688,0.641-0.927c1.7-1.253,2.49-3.021,2.802-5.041c0.505-3.263-1.063-4.52-3.859-4.667
@@ -141,7 +141,7 @@ const YukonMap = () => {
 	C78.946,349.084,76.486,349.084,74.025,349.084z"
             />
           </g>
-          <g stroke="grey" fill="#E3FBFD">
+          <g stroke="grey" fill="#E3FBFD" onClick={boundaryClickHandler}>
             <path
               d="M310.118,333.468c-10.173,1.854-20.041,3.319-29.932,4.63c-9.759,1.294-19.54,2.436-29.333,3.454
 	c-9.589,1.003-19.188,1.9-28.796,2.692c-8.446,0.696-16.907,1.229-25.365,1.79c-6.003,0.396-12.009,0.714-18.014,1.071
@@ -162,7 +162,7 @@ const YukonMap = () => {
 	C307.747,331.682,308.947,332.305,310.118,333.468z"
             />
           </g>
-          <g stroke="grey" fill="#3D8AF9">
+          <g stroke="grey" fill="#3D8AF9" onClick={boundaryClickHandler}>
             <path
               d="M112.946,293.628c6.427,0,12.854-0.004,19.281,0.002c1.818,0.002,1.804,0.017,1.849,1.735
 	c0.18,6.898,0.373,13.799,0.551,20.699c0.041,1.535,0.021,1.525-1.541,1.595c-6.417,0.271-12.832,0.566-19.25,0.796
@@ -174,7 +174,7 @@ const YukonMap = () => {
 	C112.946,293.9,112.946,293.766,112.946,293.628z"
             />
           </g>
-          <g stroke="grey" fill="#E3FBFD">
+          <g stroke="grey" fill="#E3FBFD" onClick={boundaryClickHandler}>
             <path
               d="M134.749,320.945c0.255,9.104,0.513,18.31,0.772,27.554c-2.769,0.492-5.438,0.305-8.087,0.362
 	c-6.151,0.134-12.306,0.164-18.459,0.218c-1.782,0.016-1.765-0.017-1.807-1.765c-0.069-2.869-0.149-5.737-0.252-8.604
