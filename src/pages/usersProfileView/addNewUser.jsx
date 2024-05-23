@@ -29,6 +29,7 @@ import userImage from 'assets/images/users/avatar-1.png';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunity } from 'redux/communityRelated/communityHandle';
+import { addUser } from 'redux/userRelated/userHandle';
 const AddNewUserProfile = ({ modalOpen, modalClose }) => {
   const dispatch = useDispatch();
   useEffect(() => {

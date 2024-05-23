@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // material-ui
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -24,6 +24,9 @@ import { DashOutlined } from '@ant-design/icons';
 // assets
 import { RightOutlined } from '@ant-design/icons';
 import DownOutlined from '@ant-design/icons/DownOutlined';
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { getGroup } from 'redux/groupRelated/groupHandle';
 
 // project imports
 import { header } from './basic';
@@ -179,6 +182,12 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 export default function GroupTable() {
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
+  // Fetch Data
+  const dispatch = useDispatch();
+  const { loading, groupList } = useSelector((state) => state.group);
+  useEffect(() => {
+    dispatch(getGroup());
+  }, [dispatch]);
 
   const [expandedRowId, setExpandedRowId] = useState(null);
   const [order, setOrder] = React.useState('asc');
@@ -197,7 +206,7 @@ export default function GroupTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedId = rows.map((n) => n.id);
+      const newSelectedId = groupList?.map((n) => n.id);
       setSelected(newSelectedId);
       return;
     }
@@ -217,7 +226,7 @@ export default function GroupTable() {
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
     }
-    const selectedRowData = rows.filter((row) => newSelected.includes(row.group.toString()));
+    const selectedRowData = grouList.filter((row) => newSelected.includes(row.group.toString()));
     setSelectedValue(selectedRowData);
     setSelected(newSelected);
   };
@@ -234,13 +243,15 @@ export default function GroupTable() {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - groupList?.length) : 0;
 
   return (
     <MainCard
       content={false}
       title="Community Group"
-      secondary={<CSVExport data={selectedValue.length > 0 ? selectedValue : rows} headers={header} filename={'selected-table-data.csv'} />}
+      secondary={
+        <CSVExport data={selectedValue.length > 0 ? selectedValue : groupList} headers={header} filename={'selected-table-data.csv'} />
+      }
     >
       <RowSelection selected={selected.length} />
       {/* table */}
@@ -252,10 +263,10 @@ export default function GroupTable() {
             orderBy={orderBy}
             onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={rows.length}
+            rowCount={groupList?.length}
           />
           <TableBody>
-            {stableSort(rows, getComparator(order, orderBy))
+            {stableSort(groupList, getComparator(order, orderBy))
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row, index) => {
                 /** make sure no display bugs if row isn't an OrderData object */
@@ -287,14 +298,14 @@ export default function GroupTable() {
                       </TableCell>
                       <TableCell align="right">
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                          <img src={row.groupImage} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
-                          <Typography sx={{ marginLeft: '10px' }}>{row.group}</Typography>
+                          <img src={row.avatar_image_key} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
+                          <Typography sx={{ marginLeft: '10px' }}>{row.name}</Typography>
                         </Box>
                       </TableCell>
-                      <TableCell align="center">{row.groupType}</TableCell>
+                      <TableCell align="center">{row.community.name}</TableCell>
                       <TableCell align="center">
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                          {row.member.length}
+                          {row.members_count}
                           <IconButton
                             aria-label="expand row"
                             size="small"
@@ -304,9 +315,9 @@ export default function GroupTable() {
                           </IconButton>
                         </Box>
                       </TableCell>
-                      <TableCell align="center">{row.privacy}</TableCell>
-                      <TableCell align="center">{row.activity}</TableCell>
-                      <TableCell align="center">{row.posts}</TableCell>
+                      <TableCell align="center">{'Privacy'}</TableCell>
+                      <TableCell align="center">{row.activity_level}</TableCell>
+                      <TableCell align="center">{row.posting_count}</TableCell>
                       <TableCell align="center">
                         <IconButton>
                           <DashOutlined />
@@ -364,7 +375,7 @@ export default function GroupTable() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={rows.length}
+        count={groupList?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

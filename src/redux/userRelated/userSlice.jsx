@@ -1,12 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  status: 'idle',
   usersList: [],
   userDetail: [],
   loading: false,
   error: null,
   response: null,
-  getresponse: null
+  getresponse: null,
+  tempDetails: []
 };
 
 const usersSlice = createSlice({
@@ -44,10 +46,40 @@ const usersSlice = createSlice({
     getError: (state, action) => {
       state.loading = false;
       state.error = action.payload;
+    },
+    userAdded: (state, action) => {
+      state.status = 'added';
+      state.response = null;
+      state.error = null;
+      state.tempDetails = action.payload;
+    },
+    authFailed: (state, action) => {
+      state.status = 'failed';
+      state.response = action.payload;
+    },
+    authError: (state, action) => {
+      state.status = 'error';
+      state.error = action.payload;
+    },
+    getDeleteSuccess: (state) => {
+      state.loading = false;
+      state.error = null;
+      state.response = null;
     }
   }
 });
 
-export const { getRequest, getUsersSuccess, getUserDetailedSuccess, getUsersFailed, getUsersDetailedFailed, getError } = usersSlice.actions;
+export const {
+  getRequest,
+  userAdded,
+  authFailed,
+  getUsersSuccess,
+  getUserDetailedSuccess,
+  getUsersFailed,
+  getUsersDetailedFailed,
+  getError,
+  getDeleteSuccess,
+  authError
+} = usersSlice.actions;
 
 export const usersReducer = usersSlice.reducer;

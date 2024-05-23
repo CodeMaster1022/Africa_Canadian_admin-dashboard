@@ -1,5 +1,15 @@
 import useAxios from 'utils/useAxios';
-import { getRequest, getUsersSuccess, getUserDetailedSuccess, getUsersFailed, getUsersDetailedFailed, getError } from './userSlice';
+import {
+  getRequest,
+  getUsersSuccess,
+  authError,
+  authFailed,
+  getUserDetailedSuccess,
+  getUsersFailed,
+  getUsersDetailedFailed,
+  getError,
+  userAdded
+} from './userSlice';
 
 export const getUsers = () => async (dispatch) => {
   const axiosInstance = useAxios();
@@ -15,15 +25,23 @@ export const getUsers = () => async (dispatch) => {
     dispatch(getError(error));
   }
 };
-// export const addUser = (fields) => async (dispatch) => {
-//   const axiosInstance = useAxios();
-//   dispatch(getRequest)
-//   try {
-//     const result = await axiosInstance.post()
-//   } catch (error) {
 
-//   }
-// }
+export const addUser = (fields) => async (dispatch) => {
+  const axiosInstance = useAxios();
+  dispatch(getRequest);
+  try {
+    const result = await axiosInstance.post('users/user', fields, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    if (result.data.data.message) {
+      dispatch(authFailed(result.data.data.message));
+    } else {
+      dispatch(userAdded(result.data.data));
+    }
+  } catch (error) {
+    dispatch(authError(error));
+  }
+};
 //   const axiosInstance = useAxios();
 
 //   // dispatch(getRequest());
