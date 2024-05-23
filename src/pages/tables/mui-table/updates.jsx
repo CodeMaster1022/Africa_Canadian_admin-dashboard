@@ -43,12 +43,12 @@ const rows = [
   createData(4, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
   createData(5, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 2),
   createData(6, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
-  createData(8, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
+  createData(8, 'dssFusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
   createData(9, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
   createData(10, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
   createData(11, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
   createData(12, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 2),
-  createData(13, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1)
+  createData(13, 'dfsfsde porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1)
 ];
 
 // table filter
@@ -277,70 +277,68 @@ export default function UpdatesTable() {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <>
-                      <TableRow
-                        hover
-                        onClick={(event) => handleClick(event, row.id)}
-                        role="checkbox"
-                        aria-checked={isItemSelected}
-                        tabIndex={-1}
-                        key={row.id}
-                        selected={isItemSelected}
-                      >
-                        <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
-                          {row.id}
-                        </TableCell>
-                        <TableCell align="left">{row.title}</TableCell>
-                        <TableCell align="left">{row.posted}</TableCell>
-                        <TableCell align="left">{row.dated}</TableCell>
-                        <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                          {row.status === 1 && (
-                            <>
-                              <Box sx={{ display: 'flex' }}>
-                                <Typography
-                                  fontSize={12}
-                                  sx={{ color: '#52C41A', borderRadius: '5px', backgroundColor: '#F6FFED', padding: '5px' }}
-                                >
-                                  Published
-                                </Typography>
-                              </Box>
-                            </>
-                          )}
-                          {row.status === 2 && (
-                            <>
-                              <Box sx={{ display: 'flex' }}>
-                                <Typography
-                                  fontSize={12}
-                                  sx={{ color: '#1890FF', borderRadius: '5px', backgroundColor: '#E6F7FF', padding: '5px' }}
-                                >
-                                  Pending Review
-                                </Typography>
-                              </Box>
-                            </>
-                          )}
-                          {row.status === 3 && (
-                            <>
-                              <Box sx={{ display: 'flex' }}>
-                                <Typography
-                                  fontSize={12}
-                                  sx={{ color: '#FF4D4F', borderRadius: '5px', backgroundColor: '#FFF1F0', padding: '5px' }}
-                                >
-                                  Canceled
-                                </Typography>
-                              </Box>
-                            </>
-                          )}
-                        </TableCell>
-                        <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                          <IconButton onClick={profileModalOpen}>
-                            <CloseOutlined />
-                          </IconButton>
-                          <IconButton sx={{ color: '#FF4D4F' }}>
-                            <CheckOutlined />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    </>
+                    <TableRow
+                      key={index}
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      selected={isItemSelected}
+                    >
+                      <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
+                        {row.id}
+                      </TableCell>
+                      <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left">{row.posted}</TableCell>
+                      <TableCell align="left">{row.dated}</TableCell>
+                      <TableCell align="left" sx={{ maxWidth: '100px' }}>
+                        {row.status === 1 && (
+                          <>
+                            <Box sx={{ display: 'flex' }}>
+                              <Typography
+                                fontSize={12}
+                                sx={{ color: '#52C41A', borderRadius: '5px', backgroundColor: '#F6FFED', padding: '5px' }}
+                              >
+                                Published
+                              </Typography>
+                            </Box>
+                          </>
+                        )}
+                        {row.status === 2 && (
+                          <>
+                            <Box sx={{ display: 'flex' }}>
+                              <Typography
+                                fontSize={12}
+                                sx={{ color: '#1890FF', borderRadius: '5px', backgroundColor: '#E6F7FF', padding: '5px' }}
+                              >
+                                Pending Review
+                              </Typography>
+                            </Box>
+                          </>
+                        )}
+                        {row.status === 3 && (
+                          <>
+                            <Box sx={{ display: 'flex' }}>
+                              <Typography
+                                fontSize={12}
+                                sx={{ color: '#FF4D4F', borderRadius: '5px', backgroundColor: '#FFF1F0', padding: '5px' }}
+                              >
+                                Canceled
+                              </Typography>
+                            </Box>
+                          </>
+                        )}
+                      </TableCell>
+                      <TableCell align="left" sx={{ maxWidth: '100px' }}>
+                        <IconButton onClick={profileModalOpen}>
+                          <CloseOutlined />
+                        </IconButton>
+                        <IconButton sx={{ color: '#FF4D4F' }}>
+                          <CheckOutlined />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
               {emptyRows > 0 && (

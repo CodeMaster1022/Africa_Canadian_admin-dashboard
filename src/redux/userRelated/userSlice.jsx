@@ -5,7 +5,7 @@ const initialState = {
   usersList: [],
   userDetail: [],
   loading: false,
-  error: null,
+  error: [],
   response: null,
   getresponse: null,
   tempDetails: []

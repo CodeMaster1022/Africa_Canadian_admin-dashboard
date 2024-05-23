@@ -12,7 +12,6 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import TableRow from '@mui/material/TableRow';
-import groupAvatar from 'assets/images/users/avatar-2.png';
 import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 // Redux
@@ -23,49 +22,7 @@ import IconButton from 'components/@extended/IconButton';
 import { PauseOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
 // project imports
 import ProfileModal from 'pages/usersProfileView/profileView';
-import { header } from './basic';
 import MainCard from 'components/MainCard';
-import { CSVExport, RowSelection } from 'components/third-party/react-table';
-function createData(id, user, photo, email, phone, community, join, action) {
-  return {
-    id,
-    user,
-    photo,
-    email,
-    phone,
-    community,
-    join,
-    action
-  };
-}
-
-const rows = [
-  createData(2, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(5, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(7, 'Larry Doe ', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(8, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(1, 'Larry Doe', groupAvatar, 'ashy.handgun@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(3, 'Carson Darrin', groupAvatar, 'larry.doe@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(11, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(12, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(13, 'Larry Doe ', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(14, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(15, 'Larry Doe', groupAvatar, 'ashy.handgun@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(16, 'Carson Darrin', groupAvatar, 'larry.doe@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(17, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(18, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(19, 'Larry Doe ', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(20, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(21, 'Larry Doe', groupAvatar, 'ashy.handgun@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(22, 'Carson Darrin', groupAvatar, 'larry.doe@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(23, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(24, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(25, 'Larry Doe ', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1),
-  createData(26, 'Carson Darrin', groupAvatar, 'carson.darrin@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(27, 'Larry Doe', groupAvatar, 'ashy.handgun@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 2),
-  createData(28, 'Carson Darrin', groupAvatar, 'larry.doe@gmail.com', '+1 34 1234 5678', 'Somalia', '10/05/2024', 1)
-];
-
 // table filter
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -99,13 +56,13 @@ const headCells = [
     label: 'ID'
   },
   {
-    id: 'users',
+    id: 'firstName',
     numeric: false,
     disablePadding: false,
     label: 'Users'
   },
   {
-    id: 'phone',
+    id: 'phoneNumber',
     numeric: false,
     disablePadding: false,
     label: 'Phone Number'
@@ -117,7 +74,7 @@ const headCells = [
     label: 'Community'
   },
   {
-    id: 'join',
+    id: 'joinedDate',
     numeric: false,
     disablePadding: false,
     label: 'Joined'
@@ -131,7 +88,11 @@ const headCells = [
 ];
 
 // ==============================|| MUI TABLE - HEADER ||============================== //
-
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = { month: 'long', day: 'numeric', year: 'numeric' };
+  return date.toLocaleDateString('en-US', options);
+}
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -139,9 +100,9 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   return (
     <TableHead>
       <TableRow>
-        {headCells.map((headCell, id) => (
+        {headCells.map((headCell, index) => (
           <TableCell
-            key={id}
+            key={index}
             align={headCell.numeric ? 'left' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
@@ -179,7 +140,6 @@ export default function UsersTable() {
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [selectedValue, setSelectedValue] = React.useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -189,7 +149,7 @@ export default function UsersTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelectedId = rows.map((n, index) => index);
+      const newSelectedId = usersList.map((n, index) => index);
       setSelected(newSelectedId);
       return;
     }
@@ -206,18 +166,11 @@ export default function UsersTable() {
   };
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - usersList.length) : 0;
 
   return (
     <>
-      <MainCard
-        content={false}
-        title="All Users"
-        secondary={
-          <CSVExport data={selectedValue.length > 0 ? selectedValue : rows} headers={header} filename={'selected-table-data.csv'} />
-        }
-      >
-        <RowSelection selected={selected.length} />
+      <MainCard content={false} title="All Users">
         {/* table */}
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
@@ -237,46 +190,44 @@ export default function UsersTable() {
                   if (typeof row === 'number') return null;
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <>
-                      <TableRow>
-                        <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
-                          {index + 1}
-                        </TableCell>
-                        <TableCell align="left" sx={{ width: { xs: '200px', md: '250px', lg: '300px' } }}>
-                          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                            <img src={row.profileImageKey} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
-                            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                              <Typography sx={{ marginLeft: '10px' }}>
-                                {row.firstName}
-                                {row.lastName}
-                              </Typography>
-                              <Typography sx={{ marginLeft: '10px' }}>{row.email}</Typography>
-                            </Box>
+                    <TableRow key={index}>
+                      <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
+                        {index + 1}
+                      </TableCell>
+                      <TableCell align="left" sx={{ width: { xs: '200px', md: '250px', lg: '300px' } }}>
+                        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                          <img src={row.profileImageKey} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
+                          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                            <Typography sx={{ marginLeft: '10px' }}>
+                              {row.firstName}
+                              {row.lastName}
+                            </Typography>
+                            <Typography sx={{ marginLeft: '10px' }}>{row.email}</Typography>
                           </Box>
-                        </TableCell>
-                        <TableCell align="center">{row.phoneNumber}</TableCell>
-                        <TableCell align="center">{'Community'}</TableCell>
-                        <TableCell align="center">{row.joinedDate}</TableCell>
-                        {/* <TableCell align="center" sx={{ minWidth: '200px' }}>
-                          <IconButton onClick={profileModalOpen}>
-                            <EditOutlined />
+                        </Box>
+                      </TableCell>
+                      <TableCell align="center">{row.phoneNumber}</TableCell>
+                      <TableCell align="center">{'Community'}</TableCell>
+                      <TableCell align="center">{formatDate(row.joinedDate)}</TableCell>
+                      <TableCell align="center" sx={{ minWidth: '200px' }}>
+                        <IconButton onClick={profileModalOpen}>
+                          <EditOutlined />
+                        </IconButton>
+                        {row.action === 1 ? (
+                          <IconButton sx={{ color: '#FAAD14' }}>
+                            <PauseOutlined />
                           </IconButton>
-                          {row.action === 1 ? (
-                            <IconButton sx={{ color: '#FAAD14' }}>
-                              <PauseOutlined />
-                            </IconButton>
-                          ) : (
-                            <IconButton sx={{ color: '#FAAD14' }}>
-                              <PlayCircleOutlined />
-                            </IconButton>
-                          )}
+                        ) : (
+                          <IconButton sx={{ color: '#FAAD14' }}>
+                            <PlayCircleOutlined />
+                          </IconButton>
+                        )}
 
-                          <IconButton sx={{ color: '#FF4D4F' }}>
-                            <DeleteOutlined />
-                          </IconButton>
-                        </TableCell> */}
-                      </TableRow>
-                    </>
+                        <IconButton sx={{ color: '#FF4D4F' }}>
+                          <DeleteOutlined />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
                   );
                 })}
               {emptyRows > 0 && (

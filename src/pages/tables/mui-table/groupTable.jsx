@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 // material-ui
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
@@ -13,8 +13,6 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import TableRow from '@mui/material/TableRow';
-import avatar1 from 'assets/images/users/avatar-4.png';
-import groupAvatar from 'assets/images/users/avatar-2.png';
 import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
@@ -25,37 +23,11 @@ import { DashOutlined } from '@ant-design/icons';
 import { RightOutlined } from '@ant-design/icons';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
-import { getGroup } from 'redux/groupRelated/groupHandle';
-
+import { useSelector } from 'react-redux';
 // project imports
 import { header } from './basic';
 import MainCard from 'components/MainCard';
 import { CSVExport, RowSelection } from 'components/third-party/react-table';
-function createData(id, group, groupImage, groupType, privacy, activity, posts) {
-  return {
-    id,
-    group,
-    groupImage,
-    groupType,
-    privacy,
-    activity,
-    posts,
-    member: [
-      { id: '1', name: 'John', avatar: `${avatar1}` },
-      { id: '2', name: 'mary', avatar: `${avatar1}` }
-    ]
-  };
-}
-
-const rows = [
-  createData(1, 'African Youth Empowerment', groupAvatar, 'Educational', 'Public', 'High', '98'),
-  createData(2, 'African Youth Empowerment', groupAvatar, 'Educational', 'Public', 'High', '98'),
-  createData(3, 'African Youth Empowerment', groupAvatar, 'Educational', 'Public', 'High', '98'),
-  createData(4, 'African Youth Empowerment', groupAvatar, 'Educational', 'Public', 'High', '98'),
-  createData(5, 'African Youth Empowerment', groupAvatar, 'Educational', 'Public', 'High', '98'),
-  createData(6, 'African Youth Empowerment', groupAvatar, 'Educational', 'Private', 'High', '98')
-];
 
 // table filter
 function descendingComparator(a, b, orderBy) {
@@ -90,19 +62,19 @@ const headCells = [
     label: 'ID'
   },
   {
-    id: 'group',
+    id: 'name',
     numeric: false,
     disablePadding: false,
     label: 'Community Group'
   },
   {
-    id: 'groupType',
+    id: 'name',
     numeric: false,
     disablePadding: false,
     label: 'Group Type'
   },
   {
-    id: 'members',
+    id: 'members_count',
     numeric: true,
     disablePadding: false,
     label: 'Members'
@@ -120,7 +92,7 @@ const headCells = [
     label: 'Activity Level'
   },
   {
-    id: 'posts',
+    id: 'posting_count',
     numeric: true,
     disablePadding: false,
     label: 'Recent Posts'
@@ -183,11 +155,7 @@ export default function GroupTable() {
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
   // Fetch Data
-  const dispatch = useDispatch();
-  const { loading, groupList } = useSelector((state) => state.group);
-  useEffect(() => {
-    dispatch(getGroup());
-  }, [dispatch]);
+  const { groupList } = useSelector((state) => state.group);
 
   const [expandedRowId, setExpandedRowId] = useState(null);
   const [order, setOrder] = React.useState('asc');
@@ -281,7 +249,6 @@ export default function GroupTable() {
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={index}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox" sx={{ pl: 3 }}>

@@ -9,33 +9,16 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import GroupTable from 'pages/tables/mui-table/groupTable';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCommunity } from 'redux/communityRelated/communityHandle';
-import useAxios from 'utils/useAxios';
+
+import { getGroup } from 'redux/groupRelated/groupHandle';
+
 // import EnhancedTable from 'pages/tables/mui-table/datatable';
 export default function Community() {
   const dispatch = useDispatch();
-  const [comData, setComData] = useState([]);
-  const { communityList } = useSelector((state) => state.community);
-  const axiosInstance = useAxios();
+  const { loading } = useSelector((state) => state.group);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await axiosInstance.get('/admin/communities/').then((res) => {
-          setComData(res.data);
-        });
-      } catch (error) {
-        alert(error.res.data);
-      }
-    };
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useEffect(() => {
-    dispatch(getCommunity(comData));
-  }, [comData, dispatch]);
-  useEffect(() => {
-    console.log(communityList);
-  });
+    dispatch(getGroup());
+  }, [dispatch]);
 
   const [age, setAge] = useState(10);
   const handleChangeAge = (event) => {
@@ -165,9 +148,7 @@ export default function Community() {
               <MarketingCardChart />
             </Box>
           </MainCard>
-          <MainCard>
-            <GroupTable />
-          </MainCard>
+          <MainCard>{loading ? <h2>loading...</h2> : <GroupTable />}</MainCard>
         </Grid>
       </TabPanel>
     </>

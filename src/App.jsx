@@ -26,6 +26,7 @@ const App = () => {
       realm: 'african-community-realm',
       url: 'https://api.accalberta.ca/keycloak-auth/',
       clientId: 'test'
+      // clientId: 'frontend-client'
     });
     if (keycloak) {
       localStorage.setItem('token', keycloak.token);

@@ -271,7 +271,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                 <form onSubmit={handleSubmitEvent} style={{ width: '100%' }}>
                   <Grid container xs={12}>
                     <Grid item xs={6}>
-                      <Grid xs={12}>
+                      <Grid>
                         <Box sx={{ marginTop: '15px', padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Full Name</Typography>
                           <TextField type="text" name="fullName" onChange={handleInput} sx={{ width: '100%' }} />
@@ -283,7 +283,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>
-                      <Grid xs={12}>
+                      <Grid>
                         <Box sx={{ marginTop: '15px', padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
                           <TextField type="text" name="userName" onChange={handleInput} sx={{ width: '100%' }} />
@@ -297,7 +297,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                     <Grid item xs={12}>
                       <Box sx={{ padding: '5px' }}>
                         <Typography sx={{ color: '#8C8C8C' }}>Community</Typography>
-                        <FormControl fullWidth>
+                        <FormControl sx={{ width: '100%' }}>
                           <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"

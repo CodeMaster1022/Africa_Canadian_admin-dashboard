@@ -4,7 +4,6 @@ import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
 import CanadaMap from './map/canadaMap';
 import MarkersPopups from 'sections/maps/MarkersPopups';
-import { useLoadScript } from '@react-google-maps/api';
 // import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 import { countries } from 'data/location';
@@ -16,7 +15,8 @@ import NunavutMap from './map/province/Nunavut/Boundary';
 import OntarioMap from './map/province/Ontario/Boundary';
 import NorthWestMap from './map/province/NorthWest/Boundary';
 import BritshMap from './map/province/British/Boundary';
-const libraries = ['places'];
+import QuebecMap from './map/province/Qubec/Boundary';
+import ManitobaMap from './map/province/Manitoba/Boundary';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -37,6 +37,10 @@ function getProvince(index) {
       return <NorthWestMap />;
     case 'BC':
       return <BritshMap />;
+    case 'Quebec':
+      return <QuebecMap />;
+    case 'Manitoba':
+      return <ManitobaMap />;
     default:
       return <Error />;
   }
@@ -53,11 +57,7 @@ export default function Community() {
   useEffect(() => {
     console.log(communityList);
   });
-  // eslint-disable-next-line no-unused-vars
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCLFuQW4ZE_EHv4d90HJvj4tGwgEodiEXE',
-    libraries
-  });
+
   const mapConfiguration = {
     mapboxAccessToken: import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN,
     minZoom: 1

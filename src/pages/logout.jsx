@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import KeycloakContext from 'contexts/KeycContext';
 const Logout = () => {
+  localStorage.removeItem('token');
   const keycloak = React.useContext(KeycloakContext);
   const navigate = useNavigate();
 

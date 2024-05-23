@@ -116,7 +116,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
             </Grid>
             <>
               <Grid item xs={12}>
-                <Grid xs={12}>
+                <Grid>
                   <Box sx={{ marginTop: '15px', padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Title</Typography>
                     <TextField sx={{ width: '100%' }} />
@@ -141,7 +141,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                   </FormControl>
                 </Box>
               </Grid>
-              <Grid xs={12}>
+              <Grid>
                 <Box sx={{ padding: '10px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Body</Typography>
                   <Divider />
@@ -151,7 +151,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                   <Divider />
                 </Box>
               </Grid>
-              <Grid xs={12} sx={{ marginTop: '15px' }}>
+              <Grid sx={{ marginTop: '15px' }}>
                 <Stack direction="row" justifyContent="flex-end" spacing={2} paddingTop={1}>
                   <Button variant="contained" color="error" onClick={ProfileClose}>
                     Cancel

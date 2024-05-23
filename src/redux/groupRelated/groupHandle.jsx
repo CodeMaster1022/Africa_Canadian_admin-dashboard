@@ -3,7 +3,7 @@ import { getRequest, getGroupSuccess, getMembersSuccess, getGroupDetails, getMem
 
 export const getGroup = () => async (dispatch) => {
   const axiosInstance = useAxios();
-
+  dispatch(getRequest());
   try {
     const result = await axiosInstance.get('/admin/communities/2/groups/');
     if (result.data.data.message) {
