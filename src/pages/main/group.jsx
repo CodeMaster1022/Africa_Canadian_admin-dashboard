@@ -10,7 +10,7 @@ import React, { useState, useEffect } from 'react';
 import GroupTable from 'pages/tables/mui-table/groupTable';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getGroup } from 'redux/groupRelated/groupHandle';
+import { getGroup, getGroupMembers } from 'redux/groupRelated/groupHandle';
 
 // import EnhancedTable from 'pages/tables/mui-table/datatable';
 export default function Community() {
@@ -19,7 +19,6 @@ export default function Community() {
   useEffect(() => {
     dispatch(getGroup());
   }, [dispatch]);
-
   const [age, setAge] = useState(10);
   const handleChangeAge = (event) => {
     setAge(event.target.value);
@@ -58,10 +57,6 @@ export default function Community() {
             label={Tab_Title}
             {...a11yProps(index)}
             sx={{
-              color: (theme) => (theme.palette.mode === 'dark' ? '#008080' : '#7E8487'), // Default color
-              '&.Mui-selected': {
-                color: (theme) => (theme.palette.mode === 'dark' ? '#ffab00' : '#008080') // Color for active tab
-              },
               flexGrow: 0, // Make the tab title stretch
               textAlign: 'center' // Center the text
             }}

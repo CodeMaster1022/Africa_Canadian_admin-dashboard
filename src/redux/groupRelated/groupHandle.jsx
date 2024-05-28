@@ -1,5 +1,13 @@
 import useAxios from 'utils/useAxios';
+import Swal from 'sweetalert2';
 import { getRequest, getGroupSuccess, getMembersSuccess, getGroupDetails, getMemberDetails, getFailedTwo, getError } from './groupSlice';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true
+});
 
 export const getGroup = () => async (dispatch) => {
   const axiosInstance = useAxios();
@@ -12,10 +20,23 @@ export const getGroup = () => async (dispatch) => {
       dispatch(getGroupSuccess(result.data.data));
     }
   } catch (error) {
-    dispatch(getError(error));
+    dispatch(getError(error.data));
   }
 };
-export const communityDetails = (id) => async (dispatch) => {
+export const getGroupMembers = (id) => async (dispatch) => {
+  const axiosInstance = useAxios();
+  try {
+    const result = await axiosInstance.get(`/posts/groups/${id}/members-by-role/`);
+    if (result.data.data.message) {
+      dispatch(getFailedTwo(result.data.data.message));
+    } else {
+      dispatch(getMembersSuccess(result.data.data));
+    }
+  } catch (error) {
+    dispatch(getError);
+  }
+};
+export const groupDetails = (id) => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
@@ -23,10 +44,74 @@ export const communityDetails = (id) => async (dispatch) => {
     if (result.data.message) {
       dispatch(getFailedTwo(result.data.message));
     } else {
-      dispatch(getCommunityDetails(result.data));
+      dispatch(getGroupDetails(result.data));
     }
   } catch {
     dispatch(getError(error));
+  }
+};
+export const groupDeactivate = (id) => async () => {
+  const axiosInstance = useAxios();
+  // dispatch(getRequest());
+  try {
+    const result = await axiosInstance.post(`/admin/groups/${id}/deactivate/`);
+    if (result.data.data) {
+      Toast.fire({
+        icon: 'success',
+        position: 'center',
+        text: `${result.data.message}`,
+        title: 'Success!'
+      });
+    }
+  } catch (error) {
+    Toast.fire({
+      icon: 'error',
+      position: 'center',
+      text: `${error.message}`,
+      title: 'Error!'
+    });
+  }
+};
+export const groupReactivate = (id) => async () => {
+  const axiosInstance = useAxios();
+  // dispatch(getRequest());
+  try {
+    const result = await axiosInstance.post(`admin/groups/${id}/reactivate/`);
+    if (result.data.data) {
+      console.log(result.data.data);
+      Toast.fire({
+        icon: 'success',
+        position: 'center',
+        text: `${result.data.message}`,
+        title: 'Success!'
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    Toast.fire({
+      icon: 'error',
+      position: 'center',
+      text: `${error.message}`,
+      title: 'Error!'
+    });
+  }
+};
+export const groupDelete = (id) => async () => {
+  const axiosInstance = useAxios();
+  // dispatch(getRequest());
+  try {
+    const result = await axiosInstance.delete(`/admin/groups/${id}/`);
+    console.log(result.data.message);
+    if (result) {
+      Toast.fire({
+        icon: 'success',
+        position: 'center',
+        text: `${result.data.message}`,
+        title: 'Success!'
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 export const getMembers = (id, address) => async (dispatch) => {
@@ -36,7 +121,7 @@ export const getMembers = (id, address) => async (dispatch) => {
     if (result.data.message) {
       dispatch(getFailedTwo(result.message));
     } else {
-      dispatch(getMemberSuccess(result.data));
+      dispatch(getMembersSuccess(result.data));
     }
   } catch (error) {
     dispatch(getError(error));

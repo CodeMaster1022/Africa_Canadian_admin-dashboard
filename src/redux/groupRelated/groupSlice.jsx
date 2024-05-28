@@ -7,6 +7,7 @@ const initialState = {
   memberDetails: [],
   // subjectDetails: [],
   loading: false,
+  memberLoading: false,
   subloading: false,
   error: 'This is error',
   response: null,
@@ -19,6 +20,7 @@ const groupSlice = createSlice({
   reducers: {
     getRequest: (state) => {
       state.loading = true;
+      state.memberLoading = true;
     },
     getGroupSuccess: (state, action) => {
       state.groupList = action.payload;
@@ -31,6 +33,7 @@ const groupSlice = createSlice({
       state.loading = false;
       state.error = null;
       state.getresponse = null;
+      state.memberLoading = false;
     },
     getGroupDetails: (state, action) => {
       state.communityDetails = action.payload;
@@ -41,6 +44,9 @@ const groupSlice = createSlice({
       state.memberDetails = action.payload;
       state.loading = false;
       state.error = null;
+    },
+    getActivateSuccess: (state, action) => {
+      state.response = action.payload;
     },
     getFailedTwo: (state, action) => {
       state.groupList = [];
@@ -56,7 +62,15 @@ const groupSlice = createSlice({
   }
 });
 
-export const { getRequest, getGroupSuccess, getMembersSuccess, getGroupDetails, getMemberDetails, getFailedTwo, getError } =
-  groupSlice.actions;
+export const {
+  getRequest,
+  getActivateSuccess,
+  getGroupSuccess,
+  getMembersSuccess,
+  getGroupDetails,
+  getMemberDetails,
+  getFailedTwo,
+  getError
+} = groupSlice.actions;
 
 export const groupReducer = groupSlice.reducer;

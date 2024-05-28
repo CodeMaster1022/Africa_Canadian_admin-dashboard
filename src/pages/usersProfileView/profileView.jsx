@@ -1,7 +1,6 @@
 import { Modal, useMediaQuery } from '@mui/material';
-import PropTypes, { number } from 'prop-types';
+import PropTypes, { object } from 'prop-types';
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -30,16 +29,12 @@ import EyeInvisibleOutlined from '@ant-design/icons/EyeInvisibleOutlined';
 import MoreOutlined from '@ant-design/icons/MoreOutlined';
 import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import userImage from 'assets/images/users/avatar-1.png';
+// Redux
+import { useSelector } from 'react-redux';
+import { userDelete } from 'redux/userRelated/userHandle';
+const ProfileModal = ({ modalOpen, modalClose, user }) => {
+  const { communityList } = useSelector((state) => state.community);
 
-const ProfileModal = ({ modalOpen, modalClose }) => {
-  // Toast Message
-  const Toast = Swal.mixin({
-    toast: true,
-    position: 'top',
-    showConfirmButton: false,
-    timer: 5500,
-    timerProgressBar: true
-  });
   //Password and ConfirmPassword Hide and Hints
   const [values, setValues] = useState({
     password: '',
@@ -121,24 +116,29 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
   };
   // Edit Form Data
   const [input, setInput] = useState({
-    fullName: '',
-    userName: '',
+    first_name: '',
+    last_name: '',
     email: '',
-    phone: '',
-    comgroup: '',
+    profile_image_key: 'localhost',
+    dob: '2024-08-08',
+    address: 'hsbshsb',
+    phone_number: '',
+    community_id: '',
+    digital_address: '"Digital Address will go here',
+    digital_address_visible: true,
     password: '',
-    status: ''
+    isActive: false
   });
   const handleSubmitEvent = (e) => {
     e.preventDefault();
     if (
-      input.fullName !== '' &&
-      input.userName !== '' &&
+      input.first_name !== '' &&
+      input.last_name !== '' &&
       input.email !== '' &&
-      input.phone !== '' &&
-      input.comgroup !== '' &&
+      input.phone_number !== '' &&
+      input.community_id !== '' &&
       input.password !== '' &&
-      input.status !== ''
+      input.isActive !== ''
     ) {
       Toast.fire({
         icon: 'succcess',
@@ -216,7 +216,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                       </Button>
                     </>
                   )}
-                  <Button variant="outlined" color="info">
+                  <Button variant="outlined" color="info" onClick={userDelete(user.keycloakUserId)}>
                     <DeleteOutlined />
                     Delete User
                   </Button>
@@ -269,28 +269,34 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
             {edit ? (
               <>
                 <form onSubmit={handleSubmitEvent} style={{ width: '100%' }}>
-                  <Grid container xs={12}>
+                  <Grid container>
                     <Grid item xs={6}>
                       <Grid>
                         <Box sx={{ marginTop: '15px', padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Full Name</Typography>
-                          <TextField type="text" name="fullName" onChange={handleInput} sx={{ width: '100%' }} />
+                          <TextField type="text" value={user.firstName} name="firstName" onChange={handleInput} sx={{ width: '100%' }} />
                         </Box>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Email Address</Typography>
-                          <TextField type="email" name="email" onChange={handleInput} sx={{ width: '100%' }} />
+                          <TextField type="email" value={user.email} name="email" onChange={handleInput} sx={{ width: '100%' }} />
                         </Box>
                       </Grid>
                     </Grid>
                     <Grid item xs={6}>
                       <Grid>
                         <Box sx={{ marginTop: '15px', padding: '5px' }}>
-                          <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
-                          <TextField type="text" name="userName" onChange={handleInput} sx={{ width: '100%' }} />
+                          <Typography sx={{ color: '#8C8C8C' }}>LastName</Typography>
+                          <TextField type="text" value={user.lastName} name="lastName" onChange={handleInput} sx={{ width: '100%' }} />
                         </Box>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Phone Number</Typography>
-                          <TextField type="text" name="phone" onChange={handleInput} sx={{ width: '100%' }} />
+                          <TextField
+                            type="text"
+                            value={user.phoneNumber ? user.phoneNumber : 'No Phone'}
+                            name="phone"
+                            onChange={handleInput}
+                            sx={{ width: '100%' }}
+                          />
                         </Box>
                       </Grid>
                     </Grid>
@@ -305,14 +311,18 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                             onChange={handleChangeCommunity}
                             placeholder="community"
                           >
-                            <MenuItem value={1}>Somalia</MenuItem>
-                            <MenuItem value={2}>Somalia</MenuItem>
-                            <MenuItem value={3}>Somalia</MenuItem>
+                            {communityList
+                              ? communityList.map((com, index) => (
+                                  <MenuItem key={index} value={index + 1}>
+                                    {com.name}
+                                  </MenuItem>
+                                ))
+                              : undefined}
                           </Select>
                         </FormControl>
                       </Box>
                     </Grid>
-                    <Grid container xs={6}>
+                    <Grid item xs={6}>
                       <Grid item xs={12}>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Password</Typography>
@@ -339,12 +349,12 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                         </Box>
                       </Grid>
                     </Grid>
-                    <Grid container xs={6}>
+                    <Grid item xs={6}>
                       <Grid item xs={12}>
                         <Box sx={{ padding: '5px' }}>
                           <Typography sx={{ color: '#8C8C8C' }}>Confirm Password</Typography>
                           <OutlinedInput
-                            id="outlined-adornment-password"
+                            id="outlined-adornment-confirm"
                             type={confirmValues.showPassword ? 'text' : 'password'}
                             value={confirmValues.password}
                             onChange={handleConfirmChange('password')}
@@ -374,7 +384,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                     </Grid>
                     <Grid item xs={12}>
                       <Stack direction="row" justifyContent="flex-end" spacing={2} paddingTop={1}>
-                        <Button variant="contained" color="error" onClick={ProfileCancel} type="submit">
+                        <Button variant="contained" color="error" onClick={ProfileCancel} type="button">
                           Cancel
                         </Button>
                         <Button variant="contained" type="submit">
@@ -391,31 +401,31 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
                   <Grid item xs={6}>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Full Name</Typography>
-                      <Typography fontSize={16}>Carson Darrin</Typography>
+                      <Typography fontSize={16}>{user.firstName}</Typography>
                     </Box>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Email Address</Typography>
-                      <Typography fontSize={16}>carson.darrin@gmail.com</Typography>
+                      <Typography fontSize={16}>{user.email}</Typography>
                     </Box>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Community</Typography>
-                      <Typography fontSize={16}>Somalia</Typography>
+                      <Typography fontSize={16}>{user.community ? user.community.name : 'no community'}</Typography>
                     </Box>
                     <Box sx={{ padding: '5px' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Account Status</Typography>
-                      <Typography fontSize={16}>Active</Typography>
+                      <Typography fontSize={16}>{user.status}</Typography>
                     </Box>
                   </Grid>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Grid item xs={12}>
                     <Box sx={{ padding: '5px' }}>
-                      <Typography sx={{ color: '#8C8C8C' }}>Username</Typography>
-                      <Typography fontSize={16}>c.darrin</Typography>
+                      <Typography sx={{ color: '#8C8C8C' }}>Last Name</Typography>
+                      <Typography fontSize={16}>{user.lastName}</Typography>
                     </Box>
                     <Box sx={{ padding: '5px', width: '100%' }}>
                       <Typography sx={{ color: '#8C8C8C' }}>Phone Number</Typography>
-                      <Typography fontSize={16}>+1 34 1234 5678</Typography>
+                      <Typography fontSize={16}>{user.phoneNumber ? user.phoneNumber : 'no phone'}</Typography>
                     </Box>
                   </Grid>
                 </Grid>
@@ -429,7 +439,7 @@ const ProfileModal = ({ modalOpen, modalClose }) => {
 };
 ProfileModal.propTypes = {
   modalOpen: PropTypes.bool,
-  id: number,
+  user: object,
   modalClose: PropTypes.func
 };
 export default ProfileModal;

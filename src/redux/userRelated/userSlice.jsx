@@ -6,7 +6,6 @@ const initialState = {
   userDetail: [],
   loading: false,
   error: [],
-  response: null,
   getresponse: null,
   tempDetails: []
 };
@@ -15,6 +14,13 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    authRequest: (state) => {
+      state.status = 'loading';
+    },
+    underControl: (state) => {
+      state.status = 'idle';
+      state.getresponse = null;
+    },
     getRequest: (state) => {
       state.loading = true;
     },
@@ -25,46 +31,39 @@ const usersSlice = createSlice({
       state.getresponse = null;
     },
     getUserDetailedSuccess: (state, action) => {
-      state.updatesDetail = action.payload;
+      state.userDetail = action.payload;
       state.loading = false;
       state.error = false;
       state.getresponse = null;
     },
     getUsersFailed: (state, action) => {
-      state.updatesList = [];
-      state.updatesDetail = [];
-      state.error = action.payload;
+      state.getresponse = action.payload;
       state.loading = false;
-      state.getresponse = false;
+      state.error = false;
     },
     getUsersDetailedFailed: (state, action) => {
-      state.updatesDetail = [];
       state.loading = false;
-      state.error = action.payload;
-      state.getresponse = false;
+      state.getresponse = action.payload;
     },
     getError: (state, action) => {
       state.loading = false;
+      state.status = 'error';
       state.error = action.payload;
     },
     userAdded: (state, action) => {
       state.status = 'added';
-      state.response = null;
+      state.getresponse = null;
       state.error = null;
       state.tempDetails = action.payload;
     },
     authFailed: (state, action) => {
       state.status = 'failed';
-      state.response = action.payload;
-    },
-    authError: (state, action) => {
-      state.status = 'error';
-      state.error = action.payload;
+      state.getresponse = action.payload;
     },
     getDeleteSuccess: (state) => {
       state.loading = false;
       state.error = null;
-      state.response = null;
+      state.getresponse = null;
     }
   }
 });
@@ -79,7 +78,7 @@ export const {
   getUsersDetailedFailed,
   getError,
   getDeleteSuccess,
-  authError
+  underControl
 } = usersSlice.actions;
 
 export const usersReducer = usersSlice.reducer;

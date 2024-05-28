@@ -16,6 +16,7 @@ import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 // Redux
 import { useSelector } from 'react-redux';
+import { userDelete, userReactivate, userDeactivate } from 'redux/userRelated/userHandle';
 import IconButton from 'components/@extended/IconButton';
 // assets
 
@@ -128,6 +129,12 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 export default function UsersTable() {
   const { usersList } = useSelector((state) => state.users);
+  const [user, setUser] = useState({});
+  const handleButtonClick = (rowData) => {
+    console.log(user);
+    profileModalOpen();
+    setUser(rowData);
+  };
   useEffect(() => {
     console.log(usersList);
   }, [usersList]);
@@ -196,8 +203,19 @@ export default function UsersTable() {
                       </TableCell>
                       <TableCell align="left" sx={{ width: { xs: '200px', md: '250px', lg: '300px' } }}>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                          <img src={row.profileImageKey} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
-                          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                          {row.profileImageKey ? (
+                            <img
+                              src={row.profileImageKey}
+                              alt="groupImage"
+                              style={{ width: '40px', height: '40px', borderRadius: '50px' }}
+                            />
+                          ) : (
+                            <IconButton shape="rounded" variant="contained" sx={{ height: '45px', width: '45px' }} color="secondary">
+                              {row.firstName[0]}
+                            </IconButton>
+                          )}
+
+                          <Box sx={{ display: 'flex', flexDirection: 'column', marginLeft: '10px' }}>
                             <Typography sx={{ marginLeft: '10px' }}>
                               {row.firstName}
                               {row.lastName}
@@ -207,23 +225,23 @@ export default function UsersTable() {
                         </Box>
                       </TableCell>
                       <TableCell align="center">{row.phoneNumber}</TableCell>
-                      <TableCell align="center">{'Community'}</TableCell>
+                      <TableCell align="center">{row.community ? row.community.name : 'null'}</TableCell>
                       <TableCell align="center">{formatDate(row.joinedDate)}</TableCell>
                       <TableCell align="center" sx={{ minWidth: '200px' }}>
-                        <IconButton onClick={profileModalOpen}>
+                        <IconButton onClick={() => handleButtonClick(row)}>
                           <EditOutlined />
                         </IconButton>
-                        {row.action === 1 ? (
-                          <IconButton sx={{ color: '#FAAD14' }}>
-                            <PauseOutlined />
+                        {row.isDeactivate ? (
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={userReactivate(row.keycloakUserId)}>
+                            <PlayCircleOutlined />
                           </IconButton>
                         ) : (
-                          <IconButton sx={{ color: '#FAAD14' }}>
-                            <PlayCircleOutlined />
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={userDeactivate(row.keycloakUserId)}>
+                            <PauseOutlined />
                           </IconButton>
                         )}
 
-                        <IconButton sx={{ color: '#FF4D4F' }}>
+                        <IconButton sx={{ color: '#FF4D4F' }} onClick={userDelete(row.keycloakUserId)}>
                           <DeleteOutlined />
                         </IconButton>
                       </TableCell>
@@ -251,7 +269,7 @@ export default function UsersTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </MainCard>
-      <ProfileModal modalOpen={profileOpen} modalClose={profileModalClose} />
+      <ProfileModal modalOpen={profileOpen} modalClose={profileModalClose} user={user} />
     </>
   );
 }

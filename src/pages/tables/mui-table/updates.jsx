@@ -215,23 +215,23 @@ export default function UpdatesTable() {
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
+  // const handleClick = (event, name) => {
+  //   const selectedIndex = selected.indexOf(name);
+  //   let newSelected = [];
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-    }
-    const selectedRowData = rows.filter((row) => newSelected.includes(row.group.toString()));
-    setSelectedValue(selectedRowData);
-    setSelected(newSelected);
-  };
+  //   if (selectedIndex === -1) {
+  //     newSelected = newSelected.concat(selected, name);
+  //   } else if (selectedIndex === 0) {
+  //     newSelected = newSelected.concat(selected.slice(1));
+  //   } else if (selectedIndex === selected.length - 1) {
+  //     newSelected = newSelected.concat(selected.slice(0, -1));
+  //   } else if (selectedIndex > 0) {
+  //     newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+  //   }
+  //   // const selectedRowData = rows.filter((row) => newSelected.includes(row.group.toString()));
+  //   // setSelectedValue(selectedRowData);
+  //   setSelected(newSelected);
+  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -280,7 +280,7 @@ export default function UpdatesTable() {
                     <TableRow
                       key={index}
                       hover
-                      onClick={(event) => handleClick(event, row.id)}
+                      // onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
@@ -362,7 +362,7 @@ export default function UpdatesTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </MainCard>
-      <ProfileModal modalOpen={profileOpen} modalClose={profileModalClose} />
+      {/* <ProfileModal modalOpen={profileOpen} modalClose={profileModalClose} /> */}
     </>
   );
 }

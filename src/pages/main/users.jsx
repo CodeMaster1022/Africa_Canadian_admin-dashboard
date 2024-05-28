@@ -6,7 +6,9 @@ import MainCard from 'components/MainCard';
 import AddNewUserProfile from 'pages/usersProfileView/addNewUser';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-
+import { getCommunity } from 'redux/communityRelated/communityHandle';
+// Request Loader
+import RequestLoader from 'components/waiting/RequestLoader';
 import { getUsers } from 'redux/userRelated/userHandle';
 export default function Users() {
   const { loading } = useSelector((state) => state.users);
@@ -19,6 +21,7 @@ export default function Users() {
   useEffect(() => {
     console.log('dispatch======================>');
     dispatch(getUsers());
+    dispatch(getCommunity());
   }, [dispatch]);
   return (
     <>
@@ -27,7 +30,7 @@ export default function Users() {
           Add New User
         </Button>
       </Box>
-      <MainCard>{loading ? <h2>loading...</h2> : <UseraTable />}</MainCard>
+      <MainCard>{loading ? <RequestLoader /> : <UseraTable />}</MainCard>
       <AddNewUserProfile modalOpen={newUserOpen} modalClose={newUserModalClose} />
     </>
   );

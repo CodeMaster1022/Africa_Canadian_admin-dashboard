@@ -1,4 +1,5 @@
 import useAxios from 'utils/useAxios';
+import axios from 'axios';
 import {
   getRequest,
   getCommunitySuccess,
@@ -8,19 +9,22 @@ import {
   getError,
   getFailedTwo
 } from './communitySlice';
-
+const token = 'yZqUfJKUn5PBupRdEdvyuqcf6CLP7yTCrDxdmDy7';
+const config = {
+  headers: { Authorization: `Bearer ${token}` }
+};
 export const getCommunity = () => async (dispatch) => {
-  const axiosInstance = useAxios();
-
   try {
-    const result = await axiosInstance.get('/admin/communities/');
+    const result = await axios.get('https://api.accalberta.ca/api/v1/admin/communities/', config);
+    console.log(result, 'result');
     if (result.data.data.message) {
       dispatch(getFailedTwo(result.data.data.message));
     } else {
       dispatch(getCommunitySuccess(result.data.data));
     }
   } catch (error) {
-    dispatch(getError(error));
+    // dispatch(getError(error));
+    alert(error);
   }
 };
 export const communityDetails = (id) => async (dispatch) => {

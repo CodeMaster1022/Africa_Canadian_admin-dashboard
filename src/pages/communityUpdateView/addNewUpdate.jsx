@@ -126,7 +126,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
               <Grid item xs={12}>
                 <Box sx={{ padding: '5px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Community</Typography>
-                  <FormControl fullWidth>
+                  <FormControl sx={{ width: '100%' }}>
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
