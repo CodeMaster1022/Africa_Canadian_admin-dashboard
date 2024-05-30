@@ -17,7 +17,6 @@ export default function Users() {
   const newUserModalClose = () => setNewUserOpen(false);
   // Fetch Users Data
   const dispatch = useDispatch();
-
   useEffect(() => {
     console.log('dispatch======================>');
     dispatch(getUsers());

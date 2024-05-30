@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 // material-ui
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -15,41 +16,18 @@ import TableRow from '@mui/material/TableRow';
 import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
+import formatDate from 'utils/dateForm';
+import { resourceApprove, resourceReject } from 'redux/resourceRelated/resourceHandle';
 // assets
 // Redux
-// import useAxios from 'utils/useAxios';
-// import { useSelector, useDispatch } from 'react-redux';
-// import { getUpdates } from 'redux/updateSlice/updateHandle';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 // project imports
-import ProfileModal from 'pages/usersProfileView/profileView';
+// import ProfileModal from 'pages/usersProfileView/profileView';
 import { header } from './basic';
 import MainCard from 'components/MainCard';
 import { CSVExport, RowSelection } from 'components/third-party/react-table';
-function createData(id, title, posted, dated, status) {
-  return {
-    id,
-    title,
-    posted,
-    dated,
-    status
-  };
-}
-
-const rows = [
-  createData(1, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
-  createData(2, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
-  createData(3, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
-  createData(4, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
-  createData(5, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 2),
-  createData(6, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
-  createData(8, 'dssFusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
-  createData(9, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
-  createData(10, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1),
-  createData(11, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 3),
-  createData(12, 'Fusce porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 2),
-  createData(13, 'dfsfsde porta velit arcu vitae dignissim nisl consectetur ve', 'Mohammed Ahmed ', '20/04/2024', 1)
-];
 
 // table filter
 function descendingComparator(a, b, orderBy) {
@@ -90,13 +68,13 @@ const headCells = [
     label: 'Title'
   },
   {
-    id: 'posted',
+    id: 'eamil',
     numeric: false,
     disablePadding: false,
     label: 'Posted By'
   },
   {
-    id: 'dated',
+    id: 'createdAt',
     numeric: false,
     disablePadding: false,
     label: 'Date Posted'
@@ -163,9 +141,34 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
 export default function UpdatesTable() {
+  const { resourceList } = useSelector((state) => state.resource);
+
+  useEffect(() => {
+    if (!resourceList) return;
+  }, [resourceList]);
+  const dispatch = useDispatch();
+  // Toast Message
+  const handleAction = (id, action) => {
+    console.log(id);
+    Swal.fire({
+      title: `Do you want to ${action} this user?`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if (action === 'approve') dispatch(resourceApprove(id));
+        else if (action === 'reject') dispatch(resourceReject(id));
+      } else if (result.isDenied) {
+        Swal.fire(`${action} was cancelled`, '', 'info');
+      }
+    });
+  };
   const [profileOpen, setProfileOpen] = useState(false);
   const profileModalOpen = () => setProfileOpen(true);
-  const profileModalClose = () => setProfileOpen(false);
+  // const profileModalClose = () => setProfileOpen(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
@@ -173,65 +176,11 @@ export default function UpdatesTable() {
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [selectedValue, setSelectedValue] = React.useState([]);
-  // Fetch Data
-  // Fetch upDates Data
-  // const dispatch = useDispatch();
-  // const axiosInstance = useAxios();
-  // const [updatesData, setUpdatesData] = useState([]);
-  // const { updatesList } = useSelector((state) => state.updates);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       await axiosInstance.get('/admin/events/').then((res) => {
-  //         setUpdatesData(res.data);
-  //       });
-  //     } catch (error) {
-  //       alert(error);
-  //     }
-  //   };
-  //   fetchData();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-  // useEffect(() => {
-  //   dispatch(getUpdates(updatesData));
-  // }, [updatesData, dispatch]);
-  // useEffect(() => {
-  //   console.log('Update Datas===========>', updatesData);
-  // }, [updatesData]);
-
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelectedId = rows.map((n) => n.id);
-      setSelected(newSelectedId);
-      return;
-    }
-    setSelected([]);
-  };
-
-  // const handleClick = (event, name) => {
-  //   const selectedIndex = selected.indexOf(name);
-  //   let newSelected = [];
-
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, name);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
-  //   }
-  //   // const selectedRowData = rows.filter((row) => newSelected.includes(row.group.toString()));
-  //   // setSelectedValue(selectedRowData);
-  //   setSelected(newSelected);
-  // };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -242,10 +191,7 @@ export default function UpdatesTable() {
     setPage(0);
   };
 
-  const isSelected = (name) => selected.indexOf(name) !== -1;
-
-  // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - resourceList.length) : 0;
 
   return (
     <>
@@ -253,7 +199,7 @@ export default function UpdatesTable() {
         content={false}
         title="Community Updates"
         secondary={
-          <CSVExport data={selectedValue.length > 0 ? selectedValue : rows} headers={header} filename={'selected-table-data.csv'} />
+          <CSVExport data={selectedValue.length > 0 ? selectedValue : resourceList} headers={header} filename={'selected-table-data.csv'} />
         }
       >
         <RowSelection selected={selected.length} />
@@ -264,36 +210,28 @@ export default function UpdatesTable() {
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
-              onSelectAllClick={handleSelectAllClick}
+              // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={rows.length}
+              rowCount={resourceList.length}
             />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(resourceList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  /** make sure no display bugs if row isn't an OrderData object */
                   if (typeof row === 'number') return null;
-                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
                   return (
-                    <TableRow
-                      key={index}
-                      hover
-                      // onClick={(event) => handleClick(event, row.id)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
-                      tabIndex={-1}
-                      selected={isItemSelected}
-                    >
+                    <TableRow key={index} hover role="checkbox" tabIndex={-1}>
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
                         {row.id}
                       </TableCell>
                       <TableCell align="left">{row.title}</TableCell>
-                      <TableCell align="left">{row.posted}</TableCell>
-                      <TableCell align="left">{row.dated}</TableCell>
-                      <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                        {row.status === 1 && (
+                      <TableCell align="left" sx={{ maxWidth: '180px' }}>
+                        {row.user.email}
+                      </TableCell>
+                      <TableCell align="left">{formatDate(row.createdAt)}</TableCell>
+                      <TableCell align="left" sx={{ maxWidth: '130px' }}>
+                        {row.isActive === true && (
                           <>
                             <Box sx={{ display: 'flex' }}>
                               <Typography
@@ -305,7 +243,7 @@ export default function UpdatesTable() {
                             </Box>
                           </>
                         )}
-                        {row.status === 2 && (
+                        {row.isPending === true && (
                           <>
                             <Box sx={{ display: 'flex' }}>
                               <Typography
@@ -317,27 +255,45 @@ export default function UpdatesTable() {
                             </Box>
                           </>
                         )}
-                        {row.status === 3 && (
+                        {row.isDeleted === true && (
                           <>
                             <Box sx={{ display: 'flex' }}>
                               <Typography
                                 fontSize={12}
                                 sx={{ color: '#FF4D4F', borderRadius: '5px', backgroundColor: '#FFF1F0', padding: '5px' }}
                               >
-                                Canceled
+                                Deleted
                               </Typography>
                             </Box>
                           </>
                         )}
                       </TableCell>
-                      <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                        <IconButton onClick={profileModalOpen}>
-                          <CloseOutlined />
-                        </IconButton>
-                        <IconButton sx={{ color: '#FF4D4F' }}>
-                          <CheckOutlined />
-                        </IconButton>
-                      </TableCell>
+                      {row.isDeleted === true && (
+                        <TableCell align="left" sx={{ maxWidth: '100px' }}>
+                          <IconButton disabled>
+                            <CloseOutlined />
+                          </IconButton>
+                          <IconButton sx={{ color: '#FF4D4F' }} disabled>
+                            <CheckOutlined />
+                          </IconButton>
+                        </TableCell>
+                      )}
+                      {row.isDeleted === false && (
+                        <TableCell align="left" sx={{ maxWidth: '100px' }}>
+                          <IconButton onClick={() => handleAction(row.id, 'reject')}>
+                            <CloseOutlined />
+                          </IconButton>
+                          {row.isActive ? (
+                            <IconButton sx={{ color: '#FF4D4F' }} disabled>
+                              <CheckOutlined />
+                            </IconButton>
+                          ) : (
+                            <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.id, 'approve')}>
+                              <CheckOutlined />
+                            </IconButton>
+                          )}
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}
@@ -355,7 +311,7 @@ export default function UpdatesTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={resourceList.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}

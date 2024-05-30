@@ -1,12 +1,5 @@
 import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top',
-  showConfirmButton: false,
-  timer: 2500,
-  timerProgressBar: true
-});
 import {
   getRequest,
   getUsersSuccess,
@@ -18,11 +11,21 @@ import {
   userAdded
 } from './userSlice';
 
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'top',
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true
+});
+
 export const getUsers = () => async (dispatch) => {
+  console.log('users=============>');
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
     const result = await axiosInstance.get('/users/users');
+    console.log(result);
     if (result.data.message) {
       dispatch(getUsersSuccess(result.data.data));
     }
@@ -50,21 +53,21 @@ export const addUser =
   };
 export const userDeactivate = (id) => async () => {
   const axiosInstance = useAxios();
-  // dispatch(getRequest());
   try {
     const result = await axiosInstance.patch(`/users/user/activate/${id}/`);
     if (result.data.data) {
-      Toast.fire({
+      Swal.fire({
+        position: 'top-end',
         icon: 'success',
-        position: 'Bottom',
-        text: `${result.response.data.message}`,
-        title: 'Success!'
+        title: `${result.response.data.message}`,
+        showConfirmButton: false,
+        timer: 1500
       });
     }
   } catch (error) {
     Toast.fire({
       icon: 'error',
-      position: 'Bottom',
+      position: 'center',
       text: `${error.response.data.message}`,
       title: 'Error!'
     });
@@ -80,7 +83,7 @@ export const userReactivate = (id) => async () => {
     if (result.data.data) {
       Toast.fire({
         icon: 'success',
-        position: 'Bottom',
+        position: 'center',
         text: `${result.data.data.message}`,
         title: 'Success!'
       });
@@ -88,7 +91,7 @@ export const userReactivate = (id) => async () => {
   } catch (error) {
     Toast.fire({
       icon: 'error',
-      position: 'top',
+      position: 'center',
       text: `${error.response.data.message}`,
       title: 'Error!'
     });
@@ -96,13 +99,12 @@ export const userReactivate = (id) => async () => {
 };
 export const userDelete = (id) => async () => {
   const axiosInstance = useAxios();
-  // dispatch(getRequest());
   try {
     const result = await axiosInstance.delete(`/users/user/${id}/`);
     if (result.data.data) {
       Toast.fire({
         icon: 'success',
-        position: 'bottom',
+        position: 'center',
         text: `${result.response.data.message}`,
         title: 'Success!'
       });
@@ -110,7 +112,7 @@ export const userDelete = (id) => async () => {
   } catch (error) {
     Toast.fire({
       icon: 'error',
-      position: 'bottom',
+      position: 'center',
       text: `${error.response.data.message}`,
       title: 'Error!'
     });
@@ -128,7 +130,7 @@ export const userDetail = (id) => async (dispatch) => {
     dispatch(getError(error.resonse.data));
     Toast.fire({
       icon: 'error',
-      position: 'bottom',
+      position: 'center',
       text: `${error.response.data.message}`,
       title: 'Error!'
     });

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 // material-ui
 import {
   MenuItem,
@@ -28,7 +29,7 @@ import { DashOutlined } from '@ant-design/icons';
 import { RightOutlined } from '@ant-design/icons';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { groupReactivate, groupDeactivate, groupDelete } from 'redux/groupRelated/groupHandle';
 // project imports
 import MainCard from 'components/MainCard';
@@ -104,6 +105,27 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
 export default function GroupTable() {
+  const dispatch = useDispatch();
+  const handleAction = (id, action) => {
+    handleClose();
+    console.log('reactiveate');
+    Swal.fire({
+      title: `Do you want to ${action} this user?`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if (action === 'reactivate') dispatch(groupReactivate(id));
+        else if (action === 'deactivate') dispatch(groupDeactivate(id));
+        else if (action === 'delete') dispatch(groupDelete(id));
+      } else if (result.isDenied) {
+        Swal.fire(`${action} was cancelled`, '', 'info');
+      }
+    });
+  };
   const { groupList } = useSelector((state) => state.group);
 
   const theme = useTheme();
@@ -116,7 +138,7 @@ export default function GroupTable() {
   // const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   let data = stableSort(groupList, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const [anchorElArray, setAnchorElArray] = React.useState(Array(data.length).fill(null));
 
@@ -146,7 +168,7 @@ export default function GroupTable() {
   // const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (groupList ? groupList.length : 0)) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (groupList ? groupList.total_count : 0)) : 0;
 
   return (
     <MainCard content={false} title="Community Group">
@@ -233,9 +255,9 @@ export default function GroupTable() {
                             }
                           }}
                         >
-                          <MenuItem onClick={groupDeactivate(row.id)}>Deactivate</MenuItem>
-                          <MenuItem onClick={groupReactivate(row.id)}>Reactivate</MenuItem>
-                          <MenuItem onClick={groupDelete(row.id)}>Delete</MenuItem>
+                          <MenuItem onClick={() => handleAction(row.id, 'deactivate')}>Deactivate</MenuItem>
+                          <MenuItem onClick={() => handleAction(row.id, 'reactivate')}>Reactivate</MenuItem>
+                          <MenuItem onClick={() => handleAction(row.id, 'delete')}>Delete</MenuItem>
                         </Menu>
                       </IconButton>
                     </TableCell>

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 // material-ui
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -14,8 +15,9 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import TableRow from '@mui/material/TableRow';
 import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
+import formatDate from 'utils/dateForm';
 // Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { userDelete, userReactivate, userDeactivate } from 'redux/userRelated/userHandle';
 import IconButton from 'components/@extended/IconButton';
 // assets
@@ -89,11 +91,6 @@ const headCells = [
 ];
 
 // ==============================|| MUI TABLE - HEADER ||============================== //
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  const options = { month: 'long', day: 'numeric', year: 'numeric' };
-  return date.toLocaleDateString('en-US', options);
-}
 function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -128,6 +125,27 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
 export default function UsersTable() {
+  const dispatch = useDispatch();
+  // Toast Message
+  const handleAction = (id, action) => {
+    console.log('reactiveate');
+    Swal.fire({
+      title: `Do you want to ${action} this user?`,
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Yes',
+      denyButtonText: `No`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if (action === 'reactivate') dispatch(userReactivate(id));
+        else if (action === 'deactivate') dispatch(userDeactivate(id));
+        else if (action === 'delete') dispatch(userDelete(id));
+      } else if (result.isDenied) {
+        Swal.fire(`${action} was cancelled`, '', 'info');
+      }
+    });
+  };
   const { usersList } = useSelector((state) => state.users);
   const [user, setUser] = useState({});
   const handleButtonClick = (rowData) => {
@@ -232,16 +250,15 @@ export default function UsersTable() {
                           <EditOutlined />
                         </IconButton>
                         {row.isDeactivate ? (
-                          <IconButton sx={{ color: '#FAAD14' }} onClick={userReactivate(row.keycloakUserId)}>
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'reactivate')}>
                             <PlayCircleOutlined />
                           </IconButton>
                         ) : (
-                          <IconButton sx={{ color: '#FAAD14' }} onClick={userDeactivate(row.keycloakUserId)}>
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'deactivate')}>
                             <PauseOutlined />
                           </IconButton>
                         )}
-
-                        <IconButton sx={{ color: '#FF4D4F' }} onClick={userDelete(row.keycloakUserId)}>
+                        <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.keycloakUserId, 'delete')}>
                           <DeleteOutlined />
                         </IconButton>
                       </TableCell>

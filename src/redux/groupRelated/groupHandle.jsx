@@ -56,11 +56,12 @@ export const groupDeactivate = (id) => async () => {
   try {
     const result = await axiosInstance.post(`/admin/groups/${id}/deactivate/`);
     if (result.data.data) {
-      Toast.fire({
-        icon: 'success',
+      Swal.fire({
         position: 'center',
-        text: `${result.data.message}`,
-        title: 'Success!'
+        icon: 'success',
+        title: `${result.data.message}`,
+        showConfirmButton: false,
+        timer: 2000
       });
     }
   } catch (error) {
@@ -112,6 +113,12 @@ export const groupDelete = (id) => async () => {
     }
   } catch (error) {
     console.log(error);
+    Toast.fire({
+      icon: 'error',
+      position: 'center',
+      text: `${error.message}`,
+      title: 'Error!'
+    });
   }
 };
 export const getMembers = (id, address) => async (dispatch) => {

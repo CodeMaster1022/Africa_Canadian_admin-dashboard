@@ -6,11 +6,9 @@ export const getPlaces = () => async (dispatch) => {
   dispatch(getRequest());
 
   try {
-    const result = await axiosInstance.get('/posts/places');
-    if (result.data.message) {
-      dispatch(getPlacesFailed(result.data.message));
-    } else {
-      dispatch(getPlacesSuccess(result.data));
+    const result = await axiosInstance.get('/posts/posts/places');
+    if (result.data.data) {
+      dispatch(getPlacesSuccess(result.data.data));
     }
   } catch (error) {
     dispatch(getError(error));
@@ -20,7 +18,7 @@ export const placesDetails = (id) => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
-    const result = await axiosInstance.get(`/posts/places/${id}`);
+    const result = await axiosInstance.get(`posts/posts/places/${id}`);
     if (result.data.message) {
       dispatch(getPlacesDetailedFailed(result.data.message));
     } else {

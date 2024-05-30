@@ -1,9 +1,11 @@
+/* eslint-disable react/jsx-key */
 import { Modal, useMediaQuery } from '@mui/material';
 import PropTypes, { number } from 'prop-types';
 import { useEffect, useState } from 'react';
-
+import Swal from 'sweetalert2';
 // material-ui
 import MUIRichTextEditor from 'mui-rte';
+import { convertToRaw } from 'draft-js';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -15,6 +17,10 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+// Redux
+import { useSelector, useDispatch } from 'react-redux';
+import { getCommunity } from 'redux/communityRelated/communityHandle';
+import { createStatus } from 'redux/statusRelated/statusHandle';
 // project import
 // import ProfileTab from './ProfileTab';
 import Avatar from 'components/@extended/Avatar';
@@ -26,23 +32,38 @@ import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import userImage from 'assets/images/users/avatar-1.png';
 
 const AddNewUpdate = ({ modalOpen, modalClose }) => {
+  const dispatch = useDispatch();
+  const { communityList } = useSelector((state) => state.community);
+  useEffect(() => {
+    dispatch(getCommunity());
+  }, [dispatch]);
   const theme = useTheme();
-  const [selectedImage, setSelectedImage] = useState(undefined);
+  const [image, setSelectedImage] = useState(undefined);
   const [avatar, setAvatar] = useState(userImage);
-
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [video, setVideo] = useState('Hello');
+  const [user, setUser] = useState('Hello');
+  const [documnet, setDocument] = useState('Hello');
   const ProfileClose = () => {
-    modalClose();
+    if (image !== '' && title !== '' && description !== '' && group !== '') {
+      dispatch(createStatus({ image, title, description, group, video, user, documnet }));
+      // modalClose();
+    }
   };
-  const [com, setCommunity] = useState('');
+  useEffect(() => {
+    console.log(description);
+  }, [title, description]);
+  const [group, setCommunity] = useState('');
   const handleChangeCommunity = (event) => {
     event.preventDefault();
     setCommunity(event.target.value);
   };
   useEffect(() => {
-    if (selectedImage) {
-      setAvatar(URL.createObjectURL(selectedImage));
+    if (image) {
+      setAvatar(URL.createObjectURL(image));
     }
-  }, [selectedImage]);
+  }, [image]);
 
   const isSMScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const modalstyle = {
@@ -119,7 +140,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                 <Grid>
                   <Box sx={{ marginTop: '15px', padding: '5px' }}>
                     <Typography sx={{ color: '#8C8C8C' }}>Title</Typography>
-                    <TextField sx={{ width: '100%' }} />
+                    <TextField sx={{ width: '100%' }} value={title} required onChange={(e) => setTitle(e.target.value)} />
                   </Box>
                 </Grid>
               </Grid>
@@ -130,13 +151,15 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                     <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
-                      value={com}
+                      value={group}
                       onChange={handleChangeCommunity}
                       placeholder="community"
                     >
-                      <MenuItem value={1}>Somalia</MenuItem>
-                      <MenuItem value={2}>Somalia</MenuItem>
-                      <MenuItem value={3}>Somalia</MenuItem>
+                      {communityList.map((com, index) => (
+                        <MenuItem value={com.id} key={index}>
+                          {com.name}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
                 </Box>
@@ -146,7 +169,14 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                   <Typography sx={{ color: '#8C8C8C' }}>Body</Typography>
                   <Divider />
                   <Box>
-                    <MUIRichTextEditor label="Start typing..." />
+                    <MUIRichTextEditor
+                      label="Start typing..."
+                      required
+                      onChange={(value) => {
+                        const content = JSON.stringify(convertToRaw(value.getCurrentContent()));
+                        setDescription(content);
+                      }}
+                    />
                   </Box>
                   <Divider />
                 </Box>

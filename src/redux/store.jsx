@@ -5,6 +5,8 @@ import { mapFilterReducer } from './mapRelated/mapSlice';
 import { updatesReducer } from './updateSlice/updateSlice';
 import { usersReducer } from './userRelated/userSlice';
 import { groupReducer } from './groupRelated/groupSlice';
+import { resourceReducer } from './resourceRelated/resourceSlice';
+import { statusReducer } from './statusRelated/statusSlice';
 const store = configureStore({
   reducer: {
     community: communityReducer,
@@ -12,7 +14,9 @@ const store = configureStore({
     mapFilter: mapFilterReducer,
     updates: updatesReducer,
     users: usersReducer,
-    group: groupReducer
+    group: groupReducer,
+    resource: resourceReducer,
+    status: statusReducer
   }
 });
 
