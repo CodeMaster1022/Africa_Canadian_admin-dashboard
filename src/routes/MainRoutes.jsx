@@ -34,8 +34,8 @@ const MainRoutes = {
           element: <Users />
         },
         {
-          path: 'community',
-          element: <Community />
+          path: 'community'
+          // element: <Community />
         },
         {
           path: 'updates',

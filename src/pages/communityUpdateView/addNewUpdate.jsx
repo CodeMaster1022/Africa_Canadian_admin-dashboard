@@ -2,7 +2,6 @@
 import { Modal, useMediaQuery } from '@mui/material';
 import PropTypes, { number } from 'prop-types';
 import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
 // material-ui
 import MUIRichTextEditor from 'mui-rte';
 import { convertToRaw } from 'draft-js';
@@ -164,7 +163,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                   </FormControl>
                 </Box>
               </Grid>
-              <Grid>
+              <Grid container>
                 <Box sx={{ padding: '10px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Body</Typography>
                   <Divider />
@@ -181,7 +180,7 @@ const AddNewUpdate = ({ modalOpen, modalClose }) => {
                   <Divider />
                 </Box>
               </Grid>
-              <Grid sx={{ marginTop: '15px' }}>
+              <Grid sx={{ marginTop: '35px' }}>
                 <Stack direction="row" justifyContent="flex-end" spacing={2} paddingTop={1}>
                   <Button variant="contained" color="error" onClick={ProfileClose}>
                     Cancel
