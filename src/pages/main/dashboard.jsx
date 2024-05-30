@@ -222,7 +222,7 @@ export default function Dahsboard() {
               }
             }}
           >
-            {/* <CustomMap /> */}
+            <CustomMap />
           </MainCard>
         </Grid>
       </Grid>
