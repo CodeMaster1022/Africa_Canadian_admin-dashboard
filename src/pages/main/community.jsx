@@ -105,7 +105,9 @@ export default function Community() {
       </Tabs>
       <TabPanel value={tabnumber} index={0}>
         <MainCard>
-          <Box>{/* <CanadaMap /> */}</Box>
+          <Box>
+            <CanadaMap />
+          </Box>
         </MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
