@@ -37,7 +37,7 @@ const App = () => {
     // console.log(keycloak.resourceAccess.token);
   }, []);
   useEffect(() => {
-    if (!keycloak) return;
+    // if (!keycloak) return;
     localStorage.setItem('token', keycloak?.token);
   }, [keycloak]);
   return (

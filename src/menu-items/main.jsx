@@ -14,7 +14,8 @@ import {
   CalendarOutlined,
   PictureOutlined,
   MenuUnfoldOutlined,
-  GroupOutlined
+  GroupOutlined,
+  HeatMapOutlined
 } from '@ant-design/icons';
 // type
 
@@ -31,7 +32,8 @@ const icons = {
   CalendarOutlined,
   MenuUnfoldOutlined,
   PictureOutlined,
-  GroupOutlined
+  GroupOutlined,
+  HeatMapOutlined
 };
 
 // ==============================|| MENU ITEMS - PAGES ||============================== //
@@ -75,6 +77,13 @@ const main = {
       type: 'item',
       url: '/updates',
       icon: icons.PictureOutlined
+    },
+    {
+      id: 'edmonton',
+      title: 'Edmonton',
+      type: 'item',
+      url: '/edmontonmap',
+      icon: icons.HeatMapOutlined
     },
     {
       id: 'events',
