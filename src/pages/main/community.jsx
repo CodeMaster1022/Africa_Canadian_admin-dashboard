@@ -2,11 +2,11 @@ import { useEffect } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
-import CanadaMap from './map/canadaMap';
-import MarkersPopups from 'sections/maps/MarkersPopups';
+// import CanadaMap from './map/canadaMap';
+// import MarkersPopups from 'sections/maps/MarkersPopups';
 // import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
-import { countries } from 'data/location';
+// import { countries } from 'data/location';
 // Province map
 import Error from './map/Error';
 import AlberatMap from './map/province/Alberta/Boundary';
@@ -105,18 +105,14 @@ export default function Community() {
       </Tabs>
       <TabPanel value={tabnumber} index={0}>
         <MainCard>
-          <Box>
-            <CanadaMap />
-          </Box>
+          <Box>{/* <CanadaMap /> */}</Box>
         </MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
         <MainCard>{getProvince(search)}</MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={2}>
-        <MainCard>
-          <MarkersPopups data={countries} search={search} {...mapConfiguration} />
-        </MainCard>
+        <MainCard>{/* <MarkersPopups data={countries} search={search} {...mapConfiguration} /> */}</MainCard>
       </TabPanel>
     </>
   );
