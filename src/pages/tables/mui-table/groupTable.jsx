@@ -181,7 +181,7 @@ export default function GroupTable() {
             orderBy={orderBy}
             // onSelectAllClick={handleSelectAllClick}
             onRequestSort={handleRequestSort}
-            rowCount={groupList.length}
+            rowCount={total_count}
           />
           <TableBody>
             {data.map((row, index) => {
@@ -317,7 +317,7 @@ export default function GroupTable() {
       <TablePagination
         rowsPerPageOptions={[5, 10, 25]}
         component="div"
-        count={groupList ? groupList.length : 0}
+        count={total_count}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

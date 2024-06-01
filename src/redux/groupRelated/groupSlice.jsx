@@ -23,8 +23,10 @@ const groupSlice = createSlice({
   initialState,
   reducers: {
     getPaginationState: (state, action) => {
-      // tablePage = action.p
-      //   total_count=
+      state.tablePage = action.payload.page;
+      state.total_count = action.payload.total_count;
+      state.has_more = action.payload.has_more;
+      state.item_per_page = action.payload.item_per_page;
     },
     getRequest: (state) => {
       state.loading = true;
@@ -77,6 +79,7 @@ export const {
   getMembersSuccess,
   getGroupDetails,
   getMemberDetails,
+  getPaginationState,
   getFailedTwo,
   getError
 } = groupSlice.actions;

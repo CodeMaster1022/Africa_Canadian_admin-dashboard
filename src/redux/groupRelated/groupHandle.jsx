@@ -1,6 +1,15 @@
 import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
-import { getRequest, getGroupSuccess, getMembersSuccess, getGroupDetails, getMemberDetails, getFailedTwo, getError } from './groupSlice';
+import {
+  getRequest,
+  getGroupSuccess,
+  getPaginationState,
+  getMembersSuccess,
+  getGroupDetails,
+  getMemberDetails,
+  getFailedTwo,
+  getError
+} from './groupSlice';
 const Toast = Swal.mixin({
   toast: true,
   position: 'center',
@@ -18,6 +27,7 @@ export const getGroup = () => async (dispatch) => {
       dispatch(getFailedTwo(result.data.data.message));
     } else {
       dispatch(getGroupSuccess(result.data.data));
+      dispatch(getPaginationState(result.data));
     }
   } catch (error) {
     dispatch(getError(error.data));
