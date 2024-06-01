@@ -1,6 +1,13 @@
 import useAxios from 'utils/useAxios';
 import { getRequest, getPlacesSuccess, getPlacesDetailedSuccess, getPlacesFailed, getPlacesDetailedFailed, getError } from './placesSlice';
-
+import Swal from 'sweetalert2';
+const Toast = Swal.mixin({
+  toast: true,
+  position: 'center',
+  showConfirmButton: false,
+  timer: 2500,
+  timerProgressBar: true
+});
 export const getPlaces = () => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
@@ -11,7 +18,7 @@ export const getPlaces = () => async (dispatch) => {
       dispatch(getPlacesSuccess(result.data.data));
     }
   } catch (error) {
-    dispatch(getError(error));
+    dispatch(getError(error.data));
   }
 };
 export const placesDetails = (id) => async (dispatch) => {
@@ -25,6 +32,49 @@ export const placesDetails = (id) => async (dispatch) => {
       dispatch(getPlacesDetailedSuccess(result.data));
     }
   } catch {
-    dispatch(getError(error));
+    dispatch(getError(error.data));
+  }
+};
+export const placesApprove = (id) => async () => {
+  console.log('reject');
+  const axiosInstance = useAxios();
+  try {
+    const result = await axiosInstance.post(`admin/places/${id}/approve_post/`);
+    if (result.data.data) {
+      Toast.fire({
+        icon: 'success',
+        position: 'center',
+        text: `${result.data.message}`,
+        title: 'Success!'
+      });
+    }
+  } catch (error) {
+    Toast.fire({
+      icon: 'error',
+      position: 'center',
+      text: `${error.message}`,
+      title: 'Error!'
+    });
+  }
+};
+export const placesReject = (id) => async () => {
+  const axiosInstance = useAxios();
+  try {
+    const result = await axiosInstance.post(`admin/places/${id}/reject_post/`);
+    if (result.data.data) {
+      Toast.fire({
+        icon: 'success',
+        position: 'center',
+        text: `${result.data.message}`,
+        title: 'Success!'
+      });
+    }
+  } catch (error) {
+    Toast.fire({
+      icon: 'error',
+      position: 'center',
+      text: `${error.message}`,
+      title: 'Error!'
+    });
   }
 };

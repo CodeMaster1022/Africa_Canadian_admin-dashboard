@@ -18,7 +18,6 @@ export default function Users() {
   // Fetch Users Data
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('dispatch======================>');
     dispatch(getUsers());
     dispatch(getCommunity());
   }, [dispatch]);

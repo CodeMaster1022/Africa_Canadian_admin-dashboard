@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   placesList: [],
   placesDetailes: [],
-  loading: false,
+  placesLoading: false,
   error: null,
   response: null,
   getresponse: null
@@ -18,13 +18,13 @@ const placesSlice = createSlice({
     },
     getPlacesSuccess: (state, action) => {
       state.placesList = action.payload;
-      state.loading = false;
+      state.placesLoading = false;
       state.error = false;
       state.getresponse = null;
     },
     getPlacesDetailedSuccess: (state, action) => {
       state.placesDetailes = action.payload;
-      state.loading = false;
+      state.placesLoading = false;
       state.error = false;
       state.getresponse = null;
     },
@@ -32,17 +32,17 @@ const placesSlice = createSlice({
       state.placesList = [];
       state.placesDetailes = [];
       state.error = action.payload;
-      state.loading = false;
+      state.placesLoading = false;
       state.getresponse = false;
     },
     getPlacesDetailedFailed: (state, action) => {
       state.placesDetailes = [];
-      state.loading = false;
+      state.placesLoading = false;
       state.error = action.payload;
       state.getresponse = false;
     },
     getError: (state, action) => {
-      state.loading = false;
+      state.placesLoading = false;
       state.error = action.payload;
     }
   }

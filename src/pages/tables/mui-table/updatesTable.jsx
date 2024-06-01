@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
 import formatDate from 'utils/dateForm';
 import { resourceApprove, resourceReject } from 'redux/resourceRelated/resourceHandle';
+import { placesApprove, placesReject } from 'redux/placesRelated/placesHandle';
 // assets
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -140,15 +141,29 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
-export default function UpdatesTable() {
-  const { resourceList } = useSelector((state) => state.resource);
-
-  useEffect(() => {
-    if (!resourceList) return;
-  }, [resourceList]);
+export default function UpdatesTable({ rows, source }) {
   const dispatch = useDispatch();
   // Toast Message
-  const handleAction = (id, action) => {
+  const [profileOpen, setProfileOpen] = useState(false);
+  const profileModalOpen = () => setProfileOpen(true);
+  // const profileModalClose = () => setProfileOpen(false);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  // const [selected, setSelected] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [dense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  // const [selectedValue, setSelectedValue] = React.useState([]);
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+  const handleAction = (id, action, source) => {
     console.log(id);
     Swal.fire({
       title: `Do you want to ${action} this user?`,
@@ -159,63 +174,53 @@ export default function UpdatesTable() {
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        if (action === 'approve') dispatch(resourceApprove(id));
-        else if (action === 'reject') dispatch(resourceReject(id));
+        if (source === 'resource') {
+          if (action === 'approve') dispatch(resourceApprove(id));
+          else if (action === 'reject') dispatch(resourceReject(id));
+        }
+        if (source === 'status') {
+          if (action === 'approve') dispatch(statusApprove(id));
+          else if (action === 'reject') dispatch(statusReject(id));
+        }
+        if (source === 'places') {
+          if (action === 'approve') dispatch(placesApprove(id));
+          else if (action === 'reject') dispatch(placesReject(id));
+        }
       } else if (result.isDenied) {
         Swal.fire(`${action} was cancelled`, '', 'info');
       }
     });
   };
-  const [profileOpen, setProfileOpen] = useState(false);
-  const profileModalOpen = () => setProfileOpen(true);
-  // const profileModalClose = () => setProfileOpen(false);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [selectedValue, setSelectedValue] = React.useState([]);
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event?.target.value, 10));
     setPage(0);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - resourceList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (
     <>
       <MainCard
         content={false}
         title="Community Updates"
-        secondary={
-          <CSVExport data={selectedValue.length > 0 ? selectedValue : resourceList} headers={header} filename={'selected-table-data.csv'} />
-        }
+        // secondary={
+        //   <CSVExport data={selectedValue.length > 0 ? selectedValue : rows} headers={header} filename={'selected-table-data.csv'} />
+        // }
       >
-        <RowSelection selected={selected.length} />
+        {/* <RowSelection selected={selected.length} /> */}
         {/* table */}
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
             <EnhancedTableHead
-              numSelected={selected.length}
+              // numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               // onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={resourceList.length}
+              rowCount={rows.length}
             />
             <TableBody>
-              {stableSort(resourceList, getComparator(order, orderBy))
+              {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   if (typeof row === 'number') return null;
@@ -225,7 +230,7 @@ export default function UpdatesTable() {
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
                         {row.id}
                       </TableCell>
-                      <TableCell align="left">{row.title}</TableCell>
+                      <TableCell align="left">{source === 'resource' ? row.title : row.name}</TableCell>
                       <TableCell align="left" sx={{ maxWidth: '180px' }}>
                         {row.user.email}
                       </TableCell>
@@ -280,7 +285,7 @@ export default function UpdatesTable() {
                       )}
                       {row.isDeleted === false && (
                         <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                          <IconButton onClick={() => handleAction(row.id, 'reject')}>
+                          <IconButton onClick={() => handleAction(row.id, 'reject', source)}>
                             <CloseOutlined />
                           </IconButton>
                           {row.isActive ? (
@@ -288,7 +293,7 @@ export default function UpdatesTable() {
                               <CheckOutlined />
                             </IconButton>
                           ) : (
-                            <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.id, 'approve')}>
+                            <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.id, 'approve', source)}>
                               <CheckOutlined />
                             </IconButton>
                           )}
@@ -311,7 +316,7 @@ export default function UpdatesTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={resourceList.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -322,12 +327,15 @@ export default function UpdatesTable() {
     </>
   );
 }
-
+UpdatesTable.propTypes = {
+  rows: PropTypes.array.isRequired,
+  source: PropTypes.string.isRequired
+};
 EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.any,
   order: PropTypes.any,
   orderBy: PropTypes.any,
-  numSelected: PropTypes.any,
+  // numSelected: PropTypes.any,
   rowCount: PropTypes.any,
   onRequestSort: PropTypes.any
 };

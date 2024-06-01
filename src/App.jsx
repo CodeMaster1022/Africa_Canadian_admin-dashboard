@@ -33,12 +33,19 @@ const App = () => {
       setAuthenticated(authenticated);
     });
     console.log(keycloak);
-
-    // console.log(keycloak.resourceAccess.token);
   }, []);
   useEffect(() => {
-    // if (!keycloak) return;
-    localStorage.setItem('token', keycloak?.token);
+    const initialize = keycloak?.didInitialize;
+    console.log(initialize, 'initialize');
+    if (keycloak && initialize) {
+      // keycloak.logout();
+      localStorage.setItem('token', keycloak?.token);
+      localStorage.setItem('keycloakRefreshToken', keycloak.refreshToken);
+      keycloak.onTokenExpired = () => keycloak.updateToken(600);
+    }
+    return () => {
+      if (keycloak) keycloak.onTokenExpired = () => {};
+    };
   }, [keycloak]);
   return (
     <>

@@ -126,8 +126,7 @@ export default function GroupTable() {
       }
     });
   };
-  const { groupList } = useSelector((state) => state.group);
-
+  const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
   // Fetch Data
@@ -215,7 +214,11 @@ export default function GroupTable() {
                     <TableCell align="right">
                       <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                         {row.avatar_image_key ? (
-                          <img src={row.avatar_image_key} alt="groupImage" style={{ width: '40px', borderRadius: '50px' }} />
+                          <img
+                            src={row.avatar_image_key}
+                            alt="groupImage"
+                            style={{ width: '45px', height: '45px', borderRadius: '50px' }}
+                          />
                         ) : (
                           <IconButton shape="rounded" variant="contained" sx={{ height: '45px', width: '45px' }} color="secondary">
                             {row.name[0]}

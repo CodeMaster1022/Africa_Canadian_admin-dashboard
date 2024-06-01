@@ -5,6 +5,10 @@ const initialState = {
   groupMembers: [],
   groupDetails: [],
   memberDetails: [],
+  total_count: 0,
+  has_more: false,
+  tablePage: 1,
+  item_per_page: 10,
   // subjectDetails: [],
   loading: false,
   memberLoading: false,
@@ -18,6 +22,10 @@ const groupSlice = createSlice({
   name: 'group',
   initialState,
   reducers: {
+    getPaginationState: (state, action) => {
+      // tablePage = action.p
+      //   total_count=
+    },
     getRequest: (state) => {
       state.loading = true;
       state.memberLoading = true;
