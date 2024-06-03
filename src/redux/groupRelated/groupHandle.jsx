@@ -22,7 +22,29 @@ export const getGroup = () => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
-    const result = await axiosInstance.get('/admin/communities/2/groups/');
+    const result = await axiosInstance.get('admin/communities/2/groups/');
+    if (result.data.data.message) {
+      dispatch(getFailedTwo(result.data.data.message));
+    } else {
+      dispatch(getGroupSuccess(result.data.data));
+      dispatch(getPaginationState(result.data));
+    }
+  } catch (error) {
+    dispatch(getError(error.data));
+  }
+};
+
+export const getOptionGroup = (rowsPerPage, newPage) => async (dispatch) => {
+  console.log(newPage, rowsPerPage);
+  const axiosInstance = useAxios();
+  dispatch(getRequest());
+  try {
+    const result = await axiosInstance.get('/admin/communities/2/groups/', {
+      params: {
+        page: newPage,
+        items_per_page: rowsPerPage
+      }
+    });
     if (result.data.data.message) {
       dispatch(getFailedTwo(result.data.data.message));
     } else {

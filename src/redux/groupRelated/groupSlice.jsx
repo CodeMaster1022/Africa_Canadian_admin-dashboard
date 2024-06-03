@@ -8,7 +8,7 @@ const initialState = {
   total_count: 0,
   has_more: false,
   tablePage: 1,
-  item_per_page: 10,
+  items_per_page: 10,
   // subjectDetails: [],
   loading: false,
   memberLoading: false,
@@ -26,7 +26,7 @@ const groupSlice = createSlice({
       state.tablePage = action.payload.page;
       state.total_count = action.payload.total_count;
       state.has_more = action.payload.has_more;
-      state.item_per_page = action.payload.item_per_page;
+      state.items_per_page = action.payload.items_per_page;
     },
     getRequest: (state) => {
       state.loading = true;

@@ -16,7 +16,10 @@ import { getGroup, getGroupMembers } from 'redux/groupRelated/groupHandle';
 export default function Community() {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.group);
+  // const page = 1;
+  // const items_per_page = 10;
   useEffect(() => {
+    console.log('parent page reruender');
     dispatch(getGroup());
   }, [dispatch]);
   const [age, setAge] = useState(10);

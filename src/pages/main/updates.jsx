@@ -2,14 +2,15 @@ import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
-import UpdatesTable from 'pages/tables/mui-table/updatesTable';
 import { Tab, Tabs } from '@mui/material';
 import MainCard from 'components/MainCard';
 import AddNewUpdate from 'pages/communityUpdateView/addNewUpdate';
 import RequestLoader from 'components/waiting/RequestLoader';
+import PlacesTable from 'pages/tables/mui-table/placesTable';
+import UpdatesTable from 'pages/tables/mui-table/updatesTable';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { getPlaces } from 'redux/placesRelated/placesHandle';
+import { getPlaces, getOptionPlaces } from 'redux/placesRelated/placesHandle';
 import { getResource } from 'redux/resourceRelated/resourceHandle';
 import { getStatus } from 'redux/statusRelated/statusHandle';
 export default function Updates() {
@@ -19,6 +20,7 @@ export default function Updates() {
     dispatch(getResource());
     dispatch(getStatus());
   }, [dispatch]);
+  const { totalCount, hasMore, tablePage, itemsPerPage } = useSelector((state) => state.places);
   const { resourceList, loading } = useSelector((state) => state.resource);
   const { placesList, placesLoading } = useSelector((state) => state.places);
   const [value, setValue] = useState(0);
@@ -89,7 +91,21 @@ export default function Updates() {
             Create New Update
           </Button>
         </Box>
-        <MainCard>{placesLoading ? <RequestLoader /> : <UpdatesTable source="places" rows={placesList} />}</MainCard>
+        <MainCard>
+          {placesLoading ? (
+            <RequestLoader />
+          ) : (
+            <PlacesTable
+              source="places"
+              rows={placesList}
+              getMoreOption={getOptionPlaces}
+              hasMore={hasMore}
+              totalCount={totalCount}
+              tablePage={tablePage}
+              itemsPerPage={itemsPerPage}
+            />
+          )}
+        </MainCard>
       </TabPanel>
       <AddNewUpdate modalOpen={newUpdateOpen} modalClose={newUpdateModalClose} />
     </>

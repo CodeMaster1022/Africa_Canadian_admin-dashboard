@@ -1,5 +1,13 @@
 import useAxios from 'utils/useAxios';
-import { getRequest, getPlacesSuccess, getPlacesDetailedSuccess, getPlacesFailed, getPlacesDetailedFailed, getError } from './placesSlice';
+import {
+  getRequest,
+  getPlacesSuccess,
+  getPlacesDetailedSuccess,
+  getPaginationState,
+  getPlacesFailed,
+  getPlacesDetailedFailed,
+  getError
+} from './placesSlice';
 import Swal from 'sweetalert2';
 const Toast = Swal.mixin({
   toast: true,
@@ -16,6 +24,26 @@ export const getPlaces = () => async (dispatch) => {
     const result = await axiosInstance.get('/posts/posts/places');
     if (result.data.data) {
       dispatch(getPlacesSuccess(result.data.data));
+      dispatch(getPaginationState(result.data));
+    }
+  } catch (error) {
+    dispatch(getError(error.data));
+  }
+};
+export const getOptionPlaces = (rowsPerPage, newPage) => async (dispatch) => {
+  const axiosInstance = useAxios();
+  dispatch(getRequest());
+
+  try {
+    const result = await axiosInstance.get('/posts/posts/places', {
+      params: {
+        page: newPage,
+        itemsPerPage: rowsPerPage
+      }
+    });
+    if (result.data.data) {
+      dispatch(getPlacesSuccess(result.data.data));
+      dispatch(getPaginationState(result.data));
     }
   } catch (error) {
     dispatch(getError(error.data));

@@ -6,7 +6,11 @@ const initialState = {
   placesLoading: false,
   error: null,
   response: null,
-  getresponse: null
+  getresponse: null,
+  totalCount: 0,
+  hasMore: false,
+  tablePage: 1,
+  itemsPerPage: 10
 };
 
 const placesSlice = createSlice({
@@ -15,6 +19,12 @@ const placesSlice = createSlice({
   reducers: {
     getRequest: (state) => {
       state.loading = true;
+    },
+    getPaginationState: (state, action) => {
+      state.tablePage = action.payload.page;
+      state.totalCount = action.payload.totalCount;
+      state.hasMore = action.payload.hasMore;
+      state.itemsPerPage = action.payload.itemsPerPage;
     },
     getPlacesSuccess: (state, action) => {
       state.placesList = action.payload;
@@ -48,7 +58,14 @@ const placesSlice = createSlice({
   }
 });
 
-export const { getRequest, getPlacesSuccess, getPlacesDetailedSuccess, getPlacesFailed, getPlacesDetailedFailed, getError } =
-  placesSlice.actions;
+export const {
+  getRequest,
+  getPaginationState,
+  getPlacesSuccess,
+  getPlacesDetailedSuccess,
+  getPlacesFailed,
+  getPlacesDetailedFailed,
+  getError
+} = placesSlice.actions;
 
 export const placesReducer = placesSlice.reducer;

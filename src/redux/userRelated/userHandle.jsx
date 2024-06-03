@@ -25,8 +25,8 @@ export const getUsers = () => async (dispatch) => {
   dispatch(getRequest());
   try {
     const result = await axiosInstance.get('/users/users');
-    console.log(result);
     if (result.data.message) {
+      console.log(result.data.data, 'this is users');
       dispatch(getUsersSuccess(result.data.data));
     }
   } catch (error) {

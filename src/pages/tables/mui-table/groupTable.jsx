@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 // material-ui
@@ -30,7 +30,7 @@ import { RightOutlined } from '@ant-design/icons';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { groupReactivate, groupDeactivate, groupDelete } from 'redux/groupRelated/groupHandle';
+import { groupReactivate, groupDeactivate, groupDelete, getOptionGroup } from 'redux/groupRelated/groupHandle';
 // project imports
 import MainCard from 'components/MainCard';
 
@@ -127,24 +127,28 @@ export default function GroupTable() {
     });
   };
   const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
+  useEffect(() => {
+    console.log(groupList, 'groupList');
+  });
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
   // Fetch Data
-
   const [expandedRowId, setExpandedRowId] = useState(null);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   // const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
   let data = stableSort(groupList, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   const [anchorElArray, setAnchorElArray] = React.useState(Array(data.length).fill(null));
 
   const actionHandleClick = (index) => (event) => {
     setAnchorElArray((prevAnchorElArray) => prevAnchorElArray.map((el, i) => (i === index ? event.currentTarget : null)));
   };
-
+  useEffect(() => {
+    console.log('rerender');
+  });
   const handleClose = (index) => {
     setAnchorElArray((prevAnchorElArray) => prevAnchorElArray.map((el, i) => (i === index ? null : el)));
   };
@@ -156,18 +160,21 @@ export default function GroupTable() {
     setOrderBy(property);
   };
   const handleChangePage = (event, newPage) => {
+    console.log('new page=========>', newPage);
     setPage(newPage);
+    dispatch(getOptionGroup(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
+    console.log('new page');
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+    dispatch(getOptionGroup(parseInt(event.target.value, 10), 1));
   };
-
   // const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - (groupList ? groupList.total_count : 0)) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - groupList.total_count) : 0;
 
   return (
     <MainCard content={false} title="Community Group">
@@ -315,11 +322,11 @@ export default function GroupTable() {
 
       {/* table data */}
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[10, 15, 25]}
         component="div"
         count={total_count}
         rowsPerPage={rowsPerPage}
-        page={page}
+        page={tablePage - 1}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
