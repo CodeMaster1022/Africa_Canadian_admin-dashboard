@@ -3,10 +3,11 @@ import Swal from 'sweetalert2';
 import {
   getRequest,
   getUsersSuccess,
-  authFailed,
+  // authFailed,
   getUserDetailedSuccess,
-  getUsersFailed,
-  getUsersDetailedFailed,
+  // getUsersFailed,
+  // getUsersDetailedFailed,
+  getPaginationState,
   getError,
   userAdded
 } from './userSlice';
@@ -20,20 +21,37 @@ const Toast = Swal.mixin({
 });
 
 export const getUsers = () => async (dispatch) => {
-  console.log('users=============>');
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
-    const result = await axiosInstance.get('/users/users');
-    if (result.data.message) {
-      console.log(result.data.data, 'this is users');
+    const result = await axiosInstance.get('/admin/users/');
+    if (result.data.data) {
+      console.log(result, 'this is users');
+      dispatch(getPaginationState(result.data));
       dispatch(getUsersSuccess(result.data.data));
     }
   } catch (error) {
-    dispatch(getError(error));
+    dispatch(getError(error.data));
   }
 };
-
+export const getOptionUsers = (rowsPerPage, newPage) => async (dispatch) => {
+  const axiosInstance = useAxios();
+  dispatch(getRequest());
+  try {
+    const result = await axiosInstance.get('/admin/users/', {
+      params: {
+        page: newPage,
+        items_per_page: rowsPerPage
+      }
+    });
+    if (result.data.data) {
+      dispatch(getPaginationState(result.data));
+      dispatch(getUsersSuccess(result.data.data));
+    }
+  } catch (error) {
+    dispatch(getError(error.data));
+  }
+};
 export const addUser =
   ({ input }) =>
   async (dispatch) => {
@@ -54,7 +72,8 @@ export const addUser =
 export const userDeactivate = (id) => async () => {
   const axiosInstance = useAxios();
   try {
-    const result = await axiosInstance.patch(`/users/user/activate/${id}/`);
+    const result = await axiosInstance.patch(`/users/user/activate/${id}`);
+    console.log('result', result);
     if (result.data.data) {
       Swal.fire({
         position: 'top-end',
@@ -79,7 +98,8 @@ export const userReactivate = (id) => async () => {
   const axiosInstance = useAxios();
   // dispatch(getRequest());
   try {
-    const result = await axiosInstance.post(`/users/user/activate/${id}/`);
+    const result = await axiosInstance.post(`/users/user/activate/${id}`);
+    console.log('user reactivate', result.data);
     if (result.data.data) {
       Toast.fire({
         icon: 'success',

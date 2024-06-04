@@ -6,6 +6,10 @@ const initialState = {
   userDetail: [],
   loading: false,
   error: [],
+  total_count: 0,
+  has_more: false,
+  tablePage: 1,
+  items_per_page: 10,
   getresponse: null,
   tempDetails: []
 };
@@ -14,6 +18,12 @@ const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    getPaginationState: (state, action) => {
+      state.tablePage = action.payload.page;
+      state.total_count = action.payload.totalCount;
+      state.has_more = action.payload.hasMore;
+      state.items_per_page = action.payload.itemsPerPage;
+    },
     authRequest: (state) => {
       state.status = 'loading';
     },
@@ -78,7 +88,8 @@ export const {
   getUsersDetailedFailed,
   getError,
   getDeleteSuccess,
-  underControl
+  underControl,
+  getPaginationState
 } = usersSlice.actions;
 
 export const usersReducer = usersSlice.reducer;

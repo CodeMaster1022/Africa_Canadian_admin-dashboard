@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 // material-ui
@@ -127,16 +127,12 @@ export default function GroupTable() {
     });
   };
   const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
-  useEffect(() => {
-    console.log(groupList, 'groupList');
-  });
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
   // Fetch Data
   const [expandedRowId, setExpandedRowId] = useState(null);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
-  // const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
@@ -146,13 +142,9 @@ export default function GroupTable() {
   const actionHandleClick = (index) => (event) => {
     setAnchorElArray((prevAnchorElArray) => prevAnchorElArray.map((el, i) => (i === index ? event.currentTarget : null)));
   };
-  useEffect(() => {
-    console.log('rerender');
-  });
   const handleClose = (index) => {
     setAnchorElArray((prevAnchorElArray) => prevAnchorElArray.map((el, i) => (i === index ? null : el)));
   };
-  // const [selectedValue, setSelectedValue] = React.useState([]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -160,16 +152,15 @@ export default function GroupTable() {
     setOrderBy(property);
   };
   const handleChangePage = (event, newPage) => {
-    console.log('new page=========>', newPage);
     setPage(newPage);
-    dispatch(getOptionGroup(rowsPerPage, newPage + 1));
+    if (has_more) dispatch(getOptionGroup(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
     console.log('new page');
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    dispatch(getOptionGroup(parseInt(event.target.value, 10), 1));
+    if (has_more) dispatch(getOptionGroup(parseInt(event.target.value, 10), 1));
   };
   // const isSelected = (name) => selected.indexOf(name) !== -1;
 

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 // material-ui
 import Box from '@mui/material/Box';
@@ -18,7 +18,7 @@ import { Typography } from '@mui/material';
 import formatDate from 'utils/dateForm';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { userDelete, userReactivate, userDeactivate } from 'redux/userRelated/userHandle';
+import { userDelete, userReactivate, userDeactivate, getOptionUsers } from 'redux/userRelated/userHandle';
 import IconButton from 'components/@extended/IconButton';
 // assets
 
@@ -146,7 +146,7 @@ export default function UsersTable() {
       }
     });
   };
-  const { usersList } = useSelector((state) => state.users);
+  const { usersList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.users);
   const [user, setUser] = useState({});
   const handleButtonClick = (rowData) => {
     console.log(user);
@@ -154,7 +154,7 @@ export default function UsersTable() {
     setUser(rowData);
   };
   useEffect(() => {
-    console.log(usersList);
+    console.log(usersList, 'usersList');
   }, [usersList]);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileModalOpen = () => setProfileOpen(true);
@@ -164,7 +164,7 @@ export default function UsersTable() {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -182,16 +182,19 @@ export default function UsersTable() {
   };
 
   const handleChangePage = (event, newPage) => {
+    console.log(newPage);
     setPage(newPage);
+    if (has_more) dispatch(getOptionUsers(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event?.target.value, 10));
     setPage(0);
+    dispatch(getOptionUsers(parseInt(event.target.value, 10), 1));
   };
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - usersList.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total_count) : 0;
 
   return (
     <>
@@ -205,7 +208,7 @@ export default function UsersTable() {
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
-              rowCount={usersList.length}
+              rowCount={total_count}
             />
             <TableBody>
               {stableSort(usersList, getComparator(order, orderBy))
@@ -249,7 +252,27 @@ export default function UsersTable() {
                         <IconButton onClick={() => handleButtonClick(row)}>
                           <EditOutlined />
                         </IconButton>
-                        {row.isDeactivate ? (
+                        {row.status === 'active' && (
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'deactivate')}>
+                            <PauseOutlined />
+                          </IconButton>
+                        )}
+                        {row.status === 'deactivate' && (
+                          <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'reactivate')}>
+                            <PlayCircleOutlined />
+                          </IconButton>
+                        )}
+                        {row.status === 'deleted' && (
+                          <>
+                            <IconButton sx={{ color: '#FAAD14' }} disabled>
+                              <PlayCircleOutlined />
+                            </IconButton>
+                            <IconButton sx={{ color: '#FF4D4F' }} disabled>
+                              <DeleteOutlined />
+                            </IconButton>
+                          </>
+                        )}
+                        {/* {row.status === 'deactivate' ? (
                           <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'reactivate')}>
                             <PlayCircleOutlined />
                           </IconButton>
@@ -257,10 +280,12 @@ export default function UsersTable() {
                           <IconButton sx={{ color: '#FAAD14' }} onClick={() => handleAction(row.keycloakUserId, 'deactivate')}>
                             <PauseOutlined />
                           </IconButton>
+                        )} */}
+                        {row.status !== 'deleted' && (
+                          <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.keycloakUserId, 'delete')}>
+                            <DeleteOutlined />
+                          </IconButton>
                         )}
-                        <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.keycloakUserId, 'delete')}>
-                          <DeleteOutlined />
-                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
@@ -279,9 +304,9 @@ export default function UsersTable() {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={usersList?.length}
+          count={total_count}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={tablePage - 1}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />

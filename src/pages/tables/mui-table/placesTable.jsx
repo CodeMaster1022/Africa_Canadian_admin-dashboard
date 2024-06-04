@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React from 'react';
 import Swal from 'sweetalert2';
 // material-ui
 import Box from '@mui/material/Box';
@@ -17,11 +16,10 @@ import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
 import formatDate from 'utils/dateForm';
-import { resourceApprove, resourceReject } from 'redux/resourceRelated/resourceHandle';
-import { placesApprove, placesReject, getOptionPlaces } from 'redux/placesRelated/placesHandle';
+import { placesApprove, placesReject } from 'redux/placesRelated/placesHandle';
 // assets
 // Redux
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
 // project imports
@@ -143,20 +141,11 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 export default function PlacesTable({ rows, source, hasMore, getMoreOption, totalCount, tablePage, itemsPerPage }) {
   const dispatch = useDispatch();
-  // const { totalCount, hasMore, tablePage, itemsPerPage } = useSelector((state) => {
-  //   state.places;
-  // });
-  // Toast Message
-  const [profileOpen, setProfileOpen] = useState(false);
-  const profileModalOpen = () => setProfileOpen(true);
-  // const profileModalClose = () => setProfileOpen(false);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
-  // const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(itemsPerPage);
-  // const [selectedValue, setSelectedValue] = React.useState([]);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -180,14 +169,6 @@ export default function PlacesTable({ rows, source, hasMore, getMoreOption, tota
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        if (source === 'resource') {
-          if (action === 'approve') dispatch(resourceApprove(id));
-          else if (action === 'reject') dispatch(resourceReject(id));
-        }
-        if (source === 'status') {
-          if (action === 'approve') dispatch(statusApprove(id));
-          else if (action === 'reject') dispatch(statusReject(id));
-        }
         if (source === 'places') {
           if (action === 'approve') dispatch(placesApprove(id));
           else if (action === 'reject') dispatch(placesReject(id));
@@ -209,25 +190,10 @@ export default function PlacesTable({ rows, source, hasMore, getMoreOption, tota
 
   return (
     <>
-      <MainCard
-        content={false}
-        title="Community Updates"
-        // secondary={
-        //   <CSVExport data={selectedValue.length > 0 ? selectedValue : rows} headers={header} filename={'selected-table-data.csv'} />
-        // }
-      >
-        {/* <RowSelection selected={selected.length} /> */}
-        {/* table */}
+      <MainCard content={false} title="Community Updates">
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-            <EnhancedTableHead
-              // numSelected={selected.length}
-              order={order}
-              orderBy={orderBy}
-              // onSelectAllClick={handleSelectAllClick}
-              onRequestSort={handleRequestSort}
-              rowCount={totalCount}
-            />
+            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={totalCount} />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -332,7 +298,6 @@ export default function PlacesTable({ rows, source, hasMore, getMoreOption, tota
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </MainCard>
-      {/* <ProfileModal modalOpen={profileOpen} modalClose={profileModalClose} /> */}
     </>
   );
 }

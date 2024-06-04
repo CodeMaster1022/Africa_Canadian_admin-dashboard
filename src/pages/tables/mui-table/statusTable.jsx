@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { useState } from 'react';
 import Swal from 'sweetalert2';
 // material-ui
 import Box from '@mui/material/Box';
@@ -16,18 +17,14 @@ import { visuallyHidden } from '@mui/utils';
 import { Typography } from '@mui/material';
 import IconButton from 'components/@extended/IconButton';
 import formatDate from 'utils/dateForm';
-import { resourceApprove, resourceReject } from 'redux/resourceRelated/resourceHandle';
-import { placesApprove, placesReject } from 'redux/placesRelated/placesHandle';
-// assets
+
 // Redux
-import { useDispatch } from 'react-redux';
+import { statusApprove, statusReject } from 'redux/statusRelated/statusHandle';
+import { getOptionStatus } from 'redux/statusRelated/statusHandle';
+import { useSelector, useDispatch } from 'react-redux';
 
 import { CloseOutlined, CheckOutlined } from '@ant-design/icons';
-// project imports
-// import ProfileModal from 'pages/usersProfileView/profileView';
-// import { header } from './basic';
 import MainCard from 'components/MainCard';
-// import { CSVExport, RowSelection } from 'components/third-party/react-table';
 
 // table filter
 function descendingComparator(a, b, orderBy) {
@@ -129,22 +126,25 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
-export default function UpdatesTable({ rows, source }) {
+export default function UpdatesTable() {
   const dispatch = useDispatch();
+  const { statusList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.status);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
-  const [page, setPage] = React.useState(0);
-  const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [page, setPage] = useState(0);
+  const [dense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(items_per_page);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
   };
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
+    if (has_more) dispatch(getOptionStatus(rowsPerPage, newPage + 1));
   };
-  const handleAction = (id, action, source) => {
+  const handleAction = (id, action) => {
     console.log(id);
     Swal.fire({
       title: `Do you want to ${action} this user?`,
@@ -153,19 +153,10 @@ export default function UpdatesTable({ rows, source }) {
       confirmButtonText: 'Yes',
       denyButtonText: `No`
     }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        if (source === 'resource') {
-          if (action === 'approve') dispatch(resourceApprove(id));
-          else if (action === 'reject') dispatch(resourceReject(id));
-        }
-        if (source === 'status') {
-          if (action === 'approve') dispatch(statusApprove(id));
-          else if (action === 'reject') dispatch(statusReject(id));
-        }
-        if (source === 'places') {
-          if (action === 'approve') dispatch(placesApprove(id));
-          else if (action === 'reject') dispatch(placesReject(id));
-        }
+        if (action === 'approve') dispatch(statusApprove(id));
+        else if (action === 'reject') dispatch(statusReject(id));
       } else if (result.isDenied) {
         Swal.fire(`${action} was cancelled`, '', 'info');
       }
@@ -174,18 +165,19 @@ export default function UpdatesTable({ rows, source }) {
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event?.target.value, 10));
     setPage(0);
+    dispatch(getOptionStatus(parseInt(event.target.value, 10), 1));
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total_count) : 0;
 
   return (
     <>
       <MainCard content={false} title="Community Updates">
         <TableContainer>
           <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? 'small' : 'medium'}>
-            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={rows.length} />
+            <EnhancedTableHead order={order} orderBy={orderBy} onRequestSort={handleRequestSort} rowCount={total_count} />
             <TableBody>
-              {stableSort(rows, getComparator(order, orderBy))
+              {stableSort(statusList, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   if (typeof row === 'number') return null;
@@ -195,7 +187,7 @@ export default function UpdatesTable({ rows, source }) {
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
                         {row.id}
                       </TableCell>
-                      <TableCell align="left">{source === 'resource' ? row.title : row.name}</TableCell>
+                      <TableCell align="left">{row.title}</TableCell>
                       <TableCell align="left" sx={{ maxWidth: '180px' }}>
                         {row.user.email}
                       </TableCell>
@@ -250,7 +242,7 @@ export default function UpdatesTable({ rows, source }) {
                       )}
                       {row.isDeleted === false && (
                         <TableCell align="left" sx={{ maxWidth: '100px' }}>
-                          <IconButton onClick={() => handleAction(row.id, 'reject', source)}>
+                          <IconButton onClick={() => handleAction(row.id, 'reject')}>
                             <CloseOutlined />
                           </IconButton>
                           {row.isActive ? (
@@ -258,7 +250,7 @@ export default function UpdatesTable({ rows, source }) {
                               <CheckOutlined />
                             </IconButton>
                           ) : (
-                            <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.id, 'approve', source)}>
+                            <IconButton sx={{ color: '#FF4D4F' }} onClick={() => handleAction(row.id, 'approve')}>
                               <CheckOutlined />
                             </IconButton>
                           )}
@@ -281,9 +273,9 @@ export default function UpdatesTable({ rows, source }) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={rows.length}
+          count={total_count}
           rowsPerPage={rowsPerPage}
-          page={page}
+          page={tablePage - 1}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
@@ -291,10 +283,7 @@ export default function UpdatesTable({ rows, source }) {
     </>
   );
 }
-UpdatesTable.propTypes = {
-  rows: PropTypes.array.isRequired,
-  source: PropTypes.string.isRequired
-};
+
 EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.any,
   order: PropTypes.any,

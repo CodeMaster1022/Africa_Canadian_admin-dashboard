@@ -4,7 +4,7 @@ import {
   getRequest,
   getResourceSuccess,
   getResourceDetailedSuccess,
-  getResourceFailed,
+  // getResourceFailed,
   getResourceDetailedFailed,
   getError
 } from './resourceSlice';

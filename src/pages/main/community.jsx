@@ -6,13 +6,17 @@ import CanadaMap from './map/canadaMap';
 import MarkersPopups from 'sections/maps/MarkersPopups';
 import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
+// data set
+import sask from '../main/map/province/dataSet/Sask.json';
+import alberta from '../main/map/province/dataSet/alberta.json';
+import ontario from '../main/map/province/dataSet/Ontario.json';
 // import { countries } from 'data/location';
 // Province map
 import Error from './map/Error';
-import AlberatMap from './map/province/Alberta/Boundary';
+import AlbertaMap from './map/province/Alberta/Alberta';
 import YukonMap from './map/province/Yukon/Boundary';
 import NunavutMap from './map/province/Nunavut/Boundary';
-import OntarioMap from './map/province/Ontario/Boundary';
+// import OntarioMap from './map/province/Ontario/Boundary';
 import NorthWestMap from './map/province/NorthWest/Boundary';
 import BritshMap from './map/province/British/Boundary';
 import QuebecMap from './map/province/Qubec/Boundary';
@@ -26,13 +30,15 @@ import { getCommunity } from 'redux/communityRelated/communityHandle';
 function getProvince(index) {
   switch (index) {
     case 'Alberta':
-      return <AlberatMap />;
+      return <AlbertaMap regionName={alberta} regionFlag="alberta" />;
+    case 'Sask':
+      return <AlbertaMap regionName={sask} regionFlag="Sask" />;
     case 'Yukon':
       return <YukonMap />;
     case 'Nunavut':
       return <NunavutMap />;
     case 'Ontario':
-      return <OntarioMap />;
+      return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
     case 'NWT':
       return <NorthWestMap />;
     case 'BC':

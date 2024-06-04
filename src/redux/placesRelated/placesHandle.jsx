@@ -4,7 +4,7 @@ import {
   getPlacesSuccess,
   getPlacesDetailedSuccess,
   getPaginationState,
-  getPlacesFailed,
+  // getPlacesFailed,
   getPlacesDetailedFailed,
   getError
 } from './placesSlice';

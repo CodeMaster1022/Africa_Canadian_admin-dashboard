@@ -6,6 +6,7 @@ import { Tab, Tabs } from '@mui/material';
 import MainCard from 'components/MainCard';
 import AddNewUpdate from 'pages/communityUpdateView/addNewUpdate';
 import RequestLoader from 'components/waiting/RequestLoader';
+import StatusTable from 'pages/tables/mui-table/statusTable';
 import PlacesTable from 'pages/tables/mui-table/placesTable';
 import UpdatesTable from 'pages/tables/mui-table/updatesTable';
 // Redux
@@ -23,6 +24,7 @@ export default function Updates() {
   const { totalCount, hasMore, tablePage, itemsPerPage } = useSelector((state) => state.places);
   const { resourceList, loading } = useSelector((state) => state.resource);
   const { placesList, placesLoading } = useSelector((state) => state.places);
+  const { statusLoading } = useSelector((state) => state.status);
   const [value, setValue] = useState(0);
   const [newUpdateOpen, setNewUpdateOpen] = useState(false);
   const newUpdateModalOpen = () => setNewUpdateOpen(true);
@@ -83,7 +85,7 @@ export default function Updates() {
             Create New Update
           </Button>
         </Box>
-        <MainCard>{placesLoading ? <RequestLoader /> : <UpdatesTable source="places" rows={placesList} />}</MainCard>
+        <MainCard>{statusLoading ? <RequestLoader /> : <StatusTable />}</MainCard>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <Box sx={{ padding: 2, display: 'flex', justifyContent: 'flex-end' }}>
