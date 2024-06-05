@@ -1,6 +1,6 @@
 import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
-import { getRequest, getEventSuccess, getPaginationState, getFailedTwo, getEventDetailSuccess, getError } from './eventSlice';
+import { getRequest, getSuccess, getEventSuccess, getPaginationState, getFailedTwo, getEventDetailSuccess, getError } from './eventSlice';
 const Toast = Swal.mixin({
   toast: true,
   position: 'center',
@@ -10,35 +10,52 @@ const Toast = Swal.mixin({
 });
 
 export const eventCreate =
-  ({ id, input }) =>
-  async () => {
+  ({ title, description, eventExpiryDate, imageUrl, eventHappeningDate, eventUrl, color, location, user, community }) =>
+  async (dispatch) => {
+    dispatch(getRequest());
     const axiosInstance = useAxios();
     try {
-      const result = await axiosInstance.post(`/admin/events/${id}/`, input);
-      console.log(result.data.message);
-      if (result) {
+      const result = await axiosInstance.post('/admin/events/', {
+        title,
+        description,
+        eventExpiryDate,
+        imageUrl,
+        eventHappeningDate,
+        eventUrl,
+        color,
+        location,
+        user,
+        community
+      });
+      if (result.data) {
+        dispatch(getSuccess());
         Toast.fire({
           icon: 'success',
-          position: 'center',
-          text: `${result.data.message}`,
+          position: 'bottom',
+          text: 'New event was created!',
           title: 'Success!'
         });
       }
     } catch (error) {
-      console.log(error);
+      getError(error.data.message);
       Toast.fire({
         icon: 'error',
-        position: 'center',
+        position: 'bottom',
         text: `${error.message}`,
         title: 'Error!'
       });
     }
   };
-export const getAllEvent = () => async (dispatch) => {
+export const getAllEvent = (rowsPerPage, newPage) => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
-    const result = await axiosInstance.get('/admin/events/');
+    const result = await axiosInstance.get('/admin/events/', {
+      params: {
+        page: newPage,
+        items_per_page: rowsPerPage
+      }
+    });
     if (result.data.data.message) {
       dispatch(getFailedTwo(result.data.data.message));
     } else {
@@ -120,9 +137,14 @@ export const eventUpdate =
   };
 export const eventDelete = (id) => async () => {
   const axiosInstance = useAxios();
+  console.log(id);
   try {
-    const result = await axiosInstance.delete(`/admin/events/${id}/`);
-    console.log(result.data.message);
+    const result = await axiosInstance.delete('/admin/events/', {
+      params: {
+        user_id: id
+      }
+    });
+    console.log(result.data, 'result');
     if (result) {
       Toast.fire({
         icon: 'success',
@@ -132,11 +154,11 @@ export const eventDelete = (id) => async () => {
       });
     }
   } catch (error) {
-    console.log(error);
+    console.log(error, 'error');
     Toast.fire({
       icon: 'error',
       position: 'center',
-      text: `${error.message}`,
+      text: `${error.response.data.detail.message}`,
       title: 'Error!'
     });
   }

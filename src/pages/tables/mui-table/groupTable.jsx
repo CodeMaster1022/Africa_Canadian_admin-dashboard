@@ -170,7 +170,7 @@ export default function GroupTable() {
   // const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - groupList.total_count) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - total_count) : 0;
 
   return (
     <MainCard content={false} title="Community Group">
@@ -346,7 +346,7 @@ const headCells = [
     label: 'Community Group'
   },
   {
-    id: 'name',
+    id: 'type',
     numeric: false,
     disablePadding: false,
     label: 'Group Type'

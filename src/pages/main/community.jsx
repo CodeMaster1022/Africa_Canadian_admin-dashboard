@@ -13,16 +13,18 @@ import ontario from '../main/map/province/dataSet/Ontario.json';
 import manitoba from '../main/map/province/dataSet/Manitoba.json';
 import britishColombia from '../main/map/province/dataSet/BritishColombia.json';
 import yukon from '../main/map/province/dataSet/Yukon.json';
+import northWest from '../main/map/province/dataSet/NorthWest.json';
 // import caleton from '../main/map/province/dataSet/Caleton.json';
 import quebec from '../main/map/province/dataSet/Quebec.json';
+import nunavut from '../main/map/province/dataSet/Nunavut.json';
 // import { countries } from 'data/location';
 // Province map
 import Error from './map/Error';
 import AlbertaMap from './map/province/Alberta/Alberta';
 // import YukonMap from './map/province/Yukon/Boundary';
-import NunavutMap from './map/province/Nunavut/Boundary';
+// import NunavutMap from './map/province/Nunavut/Boundary';
 // import OntarioMap from './map/province/Ontario/Boundary';
-import NorthWestMap from './map/province/NorthWest/Boundary';
+// import NorthWestMap from './map/province/NorthWest/Boundary';
 // import BritshMap from './map/province/British/Boundary';
 // import QuebecMap from './map/province/Qubec/Boundary';
 // import ManitobaMap from './map/province/Manitoba/Boundary';
@@ -41,11 +43,11 @@ function getProvince(index) {
     case 'Yukon':
       return <AlbertaMap regionName={yukon} regionFlag="Yukon" />;
     case 'Nunavut':
-      return <NunavutMap />;
+      return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
     case 'Ontario':
       return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
     case 'NWT':
-      return <NorthWestMap />;
+      return <AlbertaMap regionName={northWest} regionFlag="NorthWest" />;
     case 'BC':
       return <AlbertaMap regionName={britishColombia} regionFlag="BritishColombia" />;
     case 'Quebec':

@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Tab, Tabs } from '@mui/material';
 import MainCard from 'components/MainCard';
-import AddNewUpdate from 'pages/communityUpdateView/addNewUpdate';
+import AddNewUpdate from 'pages/main/Modal/addNewUpdate';
 import RequestLoader from 'components/waiting/RequestLoader';
 import StatusTable from 'pages/tables/mui-table/statusTable';
 import PlacesTable from 'pages/tables/mui-table/placesTable';
@@ -66,12 +66,6 @@ export default function Updates() {
             key={index}
             label={Tab_Title}
             {...a11yProps(index)}
-            TabIndicatorProps={{
-              style: {
-                display: 'none'
-              }
-            }}
-            disableUnderline
             sx={{
               borderRadius: '20px',
               color: (theme) => (theme.palette.mode === 'dark' ? '#008080' : '#7E8487'), // Default color
@@ -84,7 +78,7 @@ export default function Updates() {
           />
         ))}
       </Tabs>
-      <TabPanel value={value} index={0} disableUnderline>
+      <TabPanel value={value} index={0}>
         <Box sx={{ padding: 2, display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant="contained" color="primary" sx={{ padding: 1 }} onClick={newUpdateModalOpen}>
             Create New Update

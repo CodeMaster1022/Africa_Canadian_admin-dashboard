@@ -20,7 +20,7 @@ import IconButton from 'components/@extended/IconButton';
 
 import { PauseOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
 // project imports
-import ProfileModal from 'pages/usersProfileView/profileView';
+import ProfileModal from 'pages/main/Modal/profileView';
 import { header } from './basic';
 import MainCard from 'components/MainCard';
 import { CSVExport, RowSelection } from 'components/third-party/react-table';

@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import UseraTable from 'pages/tables/mui-table/UsersTable';
 import MainCard from 'components/MainCard';
-import AddNewUserProfile from 'pages/usersProfileView/addNewUser';
+import AddNewUserProfile from 'pages/main/Modal/addNewUser';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { getCommunity } from 'redux/communityRelated/communityHandle';

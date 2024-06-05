@@ -15,7 +15,7 @@ export function layersUtils(geoJsonRef, mapRef) {
 
     layer.setStyle({
       weight: 2,
-      color: 'white',
+      color: 'black',
       dashArray: '3',
       fillOpacity: 0.7
     });

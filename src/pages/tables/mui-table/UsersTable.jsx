@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 // material-ui
@@ -24,7 +24,7 @@ import IconButton from 'components/@extended/IconButton';
 
 import { PauseOutlined, EditOutlined, DeleteOutlined, PlayCircleOutlined } from '@ant-design/icons';
 // project imports
-import ProfileModal from 'pages/usersProfileView/profileView';
+import ProfileModal from 'pages/main/Modal/profileView';
 import MainCard from 'components/MainCard';
 // table filter
 function descendingComparator(a, b, orderBy) {
@@ -153,9 +153,6 @@ export default function UsersTable() {
     profileModalOpen();
     setUser(rowData);
   };
-  useEffect(() => {
-    console.log(usersList, 'usersList');
-  }, [usersList]);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileModalOpen = () => setProfileOpen(true);
   const profileModalClose = () => setProfileOpen(false);
