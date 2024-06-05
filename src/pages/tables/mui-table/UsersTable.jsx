@@ -220,7 +220,7 @@ export default function UsersTable() {
                   return (
                     <TableRow key={index}>
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="left" sx={{ width: '10px' }}>
-                        {index + 1}
+                        {index + 1 + rowsPerPage * (tablePage - 1)}
                       </TableCell>
                       <TableCell align="left" sx={{ width: { xs: '200px', md: '250px', lg: '300px' } }}>
                         <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>

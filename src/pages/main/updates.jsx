@@ -53,12 +53,25 @@ export default function Updates() {
   const Tab_Titles = ['Resource', 'Status', 'Places'];
   return (
     <>
-      <Tabs value={value} onChange={handleChange} sx={{ paddingTop: '20px' }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        sx={{ paddingTop: '20px' }}
+        TabIndicatorProps={{
+          style: { display: 'none' }
+        }}
+      >
         {Tab_Titles.map((Tab_Title, index) => (
           <Tab
             key={index}
             label={Tab_Title}
             {...a11yProps(index)}
+            TabIndicatorProps={{
+              style: {
+                display: 'none'
+              }
+            }}
+            disableUnderline
             sx={{
               borderRadius: '20px',
               color: (theme) => (theme.palette.mode === 'dark' ? '#008080' : '#7E8487'), // Default color
@@ -71,7 +84,7 @@ export default function Updates() {
           />
         ))}
       </Tabs>
-      <TabPanel value={value} index={0}>
+      <TabPanel value={value} index={0} disableUnderline>
         <Box sx={{ padding: 2, display: 'flex', justifyContent: 'flex-end' }}>
           <Button variant="contained" color="primary" sx={{ padding: 1 }} onClick={newUpdateModalOpen}>
             Create New Update
