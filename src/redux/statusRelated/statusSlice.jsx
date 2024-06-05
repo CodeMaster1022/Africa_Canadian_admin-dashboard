@@ -26,6 +26,9 @@ const statusSlice = createSlice({
     getRequest: (state) => {
       state.loading = true;
     },
+    getSuccess: (state) => {
+      state.loading = false;
+    },
     getStatusSuccess: (state, action) => {
       state.statusList = action.payload;
       state.statusLoading = false;
@@ -60,6 +63,7 @@ const statusSlice = createSlice({
 
 export const {
   getRequest,
+  getSuccess,
   getPaginationState,
   getStatusSuccess,
   getStatusDetailedSuccess,

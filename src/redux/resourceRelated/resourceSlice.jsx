@@ -40,6 +40,9 @@ const resourceSlice = createSlice({
       state.error = action.payload;
       state.getresponse = false;
     },
+    getSuccess: (state) => {
+      state.loading = false;
+    },
     getError: (state, action) => {
       state.loading = false;
       state.error = action.payload;
@@ -47,7 +50,14 @@ const resourceSlice = createSlice({
   }
 });
 
-export const { getRequest, getResourceSuccess, getResourceDetailedSuccess, getResourceFailed, getResourceDetailedFailed, getError } =
-  resourceSlice.actions;
+export const {
+  getRequest,
+  getSuccess,
+  getResourceSuccess,
+  getResourceDetailedSuccess,
+  getResourceFailed,
+  getResourceDetailedFailed,
+  getError
+} = resourceSlice.actions;
 
 export const resourceReducer = resourceSlice.reducer;

@@ -2,6 +2,7 @@ import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
 import {
   getRequest,
+  getSuccess,
   getResourceSuccess,
   getResourceDetailedSuccess,
   // getResourceFailed,
@@ -44,12 +45,13 @@ export const resourceDetails = (id) => async (dispatch) => {
     dispatch(getError(error));
   }
 };
-export const resourceApprove = (id) => async () => {
-  console.log('reject');
+export const resourceApprove = (id) => async (dispatch) => {
+  dispatch(getRequest());
   const axiosInstance = useAxios();
   try {
     const result = await axiosInstance.post(`admin/resources/${id}/approve_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -58,6 +60,7 @@ export const resourceApprove = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',
@@ -66,11 +69,13 @@ export const resourceApprove = (id) => async () => {
     });
   }
 };
-export const resourceReject = (id) => async () => {
+export const resourceReject = (id) => async (dispatch) => {
+  dispatch(getRequest());
   const axiosInstance = useAxios();
   try {
     const result = await axiosInstance.post(`admin/resources/${id}/reject_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -79,6 +84,7 @@ export const resourceReject = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',

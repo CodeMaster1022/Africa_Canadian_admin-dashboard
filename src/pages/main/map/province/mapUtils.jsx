@@ -2,7 +2,7 @@ import center from '@turf/center';
 import L from 'leaflet';
 
 export function getColor(d) {
-  return d > 25 ? '#800026' : d > 20 ? '#E31A1C' : d > 15 ? '#FD8D3C' : d > 10 ? '#FEB24C' : d > 5 ? '#FED976' : '#FFEDA0';
+  return d > 25 ? '#014167' : d > 20 ? '#01a5c9' : d > 15 ? '#91eaf2' : d > 10 ? '#e3fbfd' : d > 5 ? '#91eaf2' : '#014167';
 }
 
 export function getCenterOfGeoJson(geoJson) {
@@ -15,8 +15,8 @@ export function layersUtils(geoJsonRef, mapRef) {
 
     layer.setStyle({
       weight: 2,
-      color: '#f90303',
-      dashArray: '',
+      color: 'white',
+      dashArray: '3',
       fillOpacity: 0.7
     });
 

@@ -79,13 +79,6 @@ const main = {
       icon: icons.PictureOutlined
     },
     {
-      id: 'edmonton',
-      title: 'Edmonton',
-      type: 'item',
-      url: '/edmontonmap',
-      icon: icons.HeatMapOutlined
-    },
-    {
       id: 'events',
       title: 'Events',
       type: 'item',

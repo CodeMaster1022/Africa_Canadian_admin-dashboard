@@ -7,6 +7,7 @@ import { usersReducer } from './userRelated/userSlice';
 import { groupReducer } from './groupRelated/groupSlice';
 import { resourceReducer } from './resourceRelated/resourceSlice';
 import { statusReducer } from './statusRelated/statusSlice';
+import { groupMemberReducer } from './groupRelated/groupMemberSlice';
 const store = configureStore({
   reducer: {
     community: communityReducer,
@@ -16,7 +17,8 @@ const store = configureStore({
     users: usersReducer,
     group: groupReducer,
     resource: resourceReducer,
-    status: statusReducer
+    status: statusReducer,
+    groupMember: groupMemberReducer
   }
 });
 

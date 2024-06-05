@@ -30,7 +30,7 @@ import { RightOutlined } from '@ant-design/icons';
 import DownOutlined from '@ant-design/icons/DownOutlined';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
-import { groupReactivate, groupDeactivate, groupDelete, getOptionGroup } from 'redux/groupRelated/groupHandle';
+import { groupReactivate, groupDeactivate, groupDelete, getOptionGroup, getGroupMembers } from 'redux/groupRelated/groupHandle';
 // project imports
 import MainCard from 'components/MainCard';
 
@@ -106,6 +106,21 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 
 export default function GroupTable() {
   const dispatch = useDispatch();
+
+  const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
+  const { groupMembers } = useSelector((state) => state.groupMember);
+  const theme = useTheme();
+  const backColor = alpha(theme.palette.primary.lighter, 0.1);
+  // Fetch Data
+  const [expandedRowId, setExpandedRowId] = useState(null);
+  const [order, setOrder] = React.useState('asc');
+  const [orderBy, setOrderBy] = React.useState('calories');
+  const [page, setPage] = React.useState(0);
+  const [dense] = React.useState(false);
+  const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
+  let data = stableSort(groupList, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
+  const [anchorElArray, setAnchorElArray] = React.useState(Array(data.length).fill(null));
+
   const handleAction = (id, action) => {
     handleClose();
     console.log('reactiveate');
@@ -126,19 +141,9 @@ export default function GroupTable() {
       }
     });
   };
-  const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
-  const theme = useTheme();
-  const backColor = alpha(theme.palette.primary.lighter, 0.1);
-  // Fetch Data
-  const [expandedRowId, setExpandedRowId] = useState(null);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('calories');
-  const [page, setPage] = React.useState(0);
-  const [dense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
-  let data = stableSort(groupList, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  const [anchorElArray, setAnchorElArray] = React.useState(Array(data.length).fill(null));
-
+  const handleGetMember = (id) => {
+    dispatch(getGroupMembers(id));
+  };
   const actionHandleClick = (index) => (event) => {
     setAnchorElArray((prevAnchorElArray) => prevAnchorElArray.map((el, i) => (i === index ? event.currentTarget : null)));
   };
@@ -232,7 +237,10 @@ export default function GroupTable() {
                         <IconButton
                           aria-label="expand row"
                           size="small"
-                          onClick={() => setExpandedRowId(expandedRowId === row.id ? null : row.id)}
+                          onClick={() => {
+                            setExpandedRowId(expandedRowId === row.id ? null : row.id);
+                            handleGetMember(row.id);
+                          }}
                         >
                           {expandedRowId === row.id ? <RightOutlined /> : <DownOutlined />}
                         </IconButton>
@@ -278,17 +286,16 @@ export default function GroupTable() {
                                     </TableRow>
                                   </TableHead>
                                   <TableBody>
-                                    {row.member &&
-                                      row.member.map((historyRow) => (
-                                        <TableRow hover key={historyRow.id}>
-                                          <TableCell component="th" scope="row" align="center">
-                                            {historyRow.name}
-                                          </TableCell>
-                                          <TableCell component="th" scope="row" align="center">
-                                            <img src={historyRow.avatar} alt="avatar" style={{ width: '55px' }} />
-                                          </TableCell>
-                                        </TableRow>
-                                      ))}
+                                    {groupMembers.map((historyRow, index) => (
+                                      <TableRow hover key={index}>
+                                        <TableCell component="th" scope="row" align="center">
+                                          {historyRow.user__email}
+                                        </TableCell>
+                                        <TableCell component="th" scope="row" align="center">
+                                          <img src={historyRow.user__profile_image_key} alt="avatar" style={{ width: '55px' }} />
+                                        </TableCell>
+                                      </TableRow>
+                                    ))}
                                   </TableBody>
                                 </Table>
                               </MainCard>

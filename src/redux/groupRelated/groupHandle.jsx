@@ -1,15 +1,7 @@
 import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
-import {
-  getRequest,
-  getGroupSuccess,
-  getPaginationState,
-  getMembersSuccess,
-  getGroupDetails,
-  getMemberDetails,
-  getFailedTwo,
-  getError
-} from './groupSlice';
+import { getRequest, getGroupSuccess, getPaginationState, getGroupDetails, getMemberDetails, getFailedTwo, getError } from './groupSlice';
+import { getMembersSuccess } from './groupMemberSlice';
 const Toast = Swal.mixin({
   toast: true,
   position: 'center',
@@ -58,14 +50,18 @@ export const getOptionGroup = (rowsPerPage, newPage) => async (dispatch) => {
 export const getGroupMembers = (id) => async (dispatch) => {
   const axiosInstance = useAxios();
   try {
-    const result = await axiosInstance.get(`/posts/groups/${id}/members-by-role/`);
-    if (result.data.data.message) {
-      dispatch(getFailedTwo(result.data.data.message));
-    } else {
-      dispatch(getMembersSuccess(result.data.data));
+    const result = await axiosInstance.get(`/posts/groups/${id}/members-by-role/`, {
+      params: {
+        role: 'admin'
+      }
+    });
+    console.log(result.data.admin, 'GroupMember');
+    if (result.data) {
+      console.log('success');
+      dispatch(getMembersSuccess(result.data.admin));
     }
   } catch (error) {
-    dispatch(getError);
+    console.log(error.data);
   }
 };
 export const groupDetails = (id) => async (dispatch) => {

@@ -2,6 +2,7 @@ import useAxios from 'utils/useAxios';
 import {
   getRequest,
   getStatusSuccess,
+  getSuccess,
   getStatusDetailedSuccess,
   getPaginationState,
   // getStatusFailed,
@@ -53,12 +54,12 @@ export const getOptionStatus = (rowsPerPage, newPage) => async (dispatch) => {
 export const createStatus =
   ({ image, title, description, group, video, user, documnet }) =>
   async (dispatch) => {
-    const axiosInstance = useAxios();
-    console.log({ image, title, description, group, video, user, documnet });
     dispatch(getRequest());
+    const axiosInstance = useAxios();
     try {
       const result = await axiosInstance.post('/posts/posts/status/', { image, title, description, group, video, user, documnet });
       if (result.data.data) {
+        dispatch(getSuccess());
         Toast.fire({
           icon: 'success',
           position: 'center',
@@ -67,6 +68,7 @@ export const createStatus =
         });
       }
     } catch (error) {
+      dispatch(getError(error.message));
       Toast.fire({
         icon: 'error',
         position: 'center',
@@ -83,6 +85,7 @@ export const updateStatus =
     try {
       const result = await axiosInstance.put(`/posts/posts/status/${id}/`, input);
       if (result.data.data) {
+        dispatch(getSuccess());
         Toast.fire({
           icon: 'success',
           position: 'center',
@@ -91,6 +94,7 @@ export const updateStatus =
         });
       }
     } catch (error) {
+      dispatch(getError(error.message));
       Toast.fire({
         icon: 'error',
         position: 'center',
@@ -105,6 +109,7 @@ export const deleteStatus = (id) => async (dispatch) => {
   try {
     const result = await axiosInstance.delete(`/posts/posts/status/${id}/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -113,6 +118,7 @@ export const deleteStatus = (id) => async (dispatch) => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',
@@ -135,12 +141,14 @@ export const getStatusByUser = (id) => async (dispatch) => {
     dispatch(getError(error));
   }
 };
-export const statusApprove = (id) => async () => {
+export const statusApprove = (id) => async (dispatch) => {
   console.log('reject');
   const axiosInstance = useAxios();
+  dispatch(getRequest());
   try {
     const result = await axiosInstance.post(`admin/status/${id}/approve_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -149,6 +157,7 @@ export const statusApprove = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',
@@ -157,11 +166,13 @@ export const statusApprove = (id) => async () => {
     });
   }
 };
-export const statusReject = (id) => async () => {
+export const statusReject = (id) => async (dispatch) => {
+  dispatch(getRequest());
   const axiosInstance = useAxios();
   try {
     const result = await axiosInstance.post(`admin/status/${id}/reject_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -170,6 +181,7 @@ export const statusReject = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',

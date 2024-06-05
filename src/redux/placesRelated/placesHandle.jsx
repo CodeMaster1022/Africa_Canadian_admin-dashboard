@@ -9,6 +9,7 @@ import {
   getError
 } from './placesSlice';
 import Swal from 'sweetalert2';
+import { getSuccess } from 'redux/statusRelated/statusSlice';
 const Toast = Swal.mixin({
   toast: true,
   position: 'center',
@@ -63,12 +64,13 @@ export const placesDetails = (id) => async (dispatch) => {
     dispatch(getError(error.data));
   }
 };
-export const placesApprove = (id) => async () => {
-  console.log('reject');
+export const placesApprove = (id) => async (dispatch) => {
+  dispatch(getRequest());
   const axiosInstance = useAxios();
   try {
     const result = await axiosInstance.post(`admin/places/${id}/approve_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -77,6 +79,7 @@ export const placesApprove = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',
@@ -85,11 +88,13 @@ export const placesApprove = (id) => async () => {
     });
   }
 };
-export const placesReject = (id) => async () => {
+export const placesReject = (id) => async (dispatch) => {
   const axiosInstance = useAxios();
+  dispatch(getRequest());
   try {
     const result = await axiosInstance.post(`admin/places/${id}/reject_post/`);
     if (result.data.data) {
+      dispatch(getSuccess());
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -98,6 +103,7 @@ export const placesReject = (id) => async () => {
       });
     }
   } catch (error) {
+    dispatch(getError(error.message));
     Toast.fire({
       icon: 'error',
       position: 'center',

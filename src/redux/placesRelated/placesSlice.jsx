@@ -6,6 +6,7 @@ const initialState = {
   placesLoading: false,
   error: null,
   response: null,
+  loading: false,
   getresponse: null,
   totalCount: 0,
   hasMore: false,

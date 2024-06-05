@@ -55,6 +55,7 @@ export const getOptionUsers = (rowsPerPage, newPage) => async (dispatch) => {
 export const addUser =
   ({ input }) =>
   async (dispatch) => {
+    dispatch(getRequest());
     console.log(input, 'test');
     const axiosInstance = useAxios();
     console.log(input.email, 'This is redux input');

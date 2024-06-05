@@ -66,7 +66,7 @@ export default function Updates() {
                 backgroundColor: (theme) => (theme.palette.mode === 'dark' ? '#ffab00' : '#008080'), // Color for active tab
                 color: 'white'
               },
-              textAlign: 'center' // Center the text
+              textAlign: 'center'
             }}
           />
         ))}

@@ -12,7 +12,6 @@ const Users = Loadable(lazy(() => import('pages/main/users')));
 const Updates = Loadable(lazy(() => import('pages/main/updates')));
 const Logout = Loadable(lazy(() => import('pages/logout')));
 const Community = Loadable(lazy(() => import('pages/main/community')));
-const AlbertaMap = Loadable(lazy(() => import('pages/main/testmap/Alberta')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -37,10 +36,6 @@ const MainRoutes = {
         {
           path: 'community',
           element: <Community />
-        },
-        {
-          path: 'edmontonmap',
-          element: <AlbertaMap />
         },
         {
           path: 'updates',

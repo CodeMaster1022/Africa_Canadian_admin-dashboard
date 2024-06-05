@@ -29,6 +29,7 @@ const usersSlice = createSlice({
     },
     underControl: (state) => {
       state.status = 'idle';
+      state.loading = false;
       state.getresponse = null;
     },
     getRequest: (state) => {
@@ -63,6 +64,7 @@ const usersSlice = createSlice({
     userAdded: (state, action) => {
       state.status = 'added';
       state.getresponse = null;
+      state.loading = false;
       state.error = null;
       state.tempDetails = action.payload;
     },
