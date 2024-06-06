@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllEvent } from 'redux/eventRelated/eventHandle';
 // Request Loader
 import RequestLoader from 'components/waiting/RequestLoader';
-export default function Users() {
+export default function Events() {
   const { loading } = useSelector((state) => state.event);
   const [newUserOpen, setNewUserOpen] = useState(false);
   const newUserModalOpen = () => setNewUserOpen(true);
@@ -27,7 +27,7 @@ export default function Users() {
         </Button>
       </Box>
       <MainCard>{loading ? <RequestLoader /> : <EventTable />}</MainCard>
-      <AddNewEvent modalOpen={newUserOpen} modalClose={newUserModalClose} />
+      <AddNewEvent modalOpen={newUserOpen} modalClose={newUserModalClose} action="create" />
     </>
   );
 }

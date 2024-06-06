@@ -89,7 +89,7 @@ const main = {
       id: 'job',
       title: 'Job Listings',
       type: 'item',
-      url: '/job',
+      url: '/jobs',
       icon: icons.MenuUnfoldOutlined
     }
   ]

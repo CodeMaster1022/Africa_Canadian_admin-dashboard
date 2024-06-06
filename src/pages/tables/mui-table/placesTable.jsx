@@ -139,7 +139,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 // ==============================|| TABLE - DATA TABLE ||============================== //
 
-export default function PlacesTable({ rows, source, hasMore, getMoreOption, totalCount, tablePage, itemsPerPage }) {
+export default function PlacesTable({ rows, source, getMoreOption, totalCount, tablePage, itemsPerPage }) {
   const dispatch = useDispatch();
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -154,9 +154,7 @@ export default function PlacesTable({ rows, source, hasMore, getMoreOption, tota
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if (hasMore) {
-      dispatch(getMoreOption(rowsPerPage, newPage + 1));
-    }
+    dispatch(getMoreOption(rowsPerPage, newPage + 1));
   };
   const handleAction = (id, action, source) => {
     console.log(id);
@@ -180,9 +178,7 @@ export default function PlacesTable({ rows, source, hasMore, getMoreOption, tota
   };
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event?.target.value, 10));
-    if (hasMore) {
-      dispatch(getMoreOption(parseInt(event.target.value, 10), 1));
-    }
+    dispatch(getMoreOption(parseInt(event.target.value, 10), 1));
     setPage(0);
   };
 
@@ -307,8 +303,7 @@ PlacesTable.propTypes = {
   totalCount: PropTypes.number.isRequired,
   tablePage: PropTypes.number.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
-  getMoreOption: PropTypes.func.isRequired,
-  hasMore: PropTypes.bool.isRequired
+  getMoreOption: PropTypes.func.isRequired
 };
 EnhancedTableHead.propTypes = {
   onSelectAllClick: PropTypes.any,

@@ -7,16 +7,17 @@ import MarkersPopups from 'sections/maps/MarkersPopups';
 import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
 // data set
-import sask from '../main/map/province/dataSet/Sask.json';
-import alberta from '../main/map/province/dataSet/alberta.json';
-import ontario from '../main/map/province/dataSet/Ontario.json';
-import manitoba from '../main/map/province/dataSet/Manitoba.json';
-import britishColombia from '../main/map/province/dataSet/BritishColombia.json';
-import yukon from '../main/map/province/dataSet/Yukon.json';
-import northWest from '../main/map/province/dataSet/NorthWest.json';
-// import caleton from '../main/map/province/dataSet/Caleton.json';
-import quebec from '../main/map/province/dataSet/Quebec.json';
-import nunavut from '../main/map/province/dataSet/Nunavut.json';
+// import sask from '../main/map/province/dataSet/Sask.json';
+// import alberta from '../main/map/province/dataSet/alberta.json';
+// import ontario from '../main/map/province/dataSet/Ontario.json';
+// import manitoba from '../main/map/province/dataSet/Manitoba.json';
+// import britishColombia from '../main/map/province/dataSet/BritishColombia.json';
+// import yukon from '../main/map/province/dataSet/Yukon.json';
+// import northWest from '../main/map/province/dataSet/NorthWest.json';
+// // import caleton from '../main/map/province/dataSet/Caleton.json';
+// import quebec from '../main/map/province/dataSet/Quebec.json';
+// // import nunavut from '../main/map/province/dataSet/Nunavut.json';
+// import nobascotia from '../main/map/province/dataSet/NovaScotia.json';
 // import { countries } from 'data/location';
 // Province map
 import Error from './map/Error';
@@ -36,24 +37,26 @@ import { getCommunity } from 'redux/communityRelated/communityHandle';
 // Switch Select Province
 function getProvince(index) {
   switch (index) {
-    case 'Alberta':
-      return <AlbertaMap regionName={alberta} regionFlag="alberta" />;
-    case 'Sask':
-      return <AlbertaMap regionName={sask} regionFlag="Sask" />;
-    case 'Yukon':
-      return <AlbertaMap regionName={yukon} regionFlag="Yukon" />;
-    case 'Nunavut':
-      return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
-    case 'Ontario':
-      return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
-    case 'NWT':
-      return <AlbertaMap regionName={northWest} regionFlag="NorthWest" />;
-    case 'BC':
-      return <AlbertaMap regionName={britishColombia} regionFlag="BritishColombia" />;
-    case 'Quebec':
-      return <AlbertaMap regionName={quebec} regionFlag="Quebec" />;
-    case 'Manitoba':
-      return <AlbertaMap regionName={manitoba} regionFlag="Manitoba" />;
+    // case 'Alberta':
+    //   return <AlbertaMap regionName={alberta} regionFlag="alberta" />;
+    // case 'Sask':
+    //   return <AlbertaMap regionName={sask} regionFlag="Sask" />;
+    // case 'Yukon':
+    //   return <AlbertaMap regionName={yukon} regionFlag="Yukon" />;
+    // // case 'Nunavut':
+    // //   return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
+    // case 'Ontario':
+    //   return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
+    // case 'NWT':
+    //   return <AlbertaMap regionName={northWest} regionFlag="NorthWest" />;
+    // case 'BC':
+    //   return <AlbertaMap regionName={britishColombia} regionFlag="BritishColombia" />;
+    // case 'Quebec':
+    //   return <AlbertaMap regionName={quebec} regionFlag="Quebec" />;
+    // case 'Manitoba':
+    //   return <AlbertaMap regionName={manitoba} regionFlag="Manitoba" />;
+    // case 'NFL_L':
+    //   return <AlbertaMap regionName={nobascotia} regionFlag="NovaScotia" />;
     default:
       return <Error />;
   }

@@ -38,7 +38,6 @@ const App = () => {
     const initialize = keycloak?.didInitialize;
     console.log(initialize, 'initialize');
     if (keycloak && initialize) {
-      // keycloak.logout();
       localStorage.setItem('token', keycloak?.token);
       localStorage.setItem('keycloakRefreshToken', keycloak.refreshToken);
       keycloak.onTokenExpired = () => keycloak.updateToken(600);
@@ -88,16 +87,6 @@ const App = () => {
           </>
         )}
       </KeycloakContext.Provider>
-      {/* <ThemeCustomization>
-        <Locales>
-          <ScrollTop>
-            <Notistack>
-              <RouterProvider router={router} />
-              <Snackbar />
-            </Notistack>
-          </ScrollTop>
-        </Locales>
-      </ThemeCustomization> */}
     </>
   );
 };

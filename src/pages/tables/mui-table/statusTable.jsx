@@ -128,7 +128,7 @@ function EnhancedTableHead({ order, orderBy, onRequestSort }) {
 
 export default function UpdatesTable() {
   const dispatch = useDispatch();
-  const { statusList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.status);
+  const { statusList, total_count, tablePage, items_per_page } = useSelector((state) => state.status);
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [page, setPage] = useState(0);
@@ -142,7 +142,7 @@ export default function UpdatesTable() {
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if (has_more) dispatch(getOptionStatus(rowsPerPage, newPage + 1));
+    dispatch(getOptionStatus(rowsPerPage, newPage + 1));
   };
   const handleAction = (id, action) => {
     console.log(id);

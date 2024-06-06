@@ -27,7 +27,6 @@ export const getGroup = () => async (dispatch) => {
 };
 
 export const getOptionGroup = (rowsPerPage, newPage) => async (dispatch) => {
-  console.log(newPage, rowsPerPage);
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
@@ -55,13 +54,11 @@ export const getGroupMembers = (id) => async (dispatch) => {
         role: 'admin'
       }
     });
-    console.log(result.data.admin, 'GroupMember');
     if (result.data) {
-      console.log('success');
       dispatch(getMembersSuccess(result.data.admin));
     }
   } catch (error) {
-    console.log(error.data);
+    dispatch(getError(error.data));
   }
 };
 export const groupDetails = (id) => async (dispatch) => {
@@ -107,7 +104,6 @@ export const groupReactivate = (id) => async () => {
   try {
     const result = await axiosInstance.post(`admin/groups/${id}/reactivate/`);
     if (result.data.data) {
-      console.log(result.data.data);
       Toast.fire({
         icon: 'success',
         position: 'center',
@@ -116,7 +112,6 @@ export const groupReactivate = (id) => async () => {
       });
     }
   } catch (error) {
-    console.log(error);
     Toast.fire({
       icon: 'error',
       position: 'center',
@@ -130,7 +125,6 @@ export const groupDelete = (id) => async () => {
   // dispatch(getRequest());
   try {
     const result = await axiosInstance.delete(`/admin/groups/${id}/`);
-    console.log(result.data.message);
     if (result) {
       Toast.fire({
         icon: 'success',
@@ -140,7 +134,6 @@ export const groupDelete = (id) => async () => {
       });
     }
   } catch (error) {
-    console.log(error);
     Toast.fire({
       icon: 'error',
       position: 'center',

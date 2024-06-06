@@ -107,7 +107,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 export default function GroupTable() {
   const dispatch = useDispatch();
 
-  const { groupList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.group);
+  const { groupList, total_count, tablePage, items_per_page } = useSelector((state) => state.group);
   const { groupMembers } = useSelector((state) => state.groupMember);
   const theme = useTheme();
   const backColor = alpha(theme.palette.primary.lighter, 0.1);
@@ -158,14 +158,13 @@ export default function GroupTable() {
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if (has_more) dispatch(getOptionGroup(rowsPerPage, newPage + 1));
+    dispatch(getOptionGroup(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
-    console.log('new page');
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    if (has_more) dispatch(getOptionGroup(parseInt(event.target.value, 10), 1));
+    dispatch(getOptionGroup(parseInt(event.target.value, 10), 1));
   };
   // const isSelected = (name) => selected.indexOf(name) !== -1;
 

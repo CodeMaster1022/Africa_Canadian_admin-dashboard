@@ -21,7 +21,7 @@ import Select from '@mui/material/Select';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunity } from 'redux/communityRelated/communityHandle';
-import { eventCreate, getAllEvent } from 'redux/eventRelated/eventHandle';
+import { eventCreate, eventUpdate, getAllEvent } from 'redux/eventRelated/eventHandle';
 // project import
 // import ProfileTab from './ProfileTab';
 import Avatar from 'components/@extended/Avatar';
@@ -33,7 +33,7 @@ import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import userImage from 'assets/images/users/avatar-1.png';
 import { setgroups } from 'process';
 
-const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
+const AddNewEvent = ({ modalOpen, modalClose, currentEvent, action }) => {
   const dispatch = useDispatch();
   const { communityList } = useSelector((state) => state.community);
   const { eventList } = useSelector((state) => state.event);
@@ -41,9 +41,10 @@ const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
     dispatch(getCommunity());
   }, [dispatch]);
   const theme = useTheme();
-  const [imageUrl, setSelectedImage] = useState(undefined);
+  const [userKeycloakId, setUserKeycloakId] = useState('');
+  const [imageUrl, setSelectedImage] = useState('');
   const [avatar, setAvatar] = useState(userImage);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState();
   const [venue, setVenue] = useState('');
   const [price, setPrice] = useState('');
   const [eventHappeningDate, setEventHappeningDate] = useState('2024-06-30 01:00:00');
@@ -58,9 +59,26 @@ const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
   const [eventExpiryDate, setEventExpiryDate] = useState('2024-06-30 01:00:00');
   const Save = () => {
     if (imageUrl !== '' && title !== '' && description !== '' && community !== '') {
-      dispatch(
-        eventCreate({ title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community })
-      );
+      if (action === 'create')
+        dispatch(
+          eventCreate({ title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community })
+        );
+      if (action === 'edit')
+        dispatch(
+          eventUpdate({
+            userKeycloakId,
+            title,
+            description,
+            eventExpiryDate,
+            eventHappeningDate,
+            imageUrl,
+            eventUrl,
+            color,
+            location,
+            user,
+            community
+          })
+        );
       dispatch(getAllEvent());
       modalClose(true);
       // Swal.fire({
@@ -83,7 +101,9 @@ const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
   const Cancel = () => {
     modalClose(true);
   };
-
+  useEffect(() => {
+    console.log(userKeycloakId);
+  }, [userKeycloakId]);
   const handleChangeCommunity = (event) => {
     event.preventDefault();
     setCommunity(event.target.value);
@@ -93,13 +113,6 @@ const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
       setAvatar(URL.createObjectURL(imageUrl));
     }
   }, [imageUrl]);
-  useEffect(() => {
-    if (currentEvent) {
-      setTitle(currentEvent.title);
-      // setCommunity(currentEvent.community.id);
-      // setUrl();
-    }
-  }, [currentEvent]);
   const isSMScreen = useMediaQuery(theme.breakpoints.down('sm'));
   const modalstyle = {
     position: 'absolute',
@@ -266,6 +279,7 @@ AddNewEvent.propTypes = {
   modalOpen: PropTypes.bool,
   id: number,
   modalClose: PropTypes.func,
-  currentEvent: PropTypes.object
+  currentEvent: PropTypes.object,
+  action: PropTypes.string
 };
 export default AddNewEvent;

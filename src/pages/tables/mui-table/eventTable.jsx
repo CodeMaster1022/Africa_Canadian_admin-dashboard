@@ -5,7 +5,6 @@ import Swal from 'sweetalert2';
 import {
   Box,
   Table,
-  Checkbox,
   Divider,
   TableBody,
   TableCell,
@@ -52,24 +51,13 @@ function stableSort(array, comparator) {
 
 // ==============================|| MUI TABLE - HEADER ||============================== //
 
-function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort }) {
+function EnhancedTableHead({ order, orderBy, onRequestSort }) {
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
   };
   return (
     <TableHead>
       <TableRow>
-        <TableCell padding="checkbox" sx={{ pl: 3 }}>
-          <Checkbox
-            color="primary"
-            indeterminate={numSelected > 0 && numSelected < rowCount}
-            checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
-            inputProps={{
-              'aria-label': 'select all desserts'
-            }}
-          />
-        </TableCell>
         {headCells.map((headCell, index) => (
           <TableCell
             key={index}
@@ -99,7 +87,7 @@ function EnhancedTableHead({ onSelectAllClick, order, orderBy, numSelected, rowC
 export default function EventTable() {
   const dispatch = useDispatch();
 
-  const { eventList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.event);
+  const { eventList, total_count,tablePage, items_per_page } = useSelector((state) => state.event);
   // Fetch Data
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
@@ -107,11 +95,10 @@ export default function EventTable() {
   const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(items_per_page);
   let data = stableSort(eventList, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
-  const [event, setEvent] = useState({});
+  const [user, setUser] = useState({});
   const handleButtonClick = (rowData) => {
-    console.log(event);
     profileModalOpen();
-    setEvent(rowData);
+    setUser(rowData);
   };
   const [profileOpen, setProfileOpen] = useState(false);
   const profileModalOpen = () => setProfileOpen(true);
@@ -143,14 +130,14 @@ export default function EventTable() {
   };
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
-    if (has_more) dispatch(getAllEvent(rowsPerPage, newPage + 1));
+    dispatch(getAllEvent(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {
     console.log('new page');
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
-    if (has_more) dispatch(getAllEvent(parseInt(event.target.value, 10), 1));
+    dispatch(getAllEvent(parseInt(event.target.value, 10), 1));
   };
 
   // avoid a layout jump when reaching the last page with empty rows.
@@ -171,14 +158,6 @@ export default function EventTable() {
                 return (
                   <React.Fragment key={index}>
                     <TableRow role="checkbox" tabIndex={-1}>
-                      <TableCell padding="checkbox" sx={{ pl: 3 }}>
-                        <Checkbox
-                          color="primary"
-                          inputProps={{
-                            'aria-labelledby': labelId
-                          }}
-                        />
-                      </TableCell>
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="center">
                         {row.id}
                       </TableCell>
@@ -218,7 +197,7 @@ export default function EventTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </MainCard>
-      <AddNewEvent modalOpen={profileOpen} modalClose={profileModalClose} currentEvent={event} />
+      <AddNewEvent modalOpen={profileOpen} modalClose={profileModalClose} currentEvent={user} action="edit" />
     </>
   );
 }

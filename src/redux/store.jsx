@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { placesReducer } from './placesRelated/placesSlice';
 import { communityReducer } from './communityRelated/communitySlice';
 import { mapFilterReducer } from './mapRelated/mapSlice';
 import { updatesReducer } from './updateSlice/updateSlice';
@@ -8,7 +7,10 @@ import { groupReducer } from './groupRelated/groupSlice';
 import { resourceReducer } from './resourceRelated/resourceSlice';
 import { statusReducer } from './statusRelated/statusSlice';
 import { groupMemberReducer } from './groupRelated/groupMemberSlice';
+import { placesReducer } from './placesRelated/placesSlice';
+import { surveyReducer } from './surveyRelated/surveySlice';
 import { eventReducer } from './eventRelated/eventSlice';
+import { jobReducer } from './jobRelated/jobsSlice';
 const store = configureStore({
   reducer: {
     community: communityReducer,
@@ -20,7 +22,9 @@ const store = configureStore({
     resource: resourceReducer,
     status: statusReducer,
     groupMember: groupMemberReducer,
-    event: eventReducer
+    surveys: surveyReducer,
+    event: eventReducer,
+    job: jobReducer
   }
 });
 

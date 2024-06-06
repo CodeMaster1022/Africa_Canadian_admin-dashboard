@@ -8,11 +8,13 @@ import DashboardLayout from 'layout/Dashboard';
 const Dashboard = Loadable(lazy(() => import('pages/main/dashboard')));
 const Group = Loadable(lazy(() => import('pages/main/group')));
 // const AppContactUS = Loadable(lazy(() => import('pages/contact-us')));
+const Surveys = Loadable(lazy(() => import('pages/main/surveys')));
 const Users = Loadable(lazy(() => import('pages/main/users')));
 const Updates = Loadable(lazy(() => import('pages/main/updates')));
 const Logout = Loadable(lazy(() => import('pages/logout')));
 const Community = Loadable(lazy(() => import('pages/main/community')));
 const Events = Loadable(lazy(() => import('pages/main/events')));
+const Jobs = Loadable(lazy(() => import('pages/main/jobs')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -39,12 +41,20 @@ const MainRoutes = {
           element: <Community />
         },
         {
+          path: 'surveys',
+          element: <Surveys />
+        },
+        {
           path: 'updates',
           element: <Updates />
         },
         {
           path: 'events',
           element: <Events />
+        },
+        {
+          path: 'jobs',
+          element: <Jobs />
         },
         {
           path: 'logout',

@@ -111,12 +111,22 @@ export const getEventByCommunityId = (id) => async (dispatch) => {
   }
 };
 export const eventUpdate =
-  ({ id, input }) =>
+  ({ userKeycloakId, title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community }) =>
   async () => {
     const axiosInstance = useAxios();
     try {
-      const result = await axiosInstance.patch(`/admin/events/${id}/`, input);
-      console.log(result.data.message);
+      const result = await axiosInstance.patch(`/admin/events/${userKeycloakId}/`, {
+        title,
+        description,
+        eventExpiryDate,
+        eventHappeningDate,
+        imageUrl,
+        eventUrl,
+        color,
+        location,
+        user,
+        community
+      });
       if (result) {
         Toast.fire({
           icon: 'success',
@@ -126,7 +136,6 @@ export const eventUpdate =
         });
       }
     } catch (error) {
-      console.log(error);
       Toast.fire({
         icon: 'error',
         position: 'center',
@@ -137,14 +146,12 @@ export const eventUpdate =
   };
 export const eventDelete = (id) => async () => {
   const axiosInstance = useAxios();
-  console.log(id);
   try {
     const result = await axiosInstance.delete('/admin/events/', {
       params: {
         user_id: id
       }
     });
-    console.log(result.data, 'result');
     if (result) {
       Toast.fire({
         icon: 'success',
@@ -154,7 +161,6 @@ export const eventDelete = (id) => async () => {
       });
     }
   } catch (error) {
-    console.log(error, 'error');
     Toast.fire({
       icon: 'error',
       position: 'center',

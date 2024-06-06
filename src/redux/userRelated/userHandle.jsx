@@ -26,7 +26,6 @@ export const getUsers = () => async (dispatch) => {
   try {
     const result = await axiosInstance.get('/admin/users/');
     if (result.data.data) {
-      console.log(result, 'this is users');
       dispatch(getPaginationState(result.data));
       dispatch(getUsersSuccess(result.data.data));
     }
@@ -56,9 +55,7 @@ export const addUser =
   ({ input }) =>
   async (dispatch) => {
     dispatch(getRequest());
-    console.log(input, 'test');
     const axiosInstance = useAxios();
-    console.log(input.email, 'This is redux input');
     try {
       const result = await axiosInstance.post('/users/user', input, {
         headers: { 'Content-Type': 'application/json' }
@@ -74,7 +71,6 @@ export const userDeactivate = (id) => async () => {
   const axiosInstance = useAxios();
   try {
     const result = await axiosInstance.patch(`/users/user/activate/${id}`);
-    console.log('result', result);
     if (result.data.data) {
       Swal.fire({
         position: 'top-end',
@@ -91,8 +87,6 @@ export const userDeactivate = (id) => async () => {
       text: `${error.response.data.message}`,
       title: 'Error!'
     });
-    // console.log(error.response.data.message);
-    // alert(error);
   }
 };
 export const userReactivate = (id) => async () => {
@@ -100,7 +94,6 @@ export const userReactivate = (id) => async () => {
   // dispatch(getRequest());
   try {
     const result = await axiosInstance.post(`/users/user/activate/${id}`);
-    console.log('user reactivate', result.data);
     if (result.data.data) {
       Toast.fire({
         icon: 'success',

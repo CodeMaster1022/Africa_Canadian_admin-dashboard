@@ -3,20 +3,21 @@
 
 // assets
 import {
+  AppstoreAddOutlined,
+  BankOutlined,
+  BookOutlined,
+  CalendarOutlined,
   FileDoneOutlined,
+  FundOutlined,
+  InboxOutlined,
   LoginOutlined,
-  UserOutlined,
-  TeamOutlined,
+  MenuUnfoldOutlined,
   PhoneOutlined,
   RocketOutlined,
-  AppstoreAddOutlined,
-  FundOutlined,
-  CalendarOutlined,
-  MenuUnfoldOutlined,
-  InboxOutlined,
-  BankOutlined,
-  BookOutlined
+  TeamOutlined,
+  UserOutlined
 } from '@ant-design/icons';
+import { FormattedMessage } from 'react-intl';
 
 // type
 
@@ -45,10 +46,10 @@ const secondary = {
   type: 'group',
   children: [
     {
-      id: 'survery',
-      title: 'Surveys',
+      id: 'survey',
+      title: <FormattedMessage id="Surveys" />,
       type: 'item',
-      url: '/surverys',
+      url: '/surveys',
       icon: icons.FileDoneOutlined
     },
     {

@@ -1,6 +1,6 @@
 import useAxios from 'utils/useAxios';
 import Swal from 'sweetalert2';
-import { getRequest, getjobsSuccess, getPaginationState, getFailedTwo, getjobsDetailSuccess, getError } from './jobsSlice';
+import { getRequest, getjobsSuccess, getPaginationState, getFailedTwo, getError, getjobsDetailSuccess } from './jobsSlice';
 const Toast = Swal.mixin({
   toast: true,
   position: 'center',
@@ -9,7 +9,7 @@ const Toast = Swal.mixin({
   timerProgressBar: true
 });
 
-export const createJobs =
+export const jobsCreate =
   ({ input }) =>
   async () => {
     const axiosInstance = useAxios();
@@ -34,14 +34,17 @@ export const createJobs =
       });
     }
   };
-export const getAlljobs = () => async (dispatch) => {
+export const getAlljobs = (newPage, rowsPerPage) => async (dispatch) => {
   const axiosInstance = useAxios();
   dispatch(getRequest());
   try {
-    const result = await axiosInstance.get('/admin/jobs/');
-    if (result.data.data.message) {
-      dispatch(getFailedTwo(result.data.data.message));
-    } else {
+    const result = await axiosInstance.get('/admin/jobs/', {
+      params: {
+        page: newPage,
+        items_per_page: rowsPerPage
+      }
+    });
+    if (result.data.data) {
       dispatch(getjobsSuccess(result.data.data));
       dispatch(getPaginationState(result.data));
     }

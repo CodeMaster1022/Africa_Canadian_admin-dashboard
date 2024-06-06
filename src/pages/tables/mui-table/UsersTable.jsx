@@ -146,7 +146,7 @@ export default function UsersTable() {
       }
     });
   };
-  const { usersList, total_count, has_more, tablePage, items_per_page } = useSelector((state) => state.users);
+  const { usersList, total_count, tablePage, items_per_page } = useSelector((state) => state.users);
   const [user, setUser] = useState({});
   const handleButtonClick = (rowData) => {
     console.log(user);
@@ -181,7 +181,7 @@ export default function UsersTable() {
   const handleChangePage = (event, newPage) => {
     console.log(newPage);
     setPage(newPage);
-    if (has_more) dispatch(getOptionUsers(rowsPerPage, newPage + 1));
+    dispatch(getOptionUsers(rowsPerPage, newPage + 1));
   };
 
   const handleChangeRowsPerPage = (event) => {

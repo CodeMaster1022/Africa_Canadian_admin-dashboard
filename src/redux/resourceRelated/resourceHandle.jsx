@@ -23,7 +23,6 @@ export const getResource = () => async (dispatch) => {
 
   try {
     const result = await axiosInstance.get('/admin/resources/');
-    console.log(result);
     if (result.data) {
       dispatch(getResourceSuccess(result.data.data));
     }
