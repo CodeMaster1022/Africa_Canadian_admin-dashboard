@@ -27,7 +27,7 @@ export default function Users() {
         </Button>
       </Box>
       <MainCard>{loading ? <RequestLoader /> : <EventTable />}</MainCard>
-      <AddNewEvent modalOpen={newUserOpen} modalClose={newUserModalClose} />
+      <AddNewEvent modalOpen={newUserOpen} modalClose={newUserModalClose} action="create" />
     </>
   );
 }

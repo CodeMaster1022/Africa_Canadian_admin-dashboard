@@ -16,7 +16,8 @@ import yukon from '../main/map/province/dataSet/Yukon.json';
 import northWest from '../main/map/province/dataSet/NorthWest.json';
 // import caleton from '../main/map/province/dataSet/Caleton.json';
 import quebec from '../main/map/province/dataSet/Quebec.json';
-import nunavut from '../main/map/province/dataSet/Nunavut.json';
+// import nunavut from '../main/map/province/dataSet/Nunavut.json';
+import nobascotia from '../main/map/province/dataSet/NovaScotia.json';
 // import { countries } from 'data/location';
 // Province map
 import Error from './map/Error';
@@ -42,8 +43,8 @@ function getProvince(index) {
       return <AlbertaMap regionName={sask} regionFlag="Sask" />;
     case 'Yukon':
       return <AlbertaMap regionName={yukon} regionFlag="Yukon" />;
-    case 'Nunavut':
-      return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
+    // case 'Nunavut':
+    // return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
     case 'Ontario':
       return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
     case 'NWT':
@@ -54,6 +55,8 @@ function getProvince(index) {
       return <AlbertaMap regionName={quebec} regionFlag="Quebec" />;
     case 'Manitoba':
       return <AlbertaMap regionName={manitoba} regionFlag="Manitoba" />;
+    case 'NFL_L':
+      return <AlbertaMap regionName={nobascotia} regionFlag="NovaScotia" />;
     default:
       return <Error />;
   }

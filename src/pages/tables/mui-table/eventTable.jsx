@@ -218,7 +218,7 @@ export default function EventTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </MainCard>
-      <AddNewEvent modalOpen={profileOpen} modalClose={profileModalClose} currentEvent={event} />
+      <AddNewEvent modalOpen={profileOpen} modalClose={profileModalClose} currentEvent={event} action="edit" />
     </>
   );
 }

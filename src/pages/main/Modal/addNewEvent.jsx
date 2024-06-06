@@ -21,7 +21,7 @@ import Select from '@mui/material/Select';
 // Redux
 import { useSelector, useDispatch } from 'react-redux';
 import { getCommunity } from 'redux/communityRelated/communityHandle';
-import { eventCreate, getAllEvent } from 'redux/eventRelated/eventHandle';
+import { eventCreate, eventUpdate, getAllEvent } from 'redux/eventRelated/eventHandle';
 // project import
 // import ProfileTab from './ProfileTab';
 import Avatar from 'components/@extended/Avatar';
@@ -33,7 +33,7 @@ import CameraOutlined from '@ant-design/icons/CameraOutlined';
 import userImage from 'assets/images/users/avatar-1.png';
 import { setgroups } from 'process';
 
-const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
+const AddNewEvent = ({ modalOpen, modalClose, currentEvent, action }) => {
   const dispatch = useDispatch();
   const { communityList } = useSelector((state) => state.community);
   const { eventList } = useSelector((state) => state.event);
@@ -58,9 +58,14 @@ const AddNewEvent = ({ modalOpen, modalClose, currentEvent }) => {
   const [eventExpiryDate, setEventExpiryDate] = useState('2024-06-30 01:00:00');
   const Save = () => {
     if (imageUrl !== '' && title !== '' && description !== '' && community !== '') {
-      dispatch(
-        eventCreate({ title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community })
-      );
+      if (action === 'create')
+        dispatch(
+          eventCreate({ title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community })
+        );
+      if (action === 'edit')
+        dispatch(
+          eventUpdate({ title, description, eventExpiryDate, eventHappeningDate, imageUrl, eventUrl, color, location, user, community })
+        );
       dispatch(getAllEvent());
       modalClose(true);
       // Swal.fire({
@@ -266,6 +271,7 @@ AddNewEvent.propTypes = {
   modalOpen: PropTypes.bool,
   id: number,
   modalClose: PropTypes.func,
-  currentEvent: PropTypes.object
+  currentEvent: PropTypes.object,
+  action: PropTypes.string
 };
 export default AddNewEvent;
