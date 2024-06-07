@@ -1,4 +1,5 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { Box, Tabs, Tab } from '@mui/material';
 import MainCard from 'components/MainCard';
 import PropTypes from 'prop-types';
@@ -6,69 +7,45 @@ import CanadaMap from './map/canadaMap';
 import MarkersPopups from 'sections/maps/MarkersPopups';
 import { countries } from 'data/location';
 import { setTabNumber } from 'redux/mapRelated/mapSlice';
-// data set
-// import sask from '../main/map/province/dataSet/Sask.json';
-// import alberta from '../main/map/province/dataSet/alberta.json';
-// import ontario from '../main/map/province/dataSet/Ontario.json';
-// import manitoba from '../main/map/province/dataSet/Manitoba.json';
-// import britishColombia from '../main/map/province/dataSet/BritishColombia.json';
-// import yukon from '../main/map/province/dataSet/Yukon.json';
-// import northWest from '../main/map/province/dataSet/NorthWest.json';
-// // import caleton from '../main/map/province/dataSet/Caleton.json';
-// import quebec from '../main/map/province/dataSet/Quebec.json';
-// // import nunavut from '../main/map/province/dataSet/Nunavut.json';
-// import nobascotia from '../main/map/province/dataSet/NovaScotia.json';
-// import { countries } from 'data/location';
+
 // Province map
-import Error from './map/Error';
 import AlbertaMap from './map/province/Alberta/Alberta';
-// import YukonMap from './map/province/Yukon/Boundary';
-// import NunavutMap from './map/province/Nunavut/Boundary';
-// import OntarioMap from './map/province/Ontario/Boundary';
-// import NorthWestMap from './map/province/NorthWest/Boundary';
-// import BritshMap from './map/province/British/Boundary';
-// import QuebecMap from './map/province/Qubec/Boundary';
-// import ManitobaMap from './map/province/Manitoba/Boundary';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getCommunity } from 'redux/communityRelated/communityHandle';
 
-// Switch Select Province
-function getProvince(index) {
-  switch (index) {
-    // case 'Alberta':
-    //   return <AlbertaMap regionName={alberta} regionFlag="alberta" />;
-    // case 'Sask':
-    //   return <AlbertaMap regionName={sask} regionFlag="Sask" />;
-    // case 'Yukon':
-    //   return <AlbertaMap regionName={yukon} regionFlag="Yukon" />;
-    // // case 'Nunavut':
-    // //   return <AlbertaMap regionName={nunavut} regionFlag="Nunavut" />;
-    // case 'Ontario':
-    //   return <AlbertaMap regionName={ontario} regionFlag="Ontario" />;
-    // case 'NWT':
-    //   return <AlbertaMap regionName={northWest} regionFlag="NorthWest" />;
-    // case 'BC':
-    //   return <AlbertaMap regionName={britishColombia} regionFlag="BritishColombia" />;
-    // case 'Quebec':
-    //   return <AlbertaMap regionName={quebec} regionFlag="Quebec" />;
-    // case 'Manitoba':
-    //   return <AlbertaMap regionName={manitoba} regionFlag="Manitoba" />;
-    // case 'NFL_L':
-    //   return <AlbertaMap regionName={nobascotia} regionFlag="NovaScotia" />;
-    default:
-      return <Error />;
-  }
-}
-
 export default function Community() {
   // Fetch Users Data
   const dispatch = useDispatch();
   const { search, tabnumber } = useSelector((state) => state.mapFilter);
+  const [jsonData, setJsonData] = useState({});
+  const query = 'Alberta';
   useEffect(() => {
     dispatch(getCommunity());
   }, [dispatch]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (search === '') {
+          const response = await axios.get(`/dataSet/${query}.json`);
+          setJsonData(response.data);
+        } else {
+          const response = await axios.get(`/dataSet/${search}.json`);
+          setJsonData(response.data);
+        }
+      } catch (error) {
+        console.error('error fetch Data', error);
+      }
+    };
+    fetchData();
+  }, [search]);
+  useEffect(() => {
+    console.log('search is changed', search);
+  }, [search]);
+  useEffect(() => {
+    console.log('123------------------------->', jsonData, search);
+  }, [jsonData, search]);
 
   const mapConfiguration = {
     mapboxAccessToken: import.meta.env.VITE_APP_MAPBOX_ACCESS_TOKEN,
@@ -91,6 +68,7 @@ export default function Community() {
       </div>
     );
   };
+
   TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
     index: PropTypes.number.isRequired,
@@ -123,7 +101,10 @@ export default function Community() {
         </MainCard>
       </TabPanel>
       <TabPanel value={tabnumber} index={1}>
-        {getProvince(search)}
+        {search === 'Alberta' && <AlbertaMap regionName={jsonData} regionFlag={query} />}
+        {search !== 'Alberta' && search !== '' && Object.keys(jsonData).length > 0 && (
+          <AlbertaMap regionName={jsonData} regionFlag={search} />
+        )}
       </TabPanel>
       <TabPanel value={tabnumber} index={2}>
         <MainCard>
@@ -133,3 +114,18 @@ export default function Community() {
     </>
   );
 }
+// useEffect(() => {
+//   const fetchData = async () => {
+//     try {
+//       if (index) {
+//         const response = await axios.get(`../main/map/province/dataSet/${index}.json`);
+//       } else {
+//         const response = await axios.get(`../main/map/province/dataSet/Alberta.json`);
+//       }
+//       setJsonData(response.data);
+//     } catch (error) {
+//       console.error('error fetch Data', error);
+//     }
+//   };
+//   fetchData();
+// }, []);

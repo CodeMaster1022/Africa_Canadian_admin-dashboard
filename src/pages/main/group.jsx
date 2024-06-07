@@ -22,12 +22,6 @@ export default function Community() {
   const handleChangeAge = (event) => {
     setAge(event.target.value);
   };
-  const Tab_Titles = ['Stats', 'Map'];
-  const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
   return (
     <>
       <Grid item xs={12} sm={6} marginTop={3}>

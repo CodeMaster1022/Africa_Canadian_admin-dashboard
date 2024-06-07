@@ -115,7 +115,7 @@ export default function JobTable() {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
         if (action === 'delete') {
-          dispatch(eventDelete(id));
+          // dispatch(eventDelete(id));
           dispatch(getAlljobs());
         }
       } else if (result.isDenied) {

@@ -8,7 +8,6 @@ const initialState = {
   has_more: false,
   tablePage: 1,
   items_per_page: 10,
-  loading: false,
   subloading: false,
   error: 'This is error',
   response: null,
@@ -51,13 +50,6 @@ const jobSlice = createSlice({
   }
 });
 
-export const {
-  getRequest,
-  getjobsSuccess,
-  getPaginationState,
-  getFailedTwo,
-  getError,
-  getjobsDetailSuccess
-} = jobSlice.actions;
+export const { getRequest, getjobsSuccess, getPaginationState, getFailedTwo, getError, getjobsDetailSuccess } = jobSlice.actions;
 
 export const jobReducer = jobSlice.reducer;

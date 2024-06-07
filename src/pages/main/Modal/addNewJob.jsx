@@ -45,7 +45,7 @@ const AddNewJob = ({ modalOpen, modalClose, currentEvent, action }) => {
   const [avatar, setAvatar] = useState(userImage);
   const [title, setTitle] = useState();
   const [application, setApplication] = useState('');
-  const [level, setLevel] = useState('');
+  const [level, setLevel] = useState(1);
   const [start_date, setStartDate] = useState('2024-06-30 01:00:00');
   const [end_date, setEndDate] = useState('2024-08-30 01:00:00');
   const [community, setCommunity] = useState('');
@@ -96,6 +96,10 @@ const AddNewJob = ({ modalOpen, modalClose, currentEvent, action }) => {
   const handleChangeCommunity = (event) => {
     event.preventDefault();
     setCommunity(event.target.value);
+  };
+  const handleChangeLevel = (event) => {
+    event.preventDefault();
+    setLevel(event.target.value);
   };
   useEffect(() => {
     if (imageUrl) {
@@ -188,7 +192,19 @@ const AddNewJob = ({ modalOpen, modalClose, currentEvent, action }) => {
                 </Box>
                 <Box sx={{ padding: '5px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Experience Level</Typography>
-                  <TextField sx={{ width: '100%' }} value={level} required onChange={(e) => setLevel(e.target.value)} />
+                  <FormControl sx={{ width: '100%' }}>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      value={level}
+                      onChange={handleChangeLevel}
+                      placeholder="community"
+                    >
+                      <MenuItem value={0}>Beginner</MenuItem>
+                      <MenuItem value={1}>Intermediate </MenuItem>
+                      <MenuItem value={2}>Professional </MenuItem>
+                    </Select>
+                  </FormControl>
                 </Box>
                 <Box sx={{ padding: '5px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Location</Typography>
@@ -200,24 +216,24 @@ const AddNewJob = ({ modalOpen, modalClose, currentEvent, action }) => {
                 </Box>
               </Grid>
               <Grid item xs={12}>
-                <Box sx={{ padding: '5px' }}>
-                  <Typography sx={{ color: '#8C8C8C' }}>Target Community</Typography>
-                  <FormControl sx={{ width: '100%' }}>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={community}
-                      onChange={handleChangeCommunity}
-                      placeholder="community"
-                    >
-                      {communityList.map((com, index) => (
-                        <MenuItem value={com.id} key={index}>
-                          {com.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
-                </Box>
+                <Typography sx={{ color: '#8C8C8C' }}>Target Community</Typography>
+                <FormControl sx={{ width: '100%' }}>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={community}
+                    onChange={handleChangeCommunity}
+                    placeholder="level"
+                  >
+                    {communityList.map((com, index) => (
+                      <MenuItem value={com.id} key={index}>
+                        {com.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12}>
                 <Box sx={{ padding: '5px' }}>
                   <Typography sx={{ color: '#8C8C8C' }}>Application Link</Typography>
                   <TextField sx={{ width: '100%' }} value={application} required onChange={(e) => setApplication(e.target.value)} />

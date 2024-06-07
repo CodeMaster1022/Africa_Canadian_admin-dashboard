@@ -29,7 +29,7 @@ const CanadaMap = () => {
           // style="enable-background:new 0 0 694.4 685;"
           xmlSpace="preserve"
         >
-          <g id="NFL_L" fill="#014167" onClick={mapClickHandler}>
+          <g id="NewfoundlandandLabrador" fill="#014167" onClick={mapClickHandler}>
             <path
               className="province_path"
               d="M629.7,480c-2.4,0.3-3.1-2.5-5-3c0,0,0,0,0,0c0.1-0.3,0.1-0.7-0.1-1c-1.1-2.6-2.8-1.3-4.5-0.7
@@ -67,7 +67,7 @@ const CanadaMap = () => {
             <rect className="st6" x="616.4" y="427.2" width="3.7" height="35.8" />
             <circle className="st5" cx="618.3" cy="462.9" r="7.1" />
           </g>
-          <g id="BC" fill="#01C4E0" onClick={mapClickHandler}>
+          <g id="BritishColombia" fill="#01C4E0" onClick={mapClickHandler}>
             <path
               className="province_path"
               d="M128.9,541c-1.2,1.8-2.6,0.6-4,0.2c-17.8-4.8-34.9-11.8-52.2-18.2c-1.4-0.5-2.7-1.3-4.2-1.6
@@ -91,7 +91,7 @@ const CanadaMap = () => {
               British Colombia
             </text>
           </g>
-          <g id="Nova_Scotia" fill="#BBF2F7" onClick={mapClickHandler}>
+          <g id="NovaScotia" fill="#BBF2F7" onClick={mapClickHandler}>
             <path
               className="province_path"
               d="M590.9,580.4c0.8-1.2,1.7-2.4,2.5-3.6c6.3-1.3,12.8-1.2,18.9-3.7c2.4-0.9,5.3,0,7.7,1.3
@@ -198,7 +198,7 @@ const CanadaMap = () => {
               Yukon
             </text>
           </g>
-          <g id="NWT" fill="#01C4E0" onClick={mapClickHandler}>
+          <g id="NorthWest" fill="#01C4E0" onClick={mapClickHandler}>
             <path
               className="province_path"
               d="M96.7,207.9c1.8,0.1,3.7,1.9,4.3-2.1c0.6-5,5.8-2.1,8.8-3.4c2.2-1,3,1.1,3.2,3.2c0.2,2.9,2,2.6,3.9,1.8
@@ -472,7 +472,7 @@ const CanadaMap = () => {
               Nunavut
             </text>
           </g>
-          <g id="PEI" fill="#BBF2F7" onClick={mapClickHandler}>
+          <g id="PrinceEdwardIsland" fill="#BBF2F7" onClick={mapClickHandler}>
             <path
               id="PEI"
               className="province_path"
@@ -487,7 +487,7 @@ const CanadaMap = () => {
             <rect className="st6" x="599.1" y="557.6" width="1.2" height="11.8" />
             <circle className="st5" cx="599.7" cy="569.5" r="2.4" />
           </g>
-          <g id="New_Brunswick" fill="#BBF2F7" onClick={mapClickHandler}>
+          <g id="NewBrunswick" fill="#BBF2F7" onClick={mapClickHandler}>
             <path
               id="New_x5F_Brunswick"
               className="province_path"

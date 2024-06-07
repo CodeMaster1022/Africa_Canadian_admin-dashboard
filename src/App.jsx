@@ -16,7 +16,7 @@ import { Box } from '@mui/material';
 // auth-provider
 // import { JWTProvider as AuthProvider } from 'contexts/JWTContext';
 import Waiting from 'components/waiting/waiting';
-// ==============================|| APP - THEME, ROUTER, LOCAL ||============================== //
+// ==============================|| APP - THEME, ROUTER, LOCAL ||===============              =============== //
 
 const App = () => {
   const [keycloak, setKeycloak] = useState(null);
@@ -26,7 +26,7 @@ const App = () => {
       realm: 'african-community-realm',
       url: 'https://api.accalberta.ca/keycloak-auth/',
       // clientId: 'frontend-client'
-      clientId: 'test2'
+      clientId: 'test'
     });
     keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
       setKeycloak(keycloak);

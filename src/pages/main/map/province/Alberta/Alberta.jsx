@@ -4,34 +4,43 @@ import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import { getColor, layersUtils, getCenterOfGeoJson } from '../mapUtils';
 
-const AlbertaMap = ({ regionName, regionFlag }) => {
-  // console.log(regionName, regionFlag);
+const AlbertaMap = ({ regionName = {}, regionFlag = '' }) => {
+  console.log(regionName, regionFlag);
   // const COUNTRY_VIEW_ID = regionFlag;
   // console.log(COUNTRY_VIEW_ID);
+
   const mapStyle = { height: '100vh', width: '100vw' };
   const [geoJsonId, setGeoJsonId] = useState(regionFlag);
   const geoJson = regionName.Objects[geoJsonId];
   var mapRef = useRef(null);
   var geoJsonRef = useRef(null);
-  const mapCenter = getCenterOfGeoJson(geoJson);
+  let mapCenter = {};
+  try {
+    mapCenter = getCenterOfGeoJson(geoJson);
+  } catch (e) {
+    return <></>;
+  }
   const onDrillDown = (e) => {
     const featureId = e.target.feature.id;
     if (!regionName.Objects[featureId]) return;
     setGeoJsonId(featureId);
   };
+
   return (
     <>
       {/* <button onClick={() => setGeoJsonId(COUNTRY_VIEW_ID)} className="backButton">
         Back To City View
       </button> */}
-      <MapContainer ref={mapRef} center={mapCenter} zoom={5} style={mapStyle}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <GeoJSON data={geoJson} key={geoJsonId} style={geoJSONStyle} onEachFeature={onEachFeature} ref={geoJsonRef} id="geoJsonAll" />
-        <ScaleControl />
-      </MapContainer>
+      {Object.keys(regionName).length > 0 && regionFlag !== '' && (
+        <MapContainer ref={mapRef} center={mapCenter} zoom={5} style={mapStyle}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <GeoJSON data={geoJson} key={geoJsonId} style={geoJSONStyle} onEachFeature={onEachFeature} ref={geoJsonRef} id="geoJsonAll" />
+          <ScaleControl />
+        </MapContainer>
+      )}
     </>
   );
 
